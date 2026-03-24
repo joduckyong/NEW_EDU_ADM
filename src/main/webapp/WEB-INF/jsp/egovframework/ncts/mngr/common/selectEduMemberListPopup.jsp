@@ -20,9 +20,9 @@
 <script type="text/javascript">
 $(function(){
     var baseInfo = {
-            insertKey : "${common.baseType[0].key() }",
-            updateKey : "${common.baseType[1].key() }",
-            deleteKey : "${common.baseType[2].key() }",
+            insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
             lUrl : "/ncts/mngr/mail/memberListPopup.do",
     }
     
@@ -39,8 +39,8 @@ $(function(){
         }
     }
     
-    var userNoArr = "${param.userNoArr}" == "" ? [] : "${param.userNoArr}";
-    var notInArr = "${param.userNoNotInArr}" == "" ? [] : "${param.userNoNotInArr}";
+    var userNoArr = '<c:out value="${param.userNoArr}"/>' == "" ? [] : '<c:out value="${param.userNoArr}"/>';
+    var notInArr = '<c:out value="${param.userNoNotInArr}"/>' == "" ? [] : '<c:out value="${param.userNoNotInArr}"/>';
     
     $.fn.checkboxOnClickEvt = function(){
     	$(this).on("click", function(){
@@ -174,7 +174,7 @@ $(function(){
     	if(typeof userNoArr == "string") userNoArr = userNoArr.split(",");
     	if(typeof notInArr == "string") notInArr = notInArr.split(",");
     	
-    	var listAllCheck = "${param.listAllCheck}";
+    	var listAllCheck = '<c:out value="${param.listAllCheck}"/>';
     	if(listAllCheck == "Y") {
     		$("table input[type='checkbox']").prop("checked", true);
     		
@@ -271,9 +271,9 @@ $(function(){
 	<section id="widget-grid" class="">
 		<!-- Search 영역 시작 -->
 		<form name="sForm" id="sForm" method="post">
-			<input type="hidden" name="lastUserNo" value="${lastUserNo.LAST_USER_NO }">
-			<input type="hidden" name="userNoArr" value="${param.userNoArr }">
-			<input type="hidden" name="userNoNotInArr" value="${param.userNoNotInArr }">
+			<input type="hidden" name="lastUserNo" value='<c:out value="${lastUserNo.LAST_USER_NO }"/>'>
+			<input type="hidden" name="userNoArr" value='<c:out value="${param.userNoArr }"/>'>
+			<input type="hidden" name="userNoNotInArr" value='<c:out value="${param.userNoNotInArr }"/>'>
 			<div class="fL wp80" style="margin-bottom:5px;">
 	            <ul class="searchAreaBox resetUl">
 	            	<li class="smart-form"><label class="label">아이디</label></li>
@@ -310,8 +310,8 @@ $(function(){
 			        	<span class="col mt10 ml20">전체선택</span>
 	        		</li> --%>
 	        		<li class="ml10">
-		        		<input type="checkbox" id="listAllCheck" class="listAllCheck" name="listAllCheck" value="Y" ${param.listAllCheck eq 'Y' ? 'checked':'' } style="display:none;">
-			        	<button class="btn ${param.listAllCheck eq 'Y' ? 'btn-success':'btn-danger' }" type="button" id="allChoiceBtn" data-status="${param.listAllCheck eq 'Y' ? 'Y':'N' }"><i class="fa fa-check"></i> 전체선택</button>
+		        		<input type="checkbox" id="listAllCheck" class="listAllCheck" name="listAllCheck" value="Y" <c:out value="${param.listAllCheck eq 'Y' ? 'checked':'' }"/> style="display:none;">
+			        	<button class="btn <c:out value="${param.listAllCheck eq 'Y' ? 'btn-success':'btn-danger' }"/>" type="button" id="allChoiceBtn" data-status='<c:out value="${param.listAllCheck eq 'Y' ? 'Y':'N' }"/>'><i class="fa fa-check"></i> 전체선택</button>
 	        		</li>
 	        		<li class="ml10">
 			        	<button class="btn btn-primary" type="button" id="choiceBtn"><i class="fa fa-check"></i> 선택</button>
@@ -349,22 +349,22 @@ $(function(){
 							</tr>
 						</thead>
 						<tbody>
-							<div class="tRight" style="margin: 0 2px 5px 0;">선택 : <span class="choiceCnt">0</span>명 / 전체 : <span class="totalCnt">${totalCnt }</span>명</div>
+							<div class="tRight" style="margin: 0 2px 5px 0;">선택 : <span class="choiceCnt">0</span>명 / 전체 : <span class="totalCnt"><c:out value="${totalCnt }"/></span>명</div>
 							<c:if test="${empty rslist }">
 								<tr><td colspan="7">데이터가 없습니다.</td></tr>
 							</c:if>
 							<c:forEach var="list" items="${rslist }" varStatus="idx">
 								<tr>
 									<td class="userCheckbox">
-										<label class="checkbox checkboxCenter col"><input type="checkbox" class="index" value="${list.USER_NO}"></label>
+										<label class="checkbox checkboxCenter col"><input type="checkbox" class="index" value='<c:out value="${list.USER_NO}"/>'></label>
 									</td>
 									<%-- <td>${!empty list.DIST_MANAGE_NM ? list.DIST_MANAGE_NM : '전체'  }</td> --%>
-									<td>${list.USER_ID}</td>
-									<td>${list.USER_EMAIL}</td>
-									<td>${list.USER_NM}</td>
-									<td>${list.USER_HP_NO}</td>
-									<td>${list.GRADE_CD_NM}</td>
-									<td>${list.DETAIL_GRADE_CD_NM}</td>
+									<td><c:out value="${list.USER_ID}"/></td>
+									<td><c:out value="${list.USER_EMAIL}"/></td>
+									<td><c:out value="${list.USER_NM}"/></td>
+									<td><c:out value="${list.USER_HP_NO}"/></td>
+									<td><c:out value="${list.GRADE_CD_NM}"/></td>
+									<td><c:out value="${list.DETAIL_GRADE_CD_NM}"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

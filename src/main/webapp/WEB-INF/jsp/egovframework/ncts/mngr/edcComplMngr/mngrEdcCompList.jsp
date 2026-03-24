@@ -4,9 +4,9 @@
 	$(function(){
 		var excelPg = 0;
 	    var baseInfo = {
-	            insertKey : "${common.baseType[0].key() }",
-	            updateKey : "${common.baseType[1].key() }",
-	            deleteKey : "${common.baseType[2].key() }",
+	            insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+	            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+	            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
 	            lUrl : "/ncts/mngr/edcComplMngr/mngrEdcCompList.do",
 	            fUrl : "/ncts/mngr/edcComplMngr/mngrEdcCompForm.do",
 	            dUrl : "/ncts/mngr/edcComplMngr/mngrDeleteEdcComp.do",
@@ -25,6 +25,11 @@
 	            data: $("#sForm").serialize(),
 	            dataType: "json",
 	            success: function(data) {
+	            	if(data.de.CERT_CD == 'CGP(3H)'){
+	            		$("#ubi_jrt").val("certificate_conparti.jrf");
+	            	}else{
+	            		$("#ubi_jrt").val("certificate_isue.jrf");
+	            	}
 	            	// data.de.USER_HP_NO = data.de.USER_HP_NO.replace(/-/gi, "");
 	            	data.de.ISSUE_DT = data.de.ISSUE_DT.substr(0,4) + '.' + data.de.ISSUE_DT.substr(4,2) + '.' + data.de.ISSUE_DT.substr(6);
 	            	
@@ -204,15 +209,15 @@
                         <li class="w120 ml5">
                             <select id="sGubun2" name="sGubun2" class="form-control">
                                 <option value="">선택</option>
-                                <option value="01" ${param.sGubun2 eq '01' ? 'selected="selected"':'' }>이름</option>
-                                <option value="09" ${param.sGubun2 eq '09' ? 'selected="selected"':'' }>아이디</option>
-                                <option value="02" ${param.sGubun2 eq '02' ? 'selected="selected"':'' }>연번</option>
-                                <option value="03" ${param.sGubun2 eq '03' ? 'selected="selected"':'' }>이메일</option>
-                                <option value="04" ${param.sGubun2 eq '04' ? 'selected="selected"':'' }>연락처</option>
-                                <option value="05" ${param.sGubun2 eq '05' ? 'selected="selected"':'' }>소속</option>
-                                <option value="06" ${param.sGubun2 eq '06' ? 'selected="selected"':'' }>워크샵명</option>
-                                <option value="07" ${param.sGubun2 eq '07' ? 'selected="selected"':'' }>진행구분</option>
-                                <option value="08" ${param.sGubun2 eq '08' ? 'selected="selected"':'' }>시행기관</option>
+                                <option value="01" <c:out value="${param.sGubun2 eq '01' ? 'selected=selected':'' }"/>>이름</option>
+                                <option value="09" <c:out value="${param.sGubun2 eq '09' ? 'selected=selected':'' }"/>>아이디</option>
+                                <option value="02" <c:out value="${param.sGubun2 eq '02' ? 'selected=selected':'' }"/>>연번</option>
+                                <option value="03" <c:out value="${param.sGubun2 eq '03' ? 'selected=selected':'' }"/>>이메일</option>
+                                <option value="04" <c:out value="${param.sGubun2 eq '04' ? 'selected=selected':'' }"/>>연락처</option>
+                                <option value="05" <c:out value="${param.sGubun2 eq '05' ? 'selected=selected':'' }"/>>소속</option>
+                                <option value="06" <c:out value="${param.sGubun2 eq '06' ? 'selected=selected':'' }"/>>워크샵명</option>
+                                <option value="07" <c:out value="${param.sGubun2 eq '07' ? 'selected=selected':'' }"/>>진행구분</option>
+                                <option value="08" <c:out value="${param.sGubun2 eq '08' ? 'selected=selected':'' }"/>>시행기관</option>
                                 
                             </select>
                         </li>
@@ -227,7 +232,7 @@
                                 <option value="">선택</option>
                                 <c:forEach var="lecList" items="${eduResult}" varStatus="idx">
                                     <c:if test="${lecList.LECTURE_ID ne '일반'}">
-                                        <option value="${lecList.LECTURE_ID}" ${param.sGubun eq lecList.LECTURE_ID ? 'selected="selected"' : ''}> ${lecList.LECTURE_NM}</option>
+                                        <option value='<c:out value="${lecList.LECTURE_ID}"/>' <c:out value="${param.sGubun eq lecList.LECTURE_ID ? 'selected=selected' : ''}"/>> <c:out value="${lecList.LECTURE_NM}"/></option>
                                     </c:if>
                                 </c:forEach>
                                 <%-- <c:forEach var="list" items="${codeMap.DMH12 }" varStatus="idx">
@@ -242,7 +247,7 @@
                             <select id="sGubun1" name="sGubun1" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH07 }" varStatus="idx">
-                                    <option value="${list.CODE }" ${param.sGubun1 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
+                                    <option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun1 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
                                 </c:forEach>
                             </select>
                         </li>
@@ -252,8 +257,8 @@
                         <li class="w100 ml5">
                             <select id="sGubun3" name="sGubun3" class="form-control">
                                 <option value="">선택</option>
-                                <option value="ON" ${param.sGubun3 eq 'ON' ? 'selected="selected"':'' }>온라인</option>
-                                <option value="OFF" ${param.sGubun3 eq 'OFF' ? 'selected="selected"':'' }>오프라인</option>
+                                <option value="ON" <c:out value="${param.sGubun3 eq 'ON' ? 'selected=selected':'' }"/>>온라인</option>
+                                <option value="OFF" <c:out value="${param.sGubun3 eq 'OFF' ? 'selected=selected':'' }"/>>오프라인</option>
                             </select>
                         </li>
                         <li class="smart-form ml5">
@@ -264,7 +269,7 @@
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH19 }" varStatus="idx">
                                 	<c:if test="${list.CODE ne '03' }">
-                                    	<option value="${list.CODE }" ${param.sGubun4 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
+                                    	<option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun4 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
                                     </c:if>	
                                 </c:forEach>
                             </select>
@@ -319,20 +324,20 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" id="edcIssueNo" class="index" value="${list.EDC_ISSUE_NO}">
-										<input type="hidden" id="userNo" value="${list.USER_NO}">
-										<input type="hidden" id="eduSeq" value="${list.EDU_SEQ}">
-										<input type="hidden" id="eduGubun" value="${list.EDU_GUBUN}">
+										<input type="checkbox" id="edcIssueNo" class="index" value='<c:out value="${list.EDC_ISSUE_NO}"/>'>
+										<input type="hidden" id="userNo" value='<c:out value="${list.USER_NO}"/>'>
+										<input type="hidden" id="eduSeq" value='<c:out value="${list.EDU_SEQ}"/>'>
+										<input type="hidden" id="eduGubun" value='<c:out value="${list.EDU_GUBUN}"/>'>
 										<%-- <input type="hidden" name = "searchLectureSq" value="${list.LECTURE_SQ}"> --%>
 									</td>
 									<%-- <td>${!empty list.DIST_MANAGE_NM ? list.DIST_MANAGE_NM : '전체'  }</td> --%>
-									<td>${list.SERIAL_NUM}</td>
-									<td>${list.USER_NM  }</td>
-									<td>${list.USER_PSITN  }</td>
-									<td>${list.WORKSHP_NM}</td>
-									<td>${list.EDC_NM }</td>
+									<td><c:out value="${list.SERIAL_NUM}"/></td>
+									<td><c:out value="${list.USER_NM  }"/></td>
+									<td><c:out value="${list.USER_PSITN  }"/></td>
+									<td><c:out value="${list.WORKSHP_NM}"/></td>
+									<td><c:out value="${list.EDC_NM }"/></td>
 									<%-- <td>${list.USER_AREA }</td> --%>
-									<td>${list.PROGRS_TEAM }</td>
+									<td><c:out value="${list.PROGRS_TEAM }"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

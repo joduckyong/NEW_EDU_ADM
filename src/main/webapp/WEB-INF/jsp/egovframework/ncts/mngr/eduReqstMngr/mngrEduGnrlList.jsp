@@ -4,9 +4,9 @@
 $(function(){
 	var baseInfo = {
 			excelPg : 0,
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
 			lUrl : "/ncts/mngr/eduReqstMngr/mngrEduGnrlList.do",
 			fUrl : "/ncts/mngr/eduReqstMngr/mngrEduGnrlForm.do",
 			dUrl : "/ncts/mngr/eduReqstMngr/mngrDeleteGnrlEdu.do",
@@ -121,7 +121,7 @@ $(function(){
 				"gnrlEduSeq" : $("#gnrlEduSeq").val(),
 				"procType" : baseInfo.updateKey,
 				"gnrlInstrctrOthbcYn" : val,
-				"${_csrf.parameterName}" : "${_csrf.token}"
+				'<c:out value="${_csrf.parameterName}"/>' : '<c:out value="${_csrf.token}"/>'
 			},
             dataType: "json",
             success: function(data) {
@@ -203,7 +203,7 @@ $(function(){
 								<select name="centerCd" class="form-control">
 									<option value="">전체</option>
 									<c:forEach var="center" items="${centerList }" varStatus="idx">
-										<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq paginationInfo.centerCd ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
+										<option value='<c:out value="${center.DEPT_CD }"/>' data-groupId='<c:out value="${center.GROUP_ID }"/>' <c:out value="${center.DEPT_CD eq paginationInfo.centerCd ? 'selected=selected':'' }"/>><c:out value="${center.DEPT_NM }"/></option>
 									</c:forEach>
 								</select> <i></i>
 							</li>
@@ -269,13 +269,13 @@ $(function(){
 							</c:if>
 							<c:forEach var="list" items="${rslist }" varStatus="idx">
 								<tr>
-									<td class="invisible"><input type="checkbox" class="index" value="${list.GNRL_EDU_SEQ }"></td>
-									<td>${list.GNRL_EDU_NM }</td>
-									<td>${list.GNRL_EDU_DE }${not empty list.GNRL_EDU_END_DE ?' ~ ':''}${not empty list.GNRL_EDU_END_DE ? fn:substring(list.GNRL_EDU_END_DE, 8, 10) : '' }<br> ${list.GNRL_EDU_BEGIN_TIME_HOUR}:${list.GNRL_EDU_BEGIN_TIME_MIN} ~ ${list.GNRL_EDU_END_TIME_HOUR}:${list.GNRL_EDU_END_TIME_MIN}</td>
-									<td>${list.GNRL_EDU_TARGET_TYPE }</td>
-									<td>${list.GNRL_EDU_NMPR }</td>
-									<td>${list.CENTER_NM }</td>
-									<td>${list.FRST_REGIST_PNTTM }</td>
+									<td class="invisible"><input type="checkbox" class="index" value='<c:out value="${list.GNRL_EDU_SEQ }"/>'></td>
+									<td><c:out value="${list.GNRL_EDU_NM }"/></td>
+									<td><c:out value="${list.GNRL_EDU_DE }"/><c:out value="${not empty list.GNRL_EDU_END_DE ?' ~ ':''}"/><c:out value="${not empty list.GNRL_EDU_END_DE ? fn:substring(list.GNRL_EDU_END_DE, 8, 10) : '' }"/><br> <c:out value="${list.GNRL_EDU_BEGIN_TIME_HOUR}"/>:<c:out value="${list.GNRL_EDU_BEGIN_TIME_MIN}"/> ~ <c:out value="${list.GNRL_EDU_END_TIME_HOUR}"/>:<c:out value="${list.GNRL_EDU_END_TIME_MIN}"/></td>
+									<td><c:out value="${list.GNRL_EDU_TARGET_TYPE }"/></td>
+									<td><c:out value="${list.GNRL_EDU_NMPR }"/></td>
+									<td><c:out value="${list.CENTER_NM }"/></td>
+									<td><c:out value="${list.FRST_REGIST_PNTTM }"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

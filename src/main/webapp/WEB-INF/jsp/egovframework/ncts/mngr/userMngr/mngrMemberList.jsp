@@ -18,9 +18,9 @@
 	$(function(){
 		var excelPg = 0;
 	    var baseInfo = {
-	            insertKey : "${common.baseType[0].key() }",
-	            updateKey : "${common.baseType[1].key() }",
-	            deleteKey : "${common.baseType[2].key() }",
+	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
 	            lUrl : "/ncts/mngr/userMngr/mngrMemberList.do",
 	            fUrl : "/ncts/mngr/userMngr/mngrMemberForm.do",
 	            dUrl : "/ncts/mngr/userMngr/mngrDeleteMember.do",
@@ -219,6 +219,27 @@
 	    	})
 	    }
 	    
+	    $.fn.pwUnLockConfirmBtnOnClickEvt = function(){
+	    	$(this).on("click", "#unLock", function(){
+	    		var $this = $(this);
+	    		
+	    		document.sForm.procType.value = baseInfo.updateKey;
+	    		
+	    		$.ajax({
+	                type: 'POST',
+	                url: "/ncts/mngr/userMngr/updateMngrMemberPwUnLock.do",
+	                data: $("#sForm").serialize(),
+	                dataType: "json",
+	                success: function(data) {
+	                	alert(data.msg);
+	                    if(data.success == "success"){
+	                    	$.dataDetail($("#userNo").val());
+	                    }
+	                }
+	            });
+	    	})
+	    }
+	    
 	    $.fn.excelDownOnClickEvt = function() {
 	    	$(this).on("click", function(e){
 		    	if(!confirm("엑셀다운로드하시겠습니까?")) return false;
@@ -272,6 +293,7 @@
 	        
 	        $("body").fileConfirmBtnOnClickEvt();
 	        $("body").confirmDetailBtnOnClickEvt();
+	        $("body").pwUnLockConfirmBtnOnClickEvt();
 	        
 	        $(".mailSendBtn").on("click", function(){ 
 	        	$.procAction("/ncts/mngr/mail/mngrMemberMailForm.do", baseInfo.insertKey);
@@ -354,8 +376,8 @@
                             <select id="sGubun1" name="sGubun1" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH23 }" varStatus="idx">
-                                    <option value="${list.CODE }" ${param.sGubun1 eq list.CODE ? 'selected="selected"':'' }>
-	                                    ${list.CODE_NM}
+                                    <option value="<c:out value='${list.CODE }'/>" <c:out value="${param.sGubun1 eq list.CODE ? 'selected=selected':'' }"/>>
+										<c:out value="${list.CODE_NM}"/>
                                     </option>
                                 </c:forEach>
                             </select>
@@ -366,8 +388,8 @@
                         <li class="w80">
                             <select id="sGubun4" name="sGubun4" class="form-control">
                                 <option value="">선택</option>
-                                <option value="Y" ${param.sGubun4 eq 'Y' ? 'selected="selected"':'' }>Y</option>
-                                <option value="N" ${param.sGubun4 eq 'N' ? 'selected="selected"':'' }>N</option>
+                                <option value="Y" <c:out value="${param.sGubun4 eq 'Y' ? 'selected=selected':'' }"/>>Y</option>
+                                <option value="N" <c:out value="${param.sGubun4 eq 'N' ? 'selected=selected':'' }"/>>N</option>
                             </select>
                         </li>
                         <li class="ml10">
@@ -490,15 +512,15 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value="${list.USER_NO}">
+										<input type="checkbox" class="index" value="<c:out value='${list.USER_NO}'/>">
 										
 									</td>
 									<%-- <td>${!empty list.DIST_MANAGE_NM ? list.DIST_MANAGE_NM : '전체'  }</td> --%>
-									<td>${list.USER_ID}</td>
-									<td>${list.USER_EMAIL}</td>
-									<td>${list.USER_NM}</td>
-									<td>${list.USER_HP_NO}</td>
-									<td>${list.DETAIL_GRADE_CD_NM}</td>
+									<td><c:out value="${list.USER_ID}"/></td>
+									<td><c:out value="${list.USER_EMAIL}"/></td>
+									<td><c:out value="${list.USER_NM}"/></td>
+									<td><c:out value="${list.USER_HP_NO}"/></td>
+									<td><c:out value="${list.DETAIL_GRADE_CD_NM}"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -627,7 +649,7 @@
 		<button type="button" class="btn btn-default ml2 mb5 fileDown" id="">
 			<i class="fa fa-print" title="첨부파일 down"></i> 첨부파일 down
 		</button>
-		<button type="button" class="btn ml2 {{#ifeq FILE_CONFIRM_AT 'Y'}}btn-primary{{else}}btn-danger{{/ifeq}}" id="fileConfirmBtn" data-confirm-at="{{FILE_CONFIRM_AT}}" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}>
+		<button type="button" class="btn ml2 {{#ifeq FILE_CONFIRM_AT 'Y'}}btn-primary{{else}}btn-danger{{/ifeq}}" id="fileConfirmBtn" data-confirm-at="{{FILE_CONFIRM_AT}}" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>>
 			<i title="확인버튼"></i> {{#ifeq FILE_CONFIRM_AT 'Y'}}확인{{else}}미확인{{/ifeq}}
 		</button>
 		<br>
@@ -642,7 +664,7 @@
     <td>
 		{{PRIVACY_AGREE_AT}}
 		{{#ifeq PRIVACY_AGREE_AT 'Y'}}
-			<button class="btn btn-default ml2 mb5 reportDown" type="button" data-user-no="{{USER_NO}}" data-jrf="USER_AGREEMENT.jrf" ${pageInfo.REPORT_AT eq 'Y' ? '':'disabled'}><i class="fa fa-edit" title="리포트 출력"></i> 동의서</button>
+			<button class="btn btn-default ml2 mb5 reportDown" type="button" data-user-no="{{USER_NO}}" data-jrf="USER_AGREEMENT.jrf" <c:out value="${pageInfo.REPORT_AT eq 'Y' ? '':'disabled'}"/><i class="fa fa-edit" title="리포트 출력"></i> 동의서</button>
 		{{/ifeq}}
 	</td>
 	<th scope="row">본인인증<br>여부</th>
@@ -658,6 +680,9 @@
            		<option value="Y" {{#ifeq PACKAGE_AUTH_AT 'Y'}}selected{{/ifeq}}>Y</option>
 			</select> <i></i>
 		</label>
+		{{#ifeq LOCK_AT 'Y'}}
+		<button class="btn btn-danger ml2"  type="button" id="unLock">잠김해제</button>
+		{{/ifeq}}
 	</td>
 </tr>
 </script>
@@ -696,8 +721,8 @@
 			<select id="sprtGradeCd" name="sprtGradeCd" class="instrctrSelect">
            		<option value="">해당없음</option>
                 	<c:forEach var="list" items="${codeMap.DMH24 }" varStatus="idx">
-                    	<option value="${list.CODE }">
-	                    	${list.CODE_NM}
+                    	<option value="<c:out value='{list.CODE }'/>">
+						<c:out value="${list.CODE_NM}"/>
                         </option>
                	 	</c:forEach>  
 			</select> <i></i>
@@ -711,8 +736,8 @@
 			<select id="pmptGradeCd" name="pmptGradeCd" class="instrctrSelect">
            		<option value="">해당없음</option>
                 	<c:forEach var="list" items="${codeMap.DMH24 }" varStatus="idx">
-                    	<option value="${list.CODE }">
-	                    	${list.CODE_NM}
+                    	<option value="<c:out value='${list.CODE }'/>">
+						<c:out value="${list.CODE_NM}"/>
                         </option>
                	 	</c:forEach>  
 			</select> <i></i>
@@ -726,8 +751,8 @@
 			<select id="mpgtGradeCd" name="mpgtGradeCd" class="instrctrSelect">
            		<option value="">해당없음</option>
                 	<c:forEach var="list" items="${codeMap.DMH24 }" varStatus="idx">
-                    	<option value="${list.CODE }">
-	                    	${list.CODE_NM}
+                    	<option value="<c:out value='${list.CODE }'/>">
+							<c:out value="${list.CODE_NM}"/>
                         </option>
                	 	</c:forEach>  
 			</select> <i></i>
@@ -777,7 +802,7 @@
 		<button type="button" class="btn btn-default ml2 mb5 fileDown" id="">
 			<i class="fa fa-print" title="첨부파일 down"></i> 첨부파일 down
 		</button>
-		<button type="button" class="btn ml2 {{#ifeq FILE_CONFIRM_AT 'Y'}}btn-primary{{else}}btn-danger{{/ifeq}}" id="fileConfirmBtn" data-confirm-at="{{FILE_CONFIRM_AT}}" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}>
+		<button type="button" class="btn ml2 {{#ifeq FILE_CONFIRM_AT 'Y'}}btn-primary{{else}}btn-danger{{/ifeq}}" id="fileConfirmBtn" data-confirm-at="{{FILE_CONFIRM_AT}}" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>
 			<i title="확인버튼"></i> {{#ifeq FILE_CONFIRM_AT 'Y'}}확인{{else}}미확인{{/ifeq}}
 		</button>
 		<br>
@@ -792,7 +817,7 @@
     <td>
 		{{PRIVACY_AGREE_AT}}
 		{{#ifeq PRIVACY_AGREE_AT 'Y'}}
-			<button class="btn btn-default ml2 mb5 reportDown" type="button" data-user-no="{{USER_NO}}" data-jrf="USER_AGREEMENT.jrf" ${pageInfo.REPORT_AT eq 'Y' ? '':'disabled'}><i class="fa fa-edit" title="리포트 출력"></i> 동의서</button>
+			<button class="btn btn-default ml2 mb5 reportDown" type="button" data-user-no="{{USER_NO}}" data-jrf="USER_AGREEMENT.jrf" <c:out value="${pageInfo.REPORT_AT eq 'Y' ? '':'disabled'}"/>><i class="fa fa-edit" title="리포트 출력"></i> 동의서</button>
 		{{/ifeq}}
 	</td>
 	<th scope="row">본인인증<br>여부</th>
@@ -808,6 +833,9 @@
            		<option value="Y" {{#ifeq PACKAGE_AUTH_AT 'Y'}}selected{{/ifeq}}>Y</option>
 			</select> <i></i>
 		</label>
+		{{#ifeq LOCK_AT 'Y'}}
+		<button class="btn btn-danger ml2"  type="button" id="unLock">잠김해제</button>
+		{{/ifeq}}
 	</td>
 </tr>
 </script>

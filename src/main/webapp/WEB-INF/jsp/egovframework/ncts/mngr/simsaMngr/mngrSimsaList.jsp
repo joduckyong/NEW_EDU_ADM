@@ -4,9 +4,9 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
 			lUrl : "/ncts/mngr/simsaMngr/mngrSimsaList.do",
 			fUrl : "/ncts/mngr/simsaMngr/mngrSimsaForm.do", 
 			dUrl : "/ncts/mngr/simsaMngr/mngrSimsaProcess.do",
@@ -450,9 +450,9 @@ $(function(){
           	<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
 				<input type="hidden" name="simsaSeq" id="simsaSeq" value="" >
 				<c:forEach items="${rr }" var="rr">
-					<input type="hidden" id="actCnt" name="actCnt" value="${rr.actCnt}" >
-					<input type="hidden" id="msg" name="msg" value="${rr.msg}" >
-					<input type="hidden" id="success" name="success" value="${rr.success}" >
+					<input type="hidden" id="actCnt" name="actCnt" value='<c:out value="${rr.actCnt}"/>'>
+					<input type="hidden" id="msg" name="msg" value='<c:out value="${rr.msg}"/>'>
+					<input type="hidden" id="success" name="success" value='<c:out value="${rr.success}"/>'>
 				</c:forEach>
 				
 				<div class="fL wp70">
@@ -485,10 +485,10 @@ $(function(){
 						 <li class="w150 mr5">  						  
 							<select name="searchCondition1" class="form-control" id="searchCondition1">
 								<option value="">전체</option>
-								<option value="D" ${param.searchCondition1 eq 'D' ? 'selected="selected"':'' }>대기중</option>
-					    		<option value="J" ${param.searchCondition1 eq 'J' ? 'selected="selected"':'' }>진행중</option>
-					    		<option value="M" ${param.searchCondition1 eq 'M' ? 'selected="selected"':'' }>마감</option>
-					    		<option value="N" ${param.searchCondition1 eq 'N' ? 'selected="selected"':'' }>비활성화</option>					    		
+								<option value="D" <c:out value="${param.searchCondition1 eq 'D' ? 'selected=selected':'' }"/>>대기중</option>
+					    		<option value="J" <c:out value="${param.searchCondition1 eq 'J' ? 'selected=selected':'' }"/>>진행중</option>
+					    		<option value="M" <c:out value="${param.searchCondition1 eq 'M' ? 'selected=selected':'' }"/>>마감</option>
+					    		<option value="N" <c:out value="${param.searchCondition1 eq 'N' ? 'selected=selected':'' }"/>>비활성화</option>					    		
 							</select> <i></i>
 						</li>
 						
@@ -543,13 +543,13 @@ $(function(){
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value="${list.SIMSA_SEQ }">
+										<input type="checkbox" class="index" value='<c:out value="${list.SIMSA_SEQ }"/>'>
 									</td>
-									<td>${list.SIMSA_NUM }</td>
-									<td>${list.SIMSA_TITLE }</td>
-									<td>${list.SIMSA_DE} ~ ${fn:substring(list.SIMSA_END_DE,5,10) }</td>
-									<td>${list.APP_ALL_CNT }</td>
-									<td>${list.APP_PASS_CNT }</td>
+									<td><c:out value="${list.SIMSA_NUM }"/></td>
+									<td><c:out value="${list.SIMSA_TITLE }"/></td>
+									<td><c:out value="${list.SIMSA_DE}"/> ~ <c:out value="${fn:substring(list.SIMSA_END_DE,5,10) }"/></td>
+									<td><c:out value="${list.APP_ALL_CNT }"/></td>
+									<td><c:out value="${list.APP_PASS_CNT }"/></td>
 									<td>
 										<c:if test="${list.USE_AT eq 'Y'}">
 											

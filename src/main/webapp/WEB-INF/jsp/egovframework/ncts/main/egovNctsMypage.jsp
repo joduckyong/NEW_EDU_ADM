@@ -85,8 +85,8 @@ $(function(){
 	<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-          		<input type="hidden" id="registerNo" name="registerNo"  value="${param.registerNo }">
-          		<input type="hidden" id="tmeSeq" name="tmeSeq"  value="${param.tmeSeq }">
+          		<input type="hidden" id="registerNo" name="registerNo"  value="<c:out value='${param.registerNo }'/>">
+          		<input type="hidden" id="tmeSeq" name="tmeSeq"  value="<c:out value='${param.tmeSeq }'/>">
 				<div class="fL wp50">
 					<ul class="searchAreaBox">
 						

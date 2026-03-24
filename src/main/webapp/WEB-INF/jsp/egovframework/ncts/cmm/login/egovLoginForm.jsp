@@ -43,6 +43,9 @@
 		}	
 	}
  */
+
+	let loginCk = 'N';		
+
 	$(function() {
 		$.setValidation = function() {
 			validator = $("#iForm").validate({
@@ -60,6 +63,14 @@
 
 		$.loginBtnOnClickHandler = function() {
 			$("#loginBtn").on("click", function() {
+
+				if("${loginCheck}" != "" && loginCk == 'N'){
+					$("#loginCheck p").html("이미 로그인 되어 있습니다.");
+					$("#loginCheck").show();
+					loginCk = 'Y';
+					return false;
+				}
+
 				if (!$("#iForm").valid()) {
 					validator.focusInvalid();
 					return false;
@@ -118,11 +129,15 @@
 						return false;
 					} */
 					
+					if("${loginCheck}" == "" && (data.duplicationMsg !== undefined && data.duplicationMsg != "")){
+						alert(data.duplicationMsg);
+					}
+
 					if( 'Y' == '${operYn}' ) {
 						if(data.result == "success") {
-							if('master' == data.userId) { // 사용자ID가 master일 경우 공인인증 pass
-								window.location.assign(data.targetUrl);	
-							} else {
+					//		if('master' == data.userId) { // 사용자ID가 master일 경우 공인인증 pass
+					//			window.location.assign(data.targetUrl);	
+					//		} else {
 								if('Y' == data.pwChgYn ) {
 									$('#changePw_layerPopup').show();
 								} else {
@@ -131,7 +146,7 @@
 									}
 									Login($('#gpkiLogin'),document.gForm,false);	
 								}
-							}
+					//		}
 							
 						} else {
 							alert(data.msg);
@@ -299,7 +314,10 @@
 				//$(this).closest(".dim-layer").hide();
 				location.reload();
 			});
-			
+			$(".loginCloseBtn").click(function(){
+				$("#loginCheck").hide();
+			});			
+
 			$(".blockUI.blockMsg.blockPage img").css("width", "75px");
 			
 			if("${gpkiMsg}" != "") {
@@ -325,6 +343,17 @@
 	})
 </script>
 
+<div class="dim-layer" id="loginCheck" style="display: none;">
+	<div class="dimBg"></div>
+	<div id="layer3" class="login-con">
+		<div class="inner_box">
+			<div class="exclam">
+				<p></p>
+				<button type="button" class="gold loginCloseBtn">확인</button>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="dim-layer" id="macPopup" style="display: none;">
 	<div class="dimBg"></div>
 	<div id="layer1" class="login-con">

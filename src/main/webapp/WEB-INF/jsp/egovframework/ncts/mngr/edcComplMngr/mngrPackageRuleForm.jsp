@@ -4,9 +4,9 @@
 <script type="text/javascript">
 $(function(){
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-            updateKey : "${common.baseType[1].key() }",
-            deleteKey : "${common.baseType[2].key() }",
+			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
             lUrl : "/ncts/mngr/edcComplMngr/mngrPackageRuleList.do",
             pop01 : "/ncts/mngr/edcComplMngr/mngrPackageListPopup.do"
 	}	
@@ -154,7 +154,7 @@ $(function(){
                                         <div class="inline-group" id="divRadio">
                                             <c:forEach var="list" items="${codeMap}" varStatus="status">
 					                            <label class="radio">
-					                                   <input type="radio" name="courses" value="${list.CODE}" ${result.COURSES eq list.CODE? 'checked="checked"':''}><i></i>${list.CODE_NM}
+					                                   <input type="radio" name="courses" value='<c:out value="${list.CODE}"/>' <c:out value="${result.COURSES eq list.CODE? 'checked=checked':''}"/>><i></i><c:out value="${list.CODE_NM}"/>
 					                            </label>
                                             </c:forEach>
                                         </div>
@@ -164,7 +164,7 @@ $(function(){
                                     <th scope="row">Rule명</th>
                                     <td colspan="2">
                                         <label class="input w500 col">
-                                            <input type="text" id="packageRuleNm" name="packageRuleNm" value="${result.PACKAGE_RULE_NM}">
+                                            <input type="text" id="packageRuleNm" name="packageRuleNm" value='<c:out value="${result.PACKAGE_RULE_NM}"/>'>
                                         </label>
                                     </td>
                                 </tr>
@@ -172,8 +172,8 @@ $(function(){
                                     <th scope="row">선택된 강의</th>
                                     <td colspan="2">
                                     <label class="input col" style="width: 90%;">
-                                    	<input type="text" id="tdId" name="tdId" value="${result.LECTURE_ID}" readonly>
-                                    	<input type="hidden" name="checkedCourses" id="checkedCourses" value="${result.COURSES }">
+                                    	<input type="text" id="tdId" name="tdId" value="<c:out value="${result.LECTURE_ID}"/>" readonly>
+                                    	<input type="hidden" name="checkedCourses" id="checkedCourses" value='<c:out value="${result.COURSES }"/>'>
                                     </label>
                                     </td>
                                    <!--  <td><button id="selLecDel" name="selLecDel">강의 지우기</button></td> -->

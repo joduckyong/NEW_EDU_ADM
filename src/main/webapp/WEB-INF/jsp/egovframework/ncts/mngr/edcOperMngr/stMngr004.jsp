@@ -15,11 +15,11 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
-			lUrl : "${pageInfo.READ_AT eq 'Y' ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }",
-			fUrl : "${pageInfo.MENU_DETAIL_URL }",
+			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+			lUrl : '${pageInfo.READ_AT eq 'Y' ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }',
+			fUrl : '<c:out value="${pageInfo.MENU_DETAIL_URL }"/>',
 			excel : "/ncts/mngr/edcOperMngr/statMngrOperExcelDownload.do",
 	}
 	
@@ -94,7 +94,7 @@ $(function(){
 								<select name="searchCondition3" class="form-control">
 									<option value="">전체</option>
 									<c:forEach var="center" items="${CenterList }" varStatus="idx">
-										<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq param.searchCondition3 ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
+										<option value='<c:out value="${center.DEPT_CD }"/>' data-groupId='<c:out value="${center.GROUP_ID }"/>' <c:out value="${center.DEPT_CD eq param.searchCondition3 ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
 									</c:forEach>
 								</select> <i></i>
 							</li>
@@ -326,96 +326,96 @@ $(function(){
 							</tr> --%>
 							<c:forEach var="list" items="${yearEduList.yearList }" varStatus="status">
 								<tr class="yearList">
-									<th scope="row">${list.EDU_YEAR }</th>
-									<td>${list.REQ00_CNT	  }</td>	
-									<td>${list.REQ00_NMPR     }</td>
-									<td>${list.REQ01_CNT      }</td>
-									<td>${list.REQ01_NMPR     }</td>
-									<td>${list.REQ02_CNT      }</td>
-									<td>${list.REQ02_NMPR     }</td>
-									<td>${list.REQ03_CNT      }</td>
-									<td>${list.REQ03_NMPR     }</td>
-									<td>${list.REQ04_CNT      }</td>
-									<td>${list.REQ04_NMPR     }</td>
-									<td>${list.SUM_REQ_CNT    }</td>
-									<td>${list.SUM_REQ_NMPR   }</td>
+									<th scope="row"><c:out value="${list.EDU_YEAR }"/></th>
+									<td><c:out value="${list.REQ00_CNT	    }"/></td>
+									<td><c:out value="${list.REQ00_NMPR     }"/></td>
+									<td><c:out value="${list.REQ01_CNT      }"/></td>
+									<td><c:out value="${list.REQ01_NMPR     }"/></td>
+									<td><c:out value="${list.REQ02_CNT      }"/></td>
+									<td><c:out value="${list.REQ02_NMPR     }"/></td>
+									<td><c:out value="${list.REQ03_CNT      }"/></td>
+									<td><c:out value="${list.REQ03_NMPR     }"/></td>
+									<td><c:out value="${list.REQ04_CNT      }"/></td>
+									<td><c:out value="${list.REQ04_NMPR     }"/></td>
+									<td><c:out value="${list.SUM_REQ_CNT    }"/></td>
+									<td><c:out value="${list.SUM_REQ_NMPR   }"/></td>
 									
-									<td>${list.DTY01_CNT      }</td>
-									<td>${list.DTY01_NMPR     }</td>
-									<td>${list.DTY02_CNT      }</td>
-									<td>${list.DTY02_NMPR     }</td>
-									<td>${list.SUM_DTY_CNT    }</td>
-									<td>${list.SUM_DTY_NMPR   }</td>
+									<td><c:out value="${list.DTY01_CNT      }"/></td>
+									<td><c:out value="${list.DTY01_NMPR     }"/></td>
+									<td><c:out value="${list.DTY02_CNT      }"/></td>
+									<td><c:out value="${list.DTY02_NMPR     }"/></td>
+									<td><c:out value="${list.SUM_DTY_CNT    }"/></td>
+									<td><c:out value="${list.SUM_DTY_NMPR   }"/></td>
 									
-									<td>${list.IRREQ00_CNT    }</td>
-									<td>${list.IRREQ00_NMPR   }</td>
-									<td>${list.IRREQ01_CNT    }</td>
-									<td>${list.IRREQ01_NMPR   }</td>
-									<td>${list.IRREQ02_CNT    }</td>
-									<td>${list.IRREQ02_NMPR	  }</td>									
-									<td>${list.SUM_IRREQ_CNT  }</td>
-									<td>${list.SUM_IRREQ_NMPR }</td>
+									<td><c:out value="${list.IRREQ00_CNT    }"/></td>
+									<td><c:out value="${list.IRREQ00_NMPR   }"/></td>
+									<td><c:out value="${list.IRREQ01_CNT    }"/></td>
+									<td><c:out value="${list.IRREQ01_NMPR   }"/></td>
+									<td><c:out value="${list.IRREQ02_CNT    }"/></td>
+									<td><c:out value="${list.IRREQ02_NMPR	  }"/></td>									
+									<td><c:out value="${list.SUM_IRREQ_CNT  }"/></td>
+									<td><c:out value="${list.SUM_IRREQ_NMPR }"/></td>
 									
-									<td>${list.REQ00_CNT  + list.IRREQ00_CNT  }</td>
-									<td>${list.REQ00_NMPR + list.IRREQ00_NMPR }</td>
-									<td>${list.REQ01_CNT  + list.IRREQ01_CNT  + list.DTY01_CNT    }</td>
-									<td>${list.REQ01_NMPR + list.IRREQ01_NMPR + list.DTY01_NMPR   }</td>
-									<td>${list.REQ02_CNT  + list.IRREQ02_CNT  + list.DTY02_CNT    }</td>
-									<td>${list.REQ02_NMPR + list.IRREQ02_NMPR + list.DTY02_NMPR   }</td>
-									<td>${list.REQ03_CNT  }</td>
-									<td>${list.REQ03_NMPR }</td>
-									<td>${list.REQ04_CNT  }</td>
-									<td>${list.REQ04_NMPR }</td>
+									<td><c:out value="${list.REQ00_CNT  + list.IRREQ00_CNT  }"/></td>
+									<td><c:out value="${list.REQ00_NMPR + list.IRREQ00_NMPR }"/></td>
+									<td><c:out value="${list.REQ01_CNT  + list.IRREQ01_CNT  + list.DTY01_CNT    }"/></td>
+									<td><c:out value="${list.REQ01_NMPR + list.IRREQ01_NMPR + list.DTY01_NMPR   }"/></td>
+									<td><c:out value="${list.REQ02_CNT  + list.IRREQ02_CNT  + list.DTY02_CNT    }"/></td>
+									<td><c:out value="${list.REQ02_NMPR + list.IRREQ02_NMPR + list.DTY02_NMPR   }"/></td>
+									<td><c:out value="${list.REQ03_CNT  }"/></td>
+									<td><c:out value="${list.REQ03_NMPR }"/></td>
+									<td><c:out value="${list.REQ04_CNT  }"/></td>
+									<td><c:out value="${list.REQ04_NMPR }"/></td>
 									
-									<td>${list.SUM_REQ_CNT + list.SUM_IRREQ_CNT + list.SUM_DTY_CNT}</td>
-									<td>${list.SUM_REQ_NMPR + list.SUM_IRREQ_NMPR + list.SUM_DTY_NMPR}</td>
+									<td><c:out value="${list.SUM_REQ_CNT + list.SUM_IRREQ_CNT + list.SUM_DTY_CNT}"/></td>
+									<td><c:out value="${list.SUM_REQ_NMPR + list.SUM_IRREQ_NMPR + list.SUM_DTY_NMPR}"/></td>
 								</tr>		
 							</c:forEach>
 							<c:forEach var="list" items="${yearEduList.monthList }" varStatus="status">
 								<tr class="monthList">
-									<th scope="row">${list.CURRENT_YEAR }년<br>${list.EDU_MONTH }월</th>
-									<td>${list.REQ00_CNT	}</td>	
-									<td>${list.REQ00_NMPR   }</td>
-									<td>${list.REQ01_CNT    }</td>
-									<td>${list.REQ01_NMPR   }</td>
-									<td>${list.REQ02_CNT    }</td>
-									<td>${list.REQ02_NMPR   }</td>
-									<td>${list.REQ03_CNT    }</td>
-									<td>${list.REQ03_NMPR   }</td>
-									<td>${list.REQ04_CNT    }</td>
-									<td>${list.REQ04_NMPR   }</td>
-									<td>${list.SUM_REQ_CNT    }</td>
-									<td>${list.SUM_REQ_NMPR   }</td>
+									<th scope="row"><c:out value="${list.CURRENT_YEAR }"/>년<br><c:out value="${list.EDU_MONTH }"/>월</th>
+									<td><c:out value="${list.REQ00_CNT	}"/></td>	
+									<td><c:out value="${list.REQ00_NMPR   }"/></td>
+									<td><c:out value="${list.REQ01_CNT    }"/></td>
+									<td><c:out value="${list.REQ01_NMPR   }"/></td>
+									<td><c:out value="${list.REQ02_CNT    }"/></td>
+									<td><c:out value="${list.REQ02_NMPR   }"/></td>
+									<td><c:out value="${list.REQ03_CNT    }"/></td>
+									<td><c:out value="${list.REQ03_NMPR   }"/></td>
+									<td><c:out value="${list.REQ04_CNT    }"/></td>
+									<td><c:out value="${list.REQ04_NMPR   }"/></td>
+									<td><c:out value="${list.SUM_REQ_CNT    }"/></td>
+									<td><c:out value="${list.SUM_REQ_NMPR   }"/></td>
 									
-									<td>${list.DTY01_CNT    }</td>
-									<td>${list.DTY01_NMPR   }</td>
-									<td>${list.DTY02_CNT    }</td>
-									<td>${list.DTY02_NMPR   }</td>
-									<td>${list.SUM_DTY_CNT    }</td>
-									<td>${list.SUM_DTY_NMPR   }</td>
+									<td><c:out value="${list.DTY01_CNT    }"/></td>
+									<td><c:out value="${list.DTY01_NMPR   }"/></td>
+									<td><c:out value="${list.DTY02_CNT    }"/></td>
+									<td><c:out value="${list.DTY02_NMPR   }"/></td>
+									<td><c:out value="${list.SUM_DTY_CNT    }"/></td>
+									<td><c:out value="${list.SUM_DTY_NMPR   }"/></td>
 									
-									<td>${list.IRREQ00_CNT  }</td>
-									<td>${list.IRREQ00_NMPR }</td>
-									<td>${list.IRREQ01_CNT  }</td>
-									<td>${list.IRREQ01_NMPR }</td>
-									<td>${list.IRREQ02_CNT  }</td>
-									<td>${list.IRREQ02_NMPR	}</td>									
-									<td>${list.SUM_IRREQ_CNT    }</td>
-									<td>${list.SUM_IRREQ_NMPR   }</td>
+									<td><c:out value="${list.IRREQ00_CNT  }"/></td>
+									<td><c:out value="${list.IRREQ00_NMPR }"/></td>
+									<td><c:out value="${list.IRREQ01_CNT  }"/></td>
+									<td><c:out value="${list.IRREQ01_NMPR }"/></td>
+									<td><c:out value="${list.IRREQ02_CNT  }"/></td>
+									<td><c:out value="${list.IRREQ02_NMPR	}"/></td>									
+									<td><c:out value="${list.SUM_IRREQ_CNT    }"/></td>
+									<td><c:out value="${list.SUM_IRREQ_NMPR   }"/></td>
 									
-									<td>${list.REQ00_CNT  + list.IRREQ00_CNT  }</td>
-									<td>${list.REQ00_NMPR + list.IRREQ00_NMPR }</td>
-									<td>${list.REQ01_CNT  + list.IRREQ01_CNT  + list.DTY01_CNT    }</td>
-									<td>${list.REQ01_NMPR + list.IRREQ01_NMPR + list.DTY01_NMPR   }</td>
-									<td>${list.REQ02_CNT  + list.IRREQ02_CNT  + list.DTY02_CNT    }</td>
-									<td>${list.REQ02_NMPR + list.IRREQ02_NMPR + list.DTY02_NMPR   }</td>
-									<td>${list.REQ03_CNT  }</td>
-									<td>${list.REQ03_NMPR }</td>
-									<td>${list.REQ04_CNT  }</td>
-									<td>${list.REQ04_NMPR }</td>
+									<td><c:out value="${list.REQ00_CNT  + list.IRREQ00_CNT  }"/></td>
+									<td><c:out value="${list.REQ00_NMPR + list.IRREQ00_NMPR }"/></td>
+									<td><c:out value="${list.REQ01_CNT  + list.IRREQ01_CNT  + list.DTY01_CNT    }"/></td>
+									<td><c:out value="${list.REQ01_NMPR + list.IRREQ01_NMPR + list.DTY01_NMPR   }"/></td>
+									<td><c:out value="${list.REQ02_CNT  + list.IRREQ02_CNT  + list.DTY02_CNT    }"/></td>
+									<td><c:out value="${list.REQ02_NMPR + list.IRREQ02_NMPR + list.DTY02_NMPR   }"/></td>
+									<td><c:out value="${list.REQ03_CNT  }"/></td>
+									<td><c:out value="${list.REQ03_NMPR }"/></td>
+									<td><c:out value="${list.REQ04_CNT  }"/></td>
+									<td><c:out value="${list.REQ04_NMPR }"/></td>
 									
-									<td>${list.SUM_REQ_CNT + list.SUM_IRREQ_CNT + list.SUM_DTY_CNT}</td>
-									<td>${list.SUM_REQ_NMPR + list.SUM_IRREQ_NMPR + list.SUM_DTY_NMPR}</td>
+									<td><c:out value="${list.SUM_REQ_CNT + list.SUM_IRREQ_CNT + list.SUM_DTY_CNT}"/></td>
+									<td><c:out value="${list.SUM_REQ_NMPR + list.SUM_IRREQ_NMPR + list.SUM_DTY_NMPR}"/></td>
 								</tr>		
 							</c:forEach>
 						</tbody>

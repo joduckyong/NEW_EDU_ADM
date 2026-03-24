@@ -3,9 +3,9 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
 			lUrl : "/ncts/mngr/eduReqstMngr/mngrEduAppliListPopup.do",
 	}
 	
@@ -114,15 +114,15 @@ $(function(){
 								</c:if>
 								<c:forEach var="list" items="${list }" varStatus="idx"> 
 									<tr>                                                                                        
-										<td class="invisible"><input type="checkbox" class="index" value="${list.USER_NO}"></td>
+										<td class="invisible"><input type="checkbox" class="index" value='<c:out value="${list.USER_NO}"/>'></td>
 										<%-- <td>${!empty list.DIST_MANAGE_NM ? list.DIST_MANAGE_NM : '전체'  }</td> --%>         
-										<td>${list.USER_ID}</td>                                                                
-										<td>${list.USER_EMAIL}</td>                                                             
-										<td>${list.USER_NM}</td>                                                                
-										<td>${list.USER_HP_NO}</td>                                                             
-										<td>${list.GRADE_CD_NM}</td>                                                            
-										<td>${list.DETAIL_GRADE_CD_NM}</td>                                                     
-										<td>${list.INSTRCTR_DETAIL_GRADE_CD_NM}</td>                                                     
+										<td><c:out value="${list.USER_ID}"/></td>                                                                
+										<td><c:out value="${list.USER_EMAIL}"/></td>                                                             
+										<td><c:out value="${list.USER_NM}"/></td>                                                                
+										<td><c:out value="${list.USER_HP_NO}"/></td>                                                             
+										<td><c:out value="${list.GRADE_CD_NM}"/></td>                                                            
+										<td><c:out value="${list.DETAIL_GRADE_CD_NM}"/></td>
+										<td><c:out value="${list.INSTRCTR_DETAIL_GRADE_CD_NM}"/></td>                                                     
 									</tr>                                                                                       
 								</c:forEach>
 							</tbody>

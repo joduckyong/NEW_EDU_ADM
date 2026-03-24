@@ -9,9 +9,9 @@ $(function(){
 			procUrl : $("#isueList li.active a").prop("id") == "COMPL" ? "/ncts/mngr/eduReqstMngr/packageCertificateProgress.do" : "/ncts/mngr/eduReqstMngr/updateDtyComplProgress.do",
 	}
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+			updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+			deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
 			lUrl : "/ncts/mngr/eduReqstMngr/mngrDtyEduProgressList.do",
 			fUrl : "/ncts/mngr/eduReqstMngr/mngrDtyEduProgressForm.do",
 	}
@@ -307,7 +307,7 @@ $(function(){
 								<select name="centerCd" class="form-control">
 									<option value="">전체</option>
 									<c:forEach var="center" items="${centerList }" varStatus="idx">
-										<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq paginationInfo.centerCd ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
+										<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq paginationInfo.centerCd ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
 									</c:forEach>
 								</select> <i></i>
 							</li>
@@ -333,7 +333,7 @@ $(function(){
 							<select name="searchCondition1" class="form-control">
 								<option value="">전체</option>
 					    		<c:forEach var="list" items="${packageList }" varStatus="idx">
-									<option value="${list.PACKAGE_NO }" ${param.searchCondition1 eq list.PACKAGE_NO ? 'selected="selected"' :'' }>${list.PACKAGE_NM }</option>
+									<option value="<c:out value='${list.PACKAGE_NO }'/>" <c:out value="${param.searchCondition1 eq list.PACKAGE_NO ? 'selected=selected' :'' }"/>><c:out value="${list.PACKAGE_NM }"/></option>
 								</c:forEach>
 							</select> <i></i>
 						</li>
@@ -387,14 +387,14 @@ $(function(){
 							<c:forEach var="list" items="${rslist }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value="${list.EDU_SEQ }">
+										<input type="checkbox" class="index" value="<c:out value='${list.EDU_SEQ }'/>">
 									</td>
-									<td>${list.EDU_NM }</td>
-									<td>${list.EDU_DE }${not empty list.EDU_END_DE ?' ~ ':''}${not empty list.EDU_END_DE ? fn:substring(list.EDU_END_DE, 8, 10) : '' }<br> ${list.EDU_BEGIN_TIME_HOUR}:${list.EDU_BEGIN_TIME_MIN} ~ ${list.EDU_END_TIME_HOUR}:${list.EDU_END_TIME_MIN}</td>
-									<td>${list.EDU_TARGET_TYPE }</td>
-									<td>${list.EDU_NMPR }</td>
-									<td>${list.CENTER_NM }</td>
-									<td>${list.FRST_REGIST_PNTTM }</td>
+									<td><c:out value="${list.EDU_NM }"/></td>
+									<td><c:out value="${list.EDU_DE }"/><c:out value="${not empty list.EDU_END_DE ?' ~ ':''}"/><c:out value="${not empty list.EDU_END_DE ? fn:substring(list.EDU_END_DE, 8, 10) : '' }"/><br> <c:out value="${list.EDU_BEGIN_TIME_HOUR}"/>:<c:out value="${list.EDU_BEGIN_TIME_MIN}"/> ~ <c:out value="${list.EDU_END_TIME_HOUR}"/>:<c:out value="${list.EDU_END_TIME_MIN}"/></td>
+									<td><c:out value="${list.EDU_TARGET_TYPE }"/></td>
+									<td><c:out value="${list.EDU_NMPR }"/></td>
+									<td><c:out value="${list.CENTER_NM }"/></td>
+									<td><c:out value="${list.FRST_REGIST_PNTTM }"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -422,10 +422,10 @@ $(function(){
 							</ul>
 						</div>
 						<div class="fR wp12 mt5 mr5 mb5" id="complProc">
-						  <button class="btn btn-primary ml2" type="button" id="complProcBtn" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled' }><i class="fa fa-magic" title="처리"></i><span>이수처리</span></button>
+						  <button class="btn btn-primary ml2" type="button" id="complProcBtn" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled' }"/>><i class="fa fa-magic" title="처리"></i><span>이수처리</span></button>
 						</div>
 						<div class="fR wp12 mt5 mr5 mb5" id="autoCheck" style="display:none;">
-						  <button class="btn btn-primary ml2" type="button" id="autoCheckBtn" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled' }><i class="fa fa-check" title="처리"></i><span>자동선택</span></button>
+						  <button class="btn btn-primary ml2" type="button" id="autoCheckBtn" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled' }"/>><i class="fa fa-check" title="처리"></i><span>자동선택</span></button>
 						</div>						
 					</div>					
 					<table class="table table-bordered table-hover tb_type01">
@@ -461,7 +461,7 @@ $(function(){
 	<th>생년월일</th>
 	<th>소속</th>
 	<th>직급</th>
-	<th>재난심리지원지역</th
+	<th>재난심리지원지역</th>
 	<th>{{#ifeq ACTIVE_ID "COMPL"}}수료{{else}}이수{{/ifeq}}여부</th>
 	<th>{{#ifeq ACTIVE_ID "COMPL"}}수료{{else}}이수{{/ifeq}}여부</th>
 	<th>{{#ifeq ACTIVE_ID "COMPL"}}수료{{else}}이수{{/ifeq}}일</th>

@@ -3,9 +3,9 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
 			lUrl : "/ncts/mngr/instrctrMngr/instrctrDetailPopup.do",
 	}
 	
@@ -62,19 +62,19 @@ $(function(){
 	<section id="widget-grid" class="">
 		<!-- Search 영역 시작 -->
         <form name="tabForm" id="tabForm" method="post">
-        	<input type="hidden" name="userNo" id="userNo" value="${empty param.userNo ? param.instrctrNo : param.userNo }">
-        	<input type="hidden" name="instrctrNo" id="instrctrNo" value="${empty param.instrctrNo ? param.userNo : param.instrctrNo }">
+        	<input type="hidden" name="userNo" id="userNo" value='<c:out value="${empty param.userNo ? param.instrctrNo : param.userNo }"/>'>
+        	<input type="hidden" name="instrctrNo" id="instrctrNo" value='<c:out value="${empty param.instrctrNo ? param.userNo : param.instrctrNo }"/>'>
         	<input type="hidden" name="courses" value="04">
         	<input type="hidden" name="pageType" value="INSTRCTR">
-        	<input type="hidden" name="searchCondition2" id="searchCondition2" value="${empty param.searchCondition2 ? '01' : param.searchCondition2 }">
+        	<input type="hidden" name="searchCondition2" id="searchCondition2" value='<c:out value="${empty param.searchCondition2 ? '01' : param.searchCondition2 }"/>'>
 			<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
 		</form>
 		<!-- Search 영역 끝 -->	
 		<div class="tab-content">
 			<div class="jarviswidget-sortable active" id="tabList">
 				<ul class="nav nav-tabs" style="min-width:100%;">
-					<li class="${empty param.searchCondition2 or param.searchCondition2 eq '01' ? 'active' : ''}"><a href="javascript:void(0);" data-val="01" data-url="/ncts/mngr/common/selectEduMemberDetailPopup.do">강사정보</a></li>
-					<li class="${param.searchCondition2 eq '02' ? 'active' : ''}"><a href="javascript:void(0);" data-val="02" data-url="/ncts/mngr/instrctrMngr/instrctrDetailPopup.do">강사활동</a></li>
+					<li class=<c:out value="${empty param.searchCondition2 or param.searchCondition2 eq '01' ? 'active' : ''}"/>><a href="javascript:void(0);" data-val="01" data-url="/ncts/mngr/common/selectEduMemberDetailPopup.do">강사정보</a></li>
+					<li class=<c:out value="${param.searchCondition2 eq '02' ? 'active' : ''}"/>><a href="javascript:void(0);" data-val="02" data-url="/ncts/mngr/instrctrMngr/instrctrDetailPopup.do">강사활동</a></li>
 				</ul>
 			</div>
 		</div>					

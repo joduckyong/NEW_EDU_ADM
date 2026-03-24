@@ -3,9 +3,9 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
 			lUrl : "/ncts/mngr/eduReqstMngr/mngrDtyEduList.do",
 			fUrl : "/ncts/mngr/eduReqstMngr/mngrDtyEduForm.do",
 			dUrl : "/ncts/mngr/eduReqstMngr/mngrDtyDeleteEdu.do"
@@ -125,7 +125,7 @@ $(function(){
 				"eduSeq" : $("#eduSeq").val(),
 				"procType" : baseInfo.updateKey,
 				"instrctrOthbcYn" : val,
-				"${_csrf.parameterName}" : "${_csrf.token}"
+				'<c:out value="${_csrf.parameterName}"/>' : '<c:out value="${_csrf.token}"/>'
 			},
             dataType: "json",
             success: function(data) {
@@ -184,7 +184,7 @@ $(function(){
 								<select name="centerCd" class="form-control">
 									<option value="">전체</option>
 									<c:forEach var="center" items="${centerList }" varStatus="idx">
-										<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq param.centerCd ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
+										<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq param.centerCd ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
 									</c:forEach>
 								</select> <i></i>
 							</li>
@@ -210,7 +210,7 @@ $(function(){
 							<select name="searchCondition1" class="form-control">
 								<option value="">전체</option>
 					    		<c:forEach var="list" items="${packageList }" varStatus="idx">
-									<option value="${list.PACKAGE_NO }" ${param.searchCondition1 eq list.PACKAGE_NO ? 'selected="selected"' :'' }>${list.PACKAGE_NM }</option>
+									<option value="<c:out value='${list.PACKAGE_NO }'/>" <c:out value="${param.searchCondition1 eq list.PACKAGE_NO ? 'selected=selected' :'' }"/>><c:out value="${list.PACKAGE_NM }"/></option>
 								</c:forEach>
 							</select> <i></i>
 						</li>
@@ -267,16 +267,16 @@ $(function(){
 							<c:forEach var="list" items="${rslist }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value="${list.EDU_SEQ }">
-										<input type="hidden" name="packageGubun" value="${list.PACKAGE_GUBUN }"
+										<input type="checkbox" class="index" value="<c:out value='${list.EDU_SEQ }'/>">
+										<input type="hidden" name="packageGubun" value="<c:out value='${list.PACKAGE_GUBUN }'/>">
 									</td>
-									<td>${list.EDU_NM }</td>
-									<td>${list.EDU_DE }${not empty list.EDU_END_DE ?' ~ ':''}${not empty list.EDU_END_DE ? fn:substring(list.EDU_END_DE, 8, 10) : '' }<br> ${list.EDU_BEGIN_TIME_HOUR}:${list.EDU_BEGIN_TIME_MIN} ~ ${list.EDU_END_TIME_HOUR}:${list.EDU_END_TIME_MIN}</td>
-									<td>${list.EDU_TARGET_TYPE }</td>
-									<td>${list.EDU_REQST_NMPR }</td>
-									<td>${list.EDU_NMPR }</td>
-									<td>${list.CENTER_NM }</td>
-									<td>${list.FRST_REGIST_PNTTM }</td>
+									<td><c:out value="${list.EDU_NM }"/></td>
+									<td><c:out value="${list.EDU_DE }"/><c:out value="${not empty list.EDU_END_DE ?' ~ ':''}"/><c:out value="${not empty list.EDU_END_DE ? fn:substring(list.EDU_END_DE, 8, 10) : '' }"/><br> <c:out value="${list.EDU_BEGIN_TIME_HOUR}"/>:<c:out value="${list.EDU_BEGIN_TIME_MIN}"/> ~ <c:out value="${list.EDU_END_TIME_HOUR}"/>:<c:out value="${list.EDU_END_TIME_MIN}"/></td>
+									<td><c:out value="${list.EDU_TARGET_TYPE }"/></td>
+									<td><c:out value="${list.EDU_REQST_NMPR }"/></td>
+									<td><c:out value="${list.EDU_NMPR }"/></td>
+									<td><c:out value="${list.CENTER_NM }"/></td>
+									<td><c:out value="${list.FRST_REGIST_PNTTM }"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

@@ -4,9 +4,9 @@
 <script type="text/javascript">
 $(function(){
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-            updateKey : "${common.baseType[1].key() }",
-            deleteKey : "${common.baseType[2].key() }",
+			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
             lUrl : "/ncts/mngr/edcComplMngr/mngrLctreRuleList.do",
             pop01 : "/ncts/mngr/common/stddLecListPopup.do"
 	}	
@@ -132,7 +132,7 @@ $(function(){
 				</jsp:include>
 				<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
                 <input name="courses" id="courses" type="hidden" value=""/>
-                <input type="hidden" name="ruleNo" value="${result.RULE_NO }">
+                <input type="hidden" name="ruleNo" value='<c:out value="${result.RULE_NO }"/>'>
                 <input type="hidden" id="lectureId" name="lectureId" value='<c:out value="${result.LECTURE_ID}"/>'>
 			</form>
 		</div>
@@ -173,7 +173,7 @@ $(function(){
                                             	<c:if test="${status.index ne 0}">
 						                            <label class="radio">
 						                                <c:if test="${status.index lt 5}">
-						                                   <input type="radio" name="courses" value="${list.CODE}" ${result.COURSES eq list.CODE? 'checked="checked"':''}><i></i>${list.CODE_NM}
+						                                   <input type="radio" name="courses" value='<c:out value="${list.CODE}"/>' <c:out value="${result.COURSES eq list.CODE? 'checked=checked':''}"/>><i></i><c:out value="${list.CODE_NM}"/>
 						                                </c:if>
 						                            </label>
 					                            </c:if>
@@ -185,7 +185,7 @@ $(function(){
                                     <th scope="row">강의명</th>
                                     <td colspan="2">
                                         <label class="input w500 col">
-                                            <input type="text" id="lectureNm" name="lectureNm" value="${result.LECTURE_NM}">
+                                            <input type="text" id="lectureNm" name="lectureNm" value='<c:out value="${result.LECTURE_NM}"/>'>
                                         </label>
                                     </td>
                                 </tr>
@@ -193,7 +193,7 @@ $(function(){
                                     <th scope="row">선택된 강의</th>
                                     <td colspan="2">
                                     <label class="input w500 col">
-                                    	<input type="text" id="tdId" name="tdId" value="${result.LECTURE_ID}" readonly>
+                                    	<input type="text" id="tdId" name="tdId" value='<c:out value="${result.LECTURE_ID}"/>' readonly>
                                     <%-- <td colspan="5" id="tdId">${result.LECTURE_ID}</td> --%>
                                     </label>
                                     </td>

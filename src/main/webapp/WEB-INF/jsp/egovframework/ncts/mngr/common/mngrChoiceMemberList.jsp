@@ -27,12 +27,12 @@
 			</c:if>
 			<c:forEach var="rslist" items="${userList }">
 				<tr>
-					<td>${rslist.USER_ID1}</td>
-					<td>${rslist.USER_NM1}</td>
-					<td>${rslist.USER_EMAIL1}</td>
-					<td>${rslist.USER_ID2}</td>
-					<td>${rslist.USER_NM2}</td>
-					<td>${rslist.USER_EMAIL2}</td>
+					<td><c:out value="${rslist.USER_ID1}"/></td>
+					<td><c:out value="${rslist.USER_NM1}"/></td>
+					<td><c:out value="${rslist.USER_EMAIL1}"/></td>
+					<td><c:out value="${rslist.USER_ID2}"/></td>
+					<td><c:out value="${rslist.USER_NM2}"/></td>
+					<td><c:out value="${rslist.USER_EMAIL2}"/></td>
 				</tr>
 			</c:forEach>
 		</tbody>

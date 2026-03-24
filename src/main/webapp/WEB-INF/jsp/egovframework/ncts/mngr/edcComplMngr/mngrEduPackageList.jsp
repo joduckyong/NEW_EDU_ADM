@@ -2,9 +2,9 @@
 <script type="text/javascript">
 	$(function(){
 	    var baseInfo = {
-	            insertKey : "${common.baseType[0].key() }",
-	            updateKey : "${common.baseType[1].key() }",
-	            deleteKey : "${common.baseType[2].key() }",
+	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
 	            lUrl : "/ncts/mngr/edcComplMngr/mngrEduPackageList.do",
 	            fUrl : "/ncts/mngr/edcComplMngr/mngrEduPackageForm.do",
 	            dUrl : "/ncts/mngr/edcComplMngr/deleteMngrEduPackageInfo.do",
@@ -170,12 +170,12 @@
 							<c:forEach var="list" items="${packageList}" varStatus="idx">
 								<tr>
 									<td class="invisible">
-									   <input type="checkbox" name="packageNo" class="index" value="${list.PACKAGE_NO}">
+									   <input type="checkbox" name="packageNo" class="index" value="<c:out value='${list.PACKAGE_NO}'/>">
 									</td>
-									<td>${list.PACKAGE_NM}</td>
-									<td>${list.LECTURE_ID}</td>
-									<td>${list.FRST_REGIST_PNTTM}</td>
-									<td>${list.USE_AT}</td>
+									<td><c:out value="${list.PACKAGE_NM}"/></td>
+									<td><c:out value="${list.LECTURE_ID}"/></td>
+									<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
+									<td><c:out value="${list.USE_AT}"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

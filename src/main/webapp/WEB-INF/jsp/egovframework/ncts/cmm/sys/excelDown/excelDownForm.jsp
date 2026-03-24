@@ -4,9 +4,9 @@
 $(function(){
 	var excelPg = 0;
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+			updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+			deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
 			lUrl : "/ncts/cmm/sys/excelDown/excelDownList.do",
 			fUrl : "/ncts/cmm/sys/excelDown/excelDownForm.do",
 			excel : "/ncts/stat/common/statExcelDownload.do"
@@ -70,7 +70,7 @@ $(function(){
 		<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-          		<input type="hidden" id="excelSeq" name="excelSeq" value="${result.EXCEL_SEQ}"/>
+          		<input type="hidden" id="excelSeq" name="excelSeq" value="<c:out value='${result.EXCEL_SEQ}'/>"/>
 				<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/button.jsp" flush="false">
 					<jsp:param value="form"     name="formType"/>
 					<jsp:param value="1,2,3"     name="buttonYn"/>
@@ -87,7 +87,7 @@ $(function(){
 			<div class="row">
 				<article class="col-md-12 col-lg-12">
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
-					<input type="hidden" id="excelSeq" name="excelSeq" value="${result.EXCEL_SEQ}"/>
+					<input type="hidden" id="excelSeq" name="excelSeq" value="<c:out value='${result.EXCEL_SEQ}'/>"/>
 					<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
 					<table class="table table-bordered tb_type03">
 							<colgroup>
@@ -98,17 +98,17 @@ $(function(){
 							<tbody>
 								<tr>
 									<th>메뉴명</th>
-									<td colspan="2">${result.MENU_NM}</td>
+									<td colspan="2"><c:out value="${result.MENU_NM}"/></td>
 								</tr>
 								<tr>
 									<th>다운로드 사유</th>
 									<td colspan="2">
-										<textarea id="excelCn1" name="excelCn1" rows="5" cols="33">${result.EXCEL_CN1 }</textarea>
+										<textarea id="excelCn1" name="excelCn1" rows="5" cols="33"><c:out value="${result.EXCEL_CN1 }"/></textarea>
 									</td>
 								</tr>
 								<tr>
 									<th>다운로드 날짜</th>
-									<td colspan="2">${result.REGIST_DATE }</td>
+									<td colspan="2"><c:out value="${result.REGIST_DATE }"/></td>
 								</tr>
 							</tbody>
 						</table>

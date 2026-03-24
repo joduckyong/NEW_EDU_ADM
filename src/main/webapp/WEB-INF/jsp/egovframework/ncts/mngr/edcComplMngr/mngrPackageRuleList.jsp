@@ -2,9 +2,9 @@
 <script type="text/javascript">
 	$(function(){
 	    var baseInfo = {
-	            insertKey : "${common.baseType[0].key() }",
-	            updateKey : "${common.baseType[1].key() }",
-	            deleteKey : "${common.baseType[2].key() }",
+	            insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+	            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+	            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
 	            lUrl : "/ncts/mngr/edcComplMngr/mngrPackageRuleList.do",
 	            fUrl : "/ncts/mngr/edcComplMngr/mngrPackageRuleForm.do",
 	            dUrl : "/ncts/mngr/edcComplMngr/mngrPackageRuleProc.do",
@@ -117,7 +117,7 @@
                             <select id="sGubun1" name="sGubun1" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap }" varStatus="idx">
-                                   	<option value="${list.CODE }" ${param.sGubun1 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
+                                   	<option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun1 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
                                 </c:forEach>
                             </select>
                         </li>
@@ -168,13 +168,13 @@
 							<c:forEach var="list" items="${list}" varStatus="idx">
 								<tr>
 									<td class="invisible">
-									   <input type="checkbox" name="packageRuleNo" class="index" value="${list.PACKAGE_RULE_NO}">
-									   <input type="hidden" name="packageNo" class="index" value="${list.PACKAGE_NO}">
+									   <input type="checkbox" name="packageRuleNo" class="index" value='<c:out value="${list.PACKAGE_RULE_NO}"/>'>
+									   <input type="hidden" name="packageNo" class="index" value='<c:out value="${list.PACKAGE_NO}"/>'>
 									</td>
-									<td>${list.COURSES_NM}</td>
-									<td>${list.LECTURE_ID}</td>
-									<td>${list.PACKAGE_RULE_NM}</td>
-									<td>${list.FRST_REGIST_PNTTM}</td>
+									<td><c:out value="${list.COURSES_NM}"/></td>
+									<td><c:out value="${list.LECTURE_ID}"/></td>
+									<td><c:out value="${list.PACKAGE_RULE_NM}"/></td>
+									<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

@@ -3,9 +3,9 @@
 <script type="text/javascript">
 $(function(){
 	var baseInfo = {
-		insertKey : "${common.baseType[0].key() }",
-		updateKey : "${common.baseType[1].key() }",
-		deleteKey : "${common.baseType[2].key() }",
+		insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+		updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+		deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
 		lUrl : "/ncts/mngr/simsaMngr/mngrSimsaApplicant.do",
 		dUrl : "/ncts/mngr/simsaMngr/updateSimsaAppList.do",
 		excel : "/ncts/mngr/simsaMngr/simsaAppExcelDownload.do"
@@ -59,12 +59,12 @@ $(function(){
 	}
 			
 	$.searchConditionOnSettings = function(thisVal){
-		var searchCondition3Val = "${param.searchCondition3}";
-		if(thisVal != undefined && "${param.searchCondition2}" != thisVal) searchCondition3Val = "";
-		var searchCondition2Val = thisVal != undefined ? thisVal : "${param.searchCondition2}";
-		if(thisVal == undefined && "${rs.SIMSA_SEQ}" != "") {
+		var searchCondition3Val = '<c:out value="${param.searchCondition3}"/>';
+		if(thisVal != undefined && '<c:out value="${param.searchCondition2}"/>' != thisVal) searchCondition3Val = "";
+		var searchCondition2Val = thisVal != undefined ? thisVal : '<c:out value="${param.searchCondition2}"/>';
+		if(thisVal == undefined && '<c:out value="${rs.SIMSA_SEQ}"/>' != "") {
 			searchCondition2Val = "sn";
-			searchCondition3Val = "${rs.SIMSA_NUM}";
+			searchCondition3Val = '<c:out value="${rs.SIMSA_NUM}"/>';
 		}
 		
 		$("#searchCondition3 option").remove();
@@ -228,10 +228,10 @@ $(function(){
 					<ul class="searchAreaBox">
 						<c:if test="${not empty rs }">
 							<li class="smart-form">
-								<label class="label">· 회차 : ${rs.SIMSA_NUM }회차</label>
+								<label class="label">· 회차 : <c:out value="${rs.SIMSA_NUM }"/>회차</label>
 							</li>
 							<li class="smart-form ml5">
-							    <label class="label">· 접수기간 : <c:out value="${fn:substring(rs.SIMSA_DE, 0, 10)}" /> ~ <c:out value="${fn:substring(rs.SIMSA_END_DE, 0, 10) }" /></label>
+							    <label class="label">· 접수기간 : <c:out value="${fn:substring(rs.SIMSA_DE, 0, 10)}"/> ~ <c:out value="${fn:substring(rs.SIMSA_END_DE, 0, 10)}"/></label>
 							</li>
 						</c:if>
 						<c:if test="${empty rs }">
@@ -335,99 +335,99 @@ $(function(){
 								<c:forEach var="list" items="${rslist }" >
 									<tr>
 										<td class="invisible">
-											<input type="hidden" class="index" name="appList.appSeq" value="${list.APP_SEQ }">
+											<input type="hidden" class="index" name="appList.appSeq" value='<c:out value="${list.APP_SEQ }"/>'>
 										</td>
-										<td>${list.SIMSA_NUM }</td>
-										<td>${fn:substring(list.APP_RECEIPT_DE, 0, 10) }</td>
-										<td>${list.USER_NM }</td>
-										<td>${list.fileView }</td>								
+										<td><c:out value="${list.SIMSA_NUM }"/></td>
+										<td><c:out value="${fn:substring(list.APP_RECEIPT_DE, 0, 10) }"/></td>
+										<td><c:out value="${list.USER_NM }"/></td>
+										<td><c:out value="${list.fileView }"/></td>								
 										<td>
 											<select name="appList.appBig" class="form-control appBig">
 												<option value="">선택</option>
-												<option value="01" ${list.APP_BIG eq '01'? 'selected':''}>교육</option>
-												<option value="02" ${list.APP_BIG eq '02'? 'selected':''}>강사</option>
+												<option value="01" <c:out value="${list.APP_BIG eq '01'? 'selected':''}"/>>교육</option>
+												<option value="02" <c:out value="${list.APP_BIG eq '02'? 'selected':''}"/>>강사</option>
 											</select><i></i>
 										</td>
 										<td>
-											<select name="appList.appSmall" class="form-control appSmall 01 ${list.APP_BIG eq '01'? '':'disabled' }" style="${list.APP_BIG eq '01'? 'display:block;':'display:none;' }">
-												<option value="">선택</option>
+											<select name="appList.appSmall" class="form-control appSmall 01 <c:out value="${list.APP_BIG eq '01'? '':'disabled' }"/> style='<c:out value="${list.APP_BIG eq '01'? 'display:block;':'display:none;' }"/>'>
+												<option value=">선택</option>
 												<c:forEach var="dmh25" items="${codeMap.DMH25}" varStatus="idx">
-													<option value="${dmh25.CODE}" ${list.APP_SMALL eq dmh25.CODE? 'selected':'' }>
-														${dmh25.CODE_NM}
+													<option value='<c:out value="${dmh25.CODE}"/>' <c:out value="${list.APP_SMALL eq dmh25.CODE? 'selected':'' }"/>>
+														<c:out value="${dmh25.CODE_NM}"/>
 													</option>																									
 												</c:forEach> 
 											</select><i></i>
-											<select name="appList.appSmall" class="form-control appSmall 02 ${list.APP_BIG eq '02'? '':'disabled' }" style="${list.APP_BIG eq '02'? 'display:block;':'display:none;' }">
-												<option value="">선택</option>
+											<select name="appList.appSmall" class="form-control appSmall 02 <c:out value="${list.APP_BIG eq '02'? '':'disabled' }"/> style='<c:out value="${list.APP_BIG eq '02'? 'display:block;':'display:none;' }"/>'>
+												<option value=">선택</option>
 												<c:forEach var="dmh26" items="${codeMap.DMH26}" varStatus="idx">
-													<option value="${dmh26.CODE}" ${list.APP_SMALL eq dmh26.CODE? 'selected':'' }>
-														${dmh26.CODE_NM}
+													<option value='<c:out value="${dmh26.CODE}"/>' <c:out value="${list.APP_SMALL eq dmh26.CODE? 'selected':'' }"/>>
+														<c:out value="${dmh26.CODE_NM}"/>
 													</option>																									
 												</c:forEach> 
 											</select><i></i>							
-											<select name="appList.appSmall" class="form-control appSmall reset ${list.APP_BIG eq '' or empty list.APP_BIG? '':'disabled' }" style="${list.APP_BIG eq '' or empty list.APP_BIG? 'display:block;':'display:none;' }">
+											<select name="appList.appSmall" class="form-control appSmall reset <c:out value="${list.APP_BIG eq '' or empty list.APP_BIG? '':'disabled' }"/>" style='<c:out value="${list.APP_BIG eq '' or empty list.APP_BIG? 'display:block;':'display:none;' }"/>' >
 												<option value="">선택</option>
 											</select><i></i>							
 										</td>
 									
 										<td>
 											<label class="input w60">
-												<input type="text" class="sumValue onlyDpNum w60" name="appList.appJakyeok" value="${list.APP_JAKYEOK }" maxlength="4">
+												<input type="text" class="sumValue onlyDpNum w60" name="appList.appJakyeok" value='<c:out value="${list.APP_JAKYEOK }"/>' maxlength="4">
 											</label>	
 										</td>
 										<td>
 											<label class="input w60">
-												<input type="text" class="sumValue onlyDpNum w60" name="appList.appCareer" value="${list.APP_CAREER }" maxlength="4">
+												<input type="text" class="sumValue onlyDpNum w60" name="appList.appCareer" value='<c:out value="${list.APP_CAREER }"/>' maxlength="4">
 											</label>
 										</td>
 										<td>
 											<label class="input w60">
-												<input type="text" class="sumValue onlyDpNum w60" name="appList.appSimsa" value="${list.APP_SIMSA }" maxlength="4">
+												<input type="text" class="sumValue onlyDpNum w60" name="appList.appSimsa" value='<c:out value="${list.APP_SIMSA }"/>' maxlength="4">
 											</label>
 										</td>
 								
 										<td>
 											<label class="input w60">
-												<input type="text" name="appList.appSum" class="appSum" class="w60" value="${list.APP_SUM }" readonly>
+												<input type="text" name="appList.appSum" class="appSum" class="w60" value='<c:out value="${list.APP_SUM }"/>' readonly>
 											</label>	
 										</td>
 										<td>
 											<select name="appList.appResult" class="form-control">
 												<option value="">선택</option>
 												<c:forEach var="dmh28" items="${codeMap.DMH28}" varStatus="idx">
-													<option value="${dmh28.CODE}" ${dmh28.CODE eq list.APP_RESULT ? 'selected':'' }>
-														${dmh28.CODE_NM}
+													<option value='<c:out value="${dmh28.CODE}"/>' <c:out value="${dmh28.CODE eq list.APP_RESULT ? 'selected':''}"/>>
+														<c:out value="${dmh28.CODE_NM}"/>
 													</option>																									
 												</c:forEach> 												
 											</select><i></i>										
 										</td>
 										<td>
 											<label class="input">
-		                               			<input type="text" class="appJubge" name="appList.appJubge" value="${list.APP_JUBGE }" maxlength="100">
+		                               			<input type="text" class="appJubge" name="appList.appJubge" value='<c:out value="${list.APP_JUBGE }"/>' maxlength="100">
 		                            		</label>										
 										</td>
 										<td>
 											<select name="appList.appNotice" class="form-control">
 												<c:forEach var="dmh27" items="${codeMap.DMH27}" varStatus="idx">
-													<option value="${dmh27.CODE}" ${dmh27.CODE eq list.APP_NOTICE ? 'selected':'' }>
-														${dmh27.CODE_NM}
+													<option value='<c:out value="${dmh27.CODE}"/>' <c:out value="${dmh27.CODE eq list.APP_NOTICE ? 'selected':'' }"/>>
+														<c:out value="${dmh27.CODE_NM}"/>
 													</option>																									
 												</c:forEach> 
 											</select><i></i>
 										</td>
 										<td>
 											<label class="input w120"> <i class="icon-append fa fa-calendar"></i>
-		                               			<input type="text" class="date inputcal" name="appList.appNoticeDe" value="${list.APP_NOTICE_DE }">
+		                               			<input type="text" class="date inputcal" name="appList.appNoticeDe" value='<c:out value="${list.APP_NOTICE_DE }"/>'>
 		                            		</label>
 	                            		</td>
 										<td>
 											<label class="input w120">
-		                               			<input type="text" class="appDocNum" name="appList.appDocNum" value="${list.APP_DOC_NUM }" maxlength="100">
+		                               			<input type="text" class="appDocNum" name="appList.appDocNum" value='<c:out value="${list.APP_DOC_NUM }"/>' maxlength="100">
 		                            		</label>											
 										</td>
 										<td>
 											<label class="input w120">
-		                               			<input type="text" class="" name="appList.appManager" value="${list.APP_MANAGER }" maxlength="100">
+		                               			<input type="text" class="" name="appList.appManager" value='<c:out value="${list.APP_MANAGER }"/>' maxlength="100">
 		                            		</label>										
 										</td>
 									</tr>

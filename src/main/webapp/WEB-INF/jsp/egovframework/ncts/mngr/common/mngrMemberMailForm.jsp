@@ -11,9 +11,9 @@ $(function(){
 	CKEDITOR.config.allowedContent = true;
 	
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-            updateKey : "${common.baseType[1].key() }",
-            deleteKey : "${common.baseType[2].key() }",
+			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
             lUrl : "/ncts/mngr/mail/mngrMailRequestList.do",
             fUrl : "/ncts/mngr/mail/mngrMemberMailForm.do",
 	}	
@@ -81,7 +81,7 @@ $(function(){
 					"requestId" : $("#requestId").val(),
 					"requestSubject" : $("#requestSubject").val(),
 					"procType" : $("input[name='procType']").val(),
-					"${_csrf.parameterName}" : "${_csrf.token}"
+					"<c:out value='${_csrf.parameterName}'/>" : "<c:out value='${_csrf.token}'/>"
 				},
 		        dataType: "json",
 		        success: function(data) {
@@ -156,7 +156,7 @@ $(function(){
 				"userNoNotInArr" : obj.userNoNotInArr,
 				"listAllCheck" : obj.listAllCheck,
 				"currentPageNo" : pageNo,
-				"${_csrf.parameterName}" : "${_csrf.token}"
+				"<c:out value='${_csrf.parameterName}'/>" : "<c:out value='${_csrf.token}'/>"
 			},
 	        dataType: "html",
 	        contentType: "text/html;charset=UTF-8",
@@ -192,7 +192,7 @@ $(function(){
 			data: {
 				"requestId" : $("#requestId").val(),
 				"currentPageNo" : pageNo,
-				"${_csrf.parameterName}" : "${_csrf.token}"
+				"<c:out value='${_csrf.parameterName}'/>" : "<c:out value='${_csrf.token}'/>"
 			},
 			dataType : "html",
 			contentType: "text/html;charset=UTF-8",
@@ -236,12 +236,12 @@ $(function(){
 		<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-				<input type="hidden" id="requestId" name="requestId" value="${param.requestId }">
-				<input type="hidden" name="lastUserNo" value="${param.lastUserNo }">
-				<input type="hidden" name="userNoArr" value="${param.userNoArr }">
-				<input type="hidden" name="userNoNotInArr" value="${param.userNoNotInArr }">
-				<input type="hidden" name="choiceCnt" value="${param.choiceCnt }">
-				<input type="hidden" name="listAllCheck" value="${param.listAllCheck }">
+				<input type="hidden" id="requestId" name="requestId" value="<c:out value='${param.requestId }'/>">
+				<input type="hidden" name="lastUserNo" value="<c:out value='${param.lastUserNo }'/>">
+				<input type="hidden" name="userNoArr" value="<c:out value='${param.userNoArr }'/>">
+				<input type="hidden" name="userNoNotInArr" value="<c:out value='${param.userNoNotInArr }'/>">
+				<input type="hidden" name="choiceCnt" value="<c:out value='${param.choiceCnt }'/>">
+				<input type="hidden" name="listAllCheck" value="<c:out value='${param.listAllCheck }'/>">
 				
 				<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/button.jsp" flush="false">
 					<jsp:param value="form"     name="formType"/>
@@ -262,12 +262,12 @@ $(function(){
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 					    <jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
 						<input type="hidden" name="pageType" value="MEMBER">
-						<input type="hidden" id="mailTmpSeq" name="mailTmpSeq" value="${mailTmpSeq }">
-						<input type="hidden" id="lastUserNo" name="lastUserNo" value="${param.lastUserNo }">
-						<input type="hidden" id="userNoArr" name="userNoArr" value="${param.userNoArr }">
-						<input type="hidden" id="userNoNotInArr" name="userNoNotInArr" value="${param.userNoNotInArr }">
-						<input type="hidden" id="choiceCnt" name="choiceCnt" value="${param.choiceCnt }">
-						<input type="hidden" id="listAllCheck" name="listAllCheck" value="${param.listAllCheck }">
+						<input type="hidden" id="mailTmpSeq" name="mailTmpSeq" value="<c:out value='${mailTmpSeq }'/>">
+						<input type="hidden" id="lastUserNo" name="lastUserNo" value="<c:out value='${param.lastUserNo }'/>">
+						<input type="hidden" id="userNoArr" name="userNoArr" value="<c:out value='${param.userNoArr }'/>">
+						<input type="hidden" id="userNoNotInArr" name="userNoNotInArr" value="<c:out value='${param.userNoNotInArr }'/>">
+						<input type="hidden" id="choiceCnt" name="choiceCnt" value="<c:out value='${param.choiceCnt }'/>">
+						<input type="hidden" id="listAllCheck" name="listAllCheck" value="<c:out value='${param.listAllCheck }'/>">
 						<input type="hidden" id="centerCd" name="centerCd" value="<sec:authentication property="principal.centerId"/>" >
 						<input type="hidden" id="mailBodySnapshot" name="mailBodySnapshot">
 						<input type="hidden" name="atchFileId" value="">
@@ -285,7 +285,7 @@ $(function(){
 									<th>글 제목*</th>
 									<td colspan="6">
                                         <label class="input w500 col">
-                                            <input type="text" id="requestSubject" name="requestSubject" value="${result.REQUEST_SUBJECT }" maxlength="250">
+                                            <input type="text" id="requestSubject" name="requestSubject" value="<c:out value='${result.REQUEST_SUBJECT }'/>" maxlength="250">
                                         </label>									
 									</td>
 								</tr>
@@ -293,7 +293,7 @@ $(function(){
 									<th>발송자 메일 주소*</th>
 									<td colspan="6">
                                         <label class="input w500 col">
-                                            <input type="text" id="mailSenderAddress" name="mailSenderAddress" value="${not empty result ? result.MAIL_SENDER_ADDRESS : 'eduadm.nct@gmail.com'}" maxlength="100" ${not empty result ? 'readonly' : '' }>
+                                            <input type="text" id="mailSenderAddress" name="mailSenderAddress" value='<c:out value="${not empty result ? result.MAIL_SENDER_ADDRESS : 'eduadm.nct@gmail.com'}"/>' maxlength="100" <c:out value="${not empty result ? 'readonly' : '' }"/>>
                                         </label>									
 									</td>
 								</tr>
@@ -301,7 +301,7 @@ $(function(){
 									<th>발송자 이름*</th>
 									<td colspan="6">
                                         <label class="input w500 col">
-                                            <input type="text" id="mailSenderName" name="mailSenderName" value="${not empty result ? result.MAIL_SENDER_NAME : '재난 정신건강 교육관리시스템'}" maxlength="100" ${not empty result ? 'readonly' : '' }>
+                                            <input type="text" id="mailSenderName" name="mailSenderName" value='<c:out value="${not empty result ? result.MAIL_SENDER_NAME : '재난 정신건강 교육관리시스템'}"/>' maxlength="100" <c:out value="${not empty result ? 'readonly' : '' }"/>>
                                         </label>									
 									</td>
 								</tr>
@@ -309,26 +309,26 @@ $(function(){
 									<th>메일 제목*</th>
 									<td colspan="6">
                                         <label class="input w500 col">
-                                            <input type="text" id="mailTitle" name="mailTitle" value="${result.MAIL_TITLE }" maxlength="100" ${not empty result ? 'readonly' : '' }>
+                                            <input type="text" id="mailTitle" name="mailTitle" value='<c:out value="${result.MAIL_TITLE }"/>' maxlength="100" <c:out value="${not empty result ? 'readonly' : '' }"/>>
                                         </label>									
 									</td>
 								</tr>
 								<tr>
 									<th>메일 내용*</th>
 									<td colspan="6" class="board_contents">
-										<textarea id="mailBody" name="mailBody" class="part_long board_contents" style="width: 100%; min-width: 100%;" }>${result.MAIL_BODY }</textarea>
+										<textarea id="mailBody" name="mailBody" class="part_long board_contents" style="width: 100%; min-width: 100%;" }><c:out value="${result.MAIL_BODY }"/></textarea>
 									</td>
 								</tr>
 								<tr>
 									<th>수신자 목록*</th>
 									<td colspan="6">
-										<span class="choiceCnt">${not empty result ? result.MAIL_SENDER_CNT : '0' }명</span>
-										<button class="btn btn-primary ml2" type="button" id="memberListPopupBtn" ${not empty result ? 'disabled' : '' }><i class="fa fa-edit" title="가져오기"></i> 가져오기</button>
+										<span class="choiceCnt"><c:out value="${not empty result ? result.MAIL_SENDER_CNT : '0' }"/>명</span>
+										<button class="btn btn-primary ml2" type="button" id="memberListPopupBtn" <c:out value="${not empty result ? 'disabled' : '' }"/>><i class="fa fa-edit" title="가져오기"></i> 가져오기</button>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">첨부파일 </th>
-									<td colspan="6">${not empty result ? result.fileView : markup }</td>
+									<td colspan="6"><c:out value="${not empty result ? result.fileView : markup }"/></td>
 								</tr>
 							</tbody>
 						</table>

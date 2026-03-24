@@ -6,9 +6,9 @@
 	$(function(){
 		var excelPg = 0;
 	    var baseInfo = {
-	            insertKey : "${common.baseType[0].key() }",
-	            updateKey : "${common.baseType[1].key() }",
-	            deleteKey : "${common.baseType[2].key() }",
+	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
 	            lUrl : "/ncts/mngr/homeMngr/mngrBbsManageList.do",
 	            fUrl : "/ncts/mngr/homeMngr/mngrBbsManageForm.do",
 	            dUrl : "/ncts/mngr/homeMngr/mngrDeleteBbsManage.do",
@@ -191,7 +191,7 @@
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${code }" varStatus="idx">
                                     <c:if test="${list.CODE eq '00' or list.CODE eq '02' or list.CODE eq '03' or list.CODE eq '04' or list.CODE eq '05' or list.CODE eq '06' or list.CODE eq '07'}">
-                                        <option value="${list.CODE }" ${param.sGubun eq list.CODE ? 'selected="selected"':'' }>${list.CODE_DC }</option>
+                                        <option value="<c:out value='${list.CODE }'/>" <c:out value="${param.sGubun eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_DC }"/></option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -258,16 +258,16 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value="${list.BBS_NO}">
+										<input type="checkbox" class="index" value="<c:out value='${list.BBS_NO}'/>">
 									</td>
 									<td>${list.LAST_USER_NM}</td>
 									<td>
 									   <c:forEach var="code" items="${code }" varStatus="i">
-									       ${list.BBS_TYPE_CD eq code.CODE ? code.CODE_DC :'' }
+									       <c:out value="${list.BBS_TYPE_CD eq code.CODE ? code.CODE_DC :'' }"/>
 									   </c:forEach>
 									</td>
-									<td>${list.TITLE}</td>
-									<td>${list.FRST_REGIST_PNTTM}</td>
+									<td><c:out value="${list.TITLE}"/></td>
+									<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

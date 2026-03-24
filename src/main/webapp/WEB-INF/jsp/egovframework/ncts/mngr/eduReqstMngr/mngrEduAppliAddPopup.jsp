@@ -3,9 +3,9 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
 			lUrl : "/ncts/mngr/selectMngrEduListPopup.do",
 			sUrl : "/ncts/mngr/selectMngrEduListPopup.do",
 			popup : "/ncts/mngr/eduReqstMngr/mngrEduAppliListPopup.do"
@@ -209,7 +209,7 @@ $(function(){
 						<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 							<input type="hidden" id="eduSeq" name="eduSeq" value='<c:out value="${common.eduSeq }"/>'>
 							<input type="hidden" name="userNo" id="userNo"  value="">
-							<input type="hidden" name="eduDivision" value="${param.eduDivision }">
+							<input type="hidden" name="eduDivision" value='<c:out value="${param.eduDivision }"/>'>
 							<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
 							<table class="table table-bordered tb_type01">
 								<colgroup>
@@ -232,7 +232,7 @@ $(function(){
 										<th>연락처</th>
 										<td colspan="4">
 											<label class="input w120 col">
-												<input type="text" id="tel" name="tel" value="${result.TEL }" maxlength="13" readonly>
+												<input type="text" id="tel" name="tel" value='<c:out value="${result.TEL }"/>' maxlength="13" readonly>
 											</label>
 										</td>
 									</tr>
@@ -246,7 +246,7 @@ $(function(){
 										<th>소속</th>
 										<td colspan="4">
 											<label class="input w250 col">
-												<input type="text" id="organization" name="organization" value="${result.ORGANIZATION }" maxlength="100">
+												<input type="text" id="organization" name="organization" value='<c:out value="${result.ORGANIZATION }"/>' maxlength="100">
 											</label>
 										</td>
 									</tr>
@@ -273,7 +273,7 @@ $(function(){
 										<th>이메일</th>
 										<td colspan="2">
 											<label class="input w250 col">
-												<input type="text" id="email" name="email" value="${result.EMAIL }" readonly>
+												<input type="text" id="email" name="email" value='<c:out value="${result.EMAIL }"/>' readonly>
 											</label>
 										</td>
 										<th>성별</th>
@@ -322,13 +322,13 @@ $(function(){
 										<th rowspan="9">자격</th>
 										<td colspan="2">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '01'? 'checked="checked"':''} value="01"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '01'? 'checked=checked':''}"/> value="01"><i></i>
 											</label>
 											<span class="col mt7 ml30">정신건강의학과 전문의</span>
 										</td>
 										<td colspan="5">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '02'? 'checked="checked"':''} value="02"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '02'? 'checked=checked':''}"/> value="02"><i></i>
 											</label>
 											<span class="col mt7 ml30">정신건강의학과 전공의</span>
 										</td>
@@ -337,19 +337,19 @@ $(function(){
 									<tr>
 										<td colspan="2">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '20'? 'checked="checked"':''} value="20"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '20'? 'checked=checked':''}"/> value="20"><i></i>
 											</label>
 											<span class="col mt7 ml30">정신건강간호사 1급</span>
 										</td>
 										<td colspan="2">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '21'? 'checked="checked"':''} value="21"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '21'? 'checked=checked':''}"/> value="21"><i></i>
 											</label>
 											<span class="col mt7 ml30">정신건강간호사 2급</span>
 										</td>										
 										<td colspan="3">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '22'? 'checked="checked"':''} value="22"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '22'? 'checked=checked':''}"/> value="22"><i></i>
 											</label>
 											<span class="col mt7 ml30">정신건강임상심리사 1급</span>
 										</td>
@@ -358,19 +358,19 @@ $(function(){
 									<tr>
 										<td colspan="2">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '23'? 'checked="checked"':''} value="23"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '23'? 'checked=checked':''}"/> value="23"><i></i>
 											</label>
 											<span class="col mt7 ml30">정신건강임상심리사 2급</span>
 										</td>
 										<td colspan="2">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '16'? 'checked="checked"':''} value="16"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '16'? 'checked=checked':''}"/> value="16"><i></i>
 											</label>
 											<span class="col mt7 ml30">정신건강사회복지사 1급</span>
 										</td>		
 										<td colspan="3">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '17'? 'checked="checked"':''} value="17"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '17'? 'checked=checked':''}"/> value="17"><i></i>
 											</label>
 											<span class="col mt7 ml30">정신건강사회복지사 2급</span>
 										</td>																		
@@ -379,19 +379,19 @@ $(function(){
 									<tr>
 										<td colspan="2">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '30'? 'checked="checked"':''} value="30"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '30'? 'checked=checked':''}"/> value="30"><i></i>
 											</label>
 											<span class="col mt7 ml30">정신건강작업치료사 1급</span>
 										</td>
 										<td colspan="2">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '31'? 'checked="checked"':''} value="31"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '31'? 'checked=checked':''}"/> value="31"><i></i>
 											</label>
 											<span class="col mt7 ml30">정신건강작업치료사 2급</span>
 										</td>		
 										<td colspan="3">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '06'? 'checked="checked"':''} value="06"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '06'? 'checked=checked':''}"/> value="06"><i></i>
 											</label>
 											<span class="col mt7 ml30">정신전문간호사</span>
 										</td>										
@@ -400,7 +400,7 @@ $(function(){
 									<tr>
 										<td colspan="2">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '08'? 'checked="checked"':''} value="08"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '08'? 'checked=checked':''}"/> value="08"><i></i>
 											</label>
 											<span class="col mt7 ml30">상담심리사 1급</span>
 										</td>
@@ -412,13 +412,13 @@ $(function(){
 										</td>	 --%>
 										<td colspan="2">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '07'? 'checked="checked"':''} value="07"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '07'? 'checked=checked':''}"/> value="07"><i></i>
 											</label>
 											<span class="col mt7 ml30">임상심리전문가</span>
 										</td>
 										<td colspan="3">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '27'? 'checked="checked"':''} value="27"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '27'? 'checked=checked':''}"/> value="27"><i></i>
 											</label>
 											<span class="col mt7 ml30">전문상담사 1급</span>
 										</td>		
@@ -427,19 +427,19 @@ $(function(){
 									<tr>
 										<td colspan="2">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '28'? 'checked="checked"':''} value="28"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '28'? 'checked=checked':''}"/> value="28"><i></i>
 											</label>
 											<span class="col mt7 ml30">청소년상담사 1급</span>
 										</td>		
 										<td colspan="2">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '29'? 'checked="checked"':''} value="29"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '29'? 'checked=checked':''}"/> value="29"><i></i>
 											</label>
 											<span class="col mt7 ml30">청소년상담사 2급</span>
 										</td>		
 										<td colspan="3">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua" name="eduQualification01" ${result.LICENSE_CD eq '18'? 'checked="checked"':''} value="18"><i></i>
+												<input type="radio" class="devQua" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '18'? 'checked=checked':''}"/> value="18"><i></i>
 											</label>
 											<span class="col mt7 ml30">해당 없음 </span>
 										</td>
@@ -447,11 +447,11 @@ $(function(){
 									<tr>
 										<td colspan="7">
 											<label class="checkbox checkboxCenter col">
-												<input type="radio" class="devQua open" name="eduQualification01" ${result.LICENSE_CD eq '19'? 'checked="checked"':''} value="19"><i></i>
+												<input type="radio" class="devQua open" name="eduQualification01" <c:out value="${result.LICENSE_CD eq '19'? 'checked=checked':''}"/> value="19"><i></i>
 											</label>
 											<span class="col mt7 ml30">기타</span>
 											<label class="input w150 col ml10">
-												<input type="text" name="eduQualificationDetail" id="eduQualificationDetail" class="inp_text" value="${result.LICENSE18_NM }" style="display:none">
+												<input type="text" name="eduQualificationDetail" id="eduQualificationDetail" class="inp_text" value='<c:out value="${result.LICENSE18_NM }"/>' style="display:none">
 											</label>
 										</td>
 									</tr>																																	
@@ -510,7 +510,7 @@ $(function(){
 													<select class="select col disabled" name="eduSuportAreas01" id="area_fst">
 														<option value="">1순위</option>
 														<c:forEach var="cd" items="${codeMap.DMH07 }">
-															<option value="${cd.CODE }" ${result.ACTIVE_AREA_CD1 eq cd.CODE ? 'selected' : '' }>${cd.CODE_NM}</option>
+															<option value='<c:out value="${cd.CODE }"/>' <c:out value="${result.ACTIVE_AREA_CD1 eq cd.CODE ? 'selected' : '' }"/>><c:out value="${cd.CODE_NM}"/></option>
 														</c:forEach>	
 													</select> <i></i>
 												</label>
@@ -520,7 +520,7 @@ $(function(){
 													<select class="select col disabled" name="eduSuportAreas02" id="area_sec">
 														<option value="">2순위</option>
 														<c:forEach var="cd" items="${codeMap.DMH07 }">
-															<option value="${cd.CODE }" ${result.ACTIVE_AREA_CD2 eq cd.CODE ? 'selected' : '' }>${cd.CODE_NM}</option>
+															<option value='<c:out value="${cd.CODE }"/>' <c:out value="${result.ACTIVE_AREA_CD2 eq cd.CODE ? 'selected' : '' }"/>><c:out value="${cd.CODE_NM}"/></option>
 														</c:forEach>	
 													</select> <i></i>
 												</label>
@@ -530,7 +530,7 @@ $(function(){
 									<tr>
 										<th scope="row">첨부파일 </th>
 										<td colspan="6">
-											${markup }
+											<c:out value="${markup }"/>
 										</td>
 									</tr>
 								</tbody>

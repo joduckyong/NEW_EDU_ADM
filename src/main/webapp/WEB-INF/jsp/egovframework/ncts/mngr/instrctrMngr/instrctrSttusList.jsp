@@ -18,9 +18,9 @@
 	$(function(){
 		var excelPg = 0;
 	    var baseInfo = {
-	            insertKey : "${common.baseType[0].key() }",
-	            updateKey : "${common.baseType[1].key() }",
-	            deleteKey : "${common.baseType[2].key() }",
+	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
 	            lUrl : "/ncts/mngr/instrctrMngr/instrctrSttusList.do",
 	            excel : "/ncts/mngr/instrctrMngr/instrctrSttusExcelDownload.do",
 	            pop01 : "/ncts/mngr/userMngr/mngrFileConfirmListPopup.do",
@@ -191,7 +191,7 @@
 								<select name="centerCd" class="form-control">
 									<option value="">전체</option>
 									<c:forEach var="center" items="${centerList }" varStatus="idx">
-										<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq param.centerCd ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
+										<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq param.centerCd ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
 									</c:forEach>
 								</select> <i></i>
 							</li>
@@ -211,7 +211,7 @@
 								<option value="">전체</option>
 								<c:forEach var="code" items="${codeMap.DMH14 }" varStatus="idx">
 									<c:if test="${code.CODE le '04' }">
-										<option value="${code.CODE }" ${code.CODE eq param.searchCondition3 ? 'selected="selected"':'' } >${code.CODE_DC }</option>
+										<option value="<c:out value='${code.CODE }'/>" <c:out value="${code.CODE eq param.searchCondition3 ? 'selected=selected':'' }"/> ><c:out value="${code.CODE_DC }"/></option>
 									</c:if>	
 								</c:forEach>
 							</select> <i></i>                        
@@ -224,7 +224,7 @@
 							<select name="searchCondition4" class="form-control">
 								<option value="">전체</option>
 								<c:forEach var="code" items="${codeMap.DMH19 }" varStatus="idx">
-									<option value="${code.CODE }" ${code.CODE eq param.searchCondition4 ? 'selected="selected"':'' } >${code.CODE_NM }</option>
+									<option value="<c:out value='${code.CODE }'/>" <c:out value="${code.CODE eq param.searchCondition4 ? 'selected=selected':'' }"/> ><c:out value="${code.CODE_NM }"/></option>
 								</c:forEach>
 							</select> <i></i>                        
                         </li>
@@ -288,17 +288,17 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr style="${list.ACTIVE_AT eq 'N' ? 'background-color: #eee;' : ''}">
 									<td class="invisible">
-										<input type="checkbox" class="index" value="${list.SEQ}">
-										<input type="hidden" name="eduDivision" value="${list.EDU_DIVISION}">
-										<input type="hidden" name="rank" value="${list.RANK_NUM}">
+										<input type="checkbox" class="index" value="<c:out value='${list.SEQ}'/>">
+										<input type="hidden" name="eduDivision" value="<c:out value='${list.EDU_DIVISION}'/>">
+										<input type="hidden" name="rank" value="<c:out value='${list.RANK_NUM}'/>">
 									</td>
-									<td>${paginationInfo.totalRecordCount - ((paginationInfo.currentPageNo-1) * paginationInfo.recordCountPerPage+ idx.index)}</td>
-									<td>${list.EDU_DIVISION gt '03' ? list.EDU_DIVISION_NM : list.EDU_PROCESS_TXT}</td>
-									<td>${list.EDUCATION_TXT}</td>
-									<td>${fn:substring(list.END_YMD, 0, 4)}</td>
-									<td>${list.START_YMD} ~ ${fn:substring(list.END_YMD, 8, 10)}</td>
-									<td class="instrctrDetail" data-no="${list.INSTRCTR_NO_I }">${list.INSTRCTR_NM_I}<%-- <c:if test="${not empty list.INSTRCTR_CERT_I }">(${list.INSTRCTR_CERT_I })</c:if> --%></td>
-									<td class="instrctrDetail" data-no="${list.INSTRCTR_NO_S }">${list.INSTRCTR_NM_S}<%-- <c:if test="${not empty list.INSTRCTR_CERT_S }">(${list.INSTRCTR_CERT_S })</c:if> --%></td>
+									<td><c:out value="${paginationInfo.totalRecordCount - ((paginationInfo.currentPageNo-1) * paginationInfo.recordCountPerPage+ idx.index)}"/></td>
+									<td><c:out value="${list.EDU_DIVISION gt '03' ? list.EDU_DIVISION_NM : list.EDU_PROCESS_TXT}"/></td>
+									<td><c:out value="${list.EDUCATION_TXT}"/></td>
+									<td><c:out value="${fn:substring(list.END_YMD, 0, 4)}"/></td>
+									<td><c:out value="${list.START_YMD}"/> ~ <c:out value="${fn:substring(list.END_YMD, 8, 10)}"/></td>
+									<td class="instrctrDetail" data-no="<c:out value='${list.INSTRCTR_NO_I }'/>"><c:out value="${list.INSTRCTR_NM_I}"/><%-- <c:if test="${not empty list.INSTRCTR_CERT_I }">(${list.INSTRCTR_CERT_I })</c:if> --%></td>
+									<td class="instrctrDetail" data-no="<c:out value='${list.INSTRCTR_NO_S }'/>"><c:out value="${list.INSTRCTR_NM_S}"/><%-- <c:if test="${not empty list.INSTRCTR_CERT_S }">(${list.INSTRCTR_CERT_S })</c:if> --%></td>
 									<c:set var="p_seq" value="${list.SEQ }"/>
 									<c:set var="p_edu_division" value="${list.EDU_DIVISION }"/>
 								</tr>

@@ -4,9 +4,9 @@
 $(function(){
 	var excelPg = 0;
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+			updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+			deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
 			lUrl : "/ncts/cmm/sys/excelDown/excelDownList.do",
 			fUrl : "/ncts/cmm/sys/excelDown/excelDownForm.do",
 			dUrl : "/ncts/cmm/sys/excelDown/deleteExcelDown.do",
@@ -132,8 +132,8 @@ $(function(){
 						<li class="w90">
 							<select id="sGubun" name="sGubun" class="form-control">
 								<option value="">선택</option>
-								<option value="01" ${param.sGubun eq '01' ?'selected="selected"':'' }>연도별</option>
-								<option value="02" ${param.sGubun eq '02' ?'selected="selected"':'' }>월별</option>
+								<option value="01" <c:out value="${param.sGubun eq '01' ?'selected=selected':'' }"/>>연도별</option>
+								<option value="02" <c:out value="${param.sGubun eq '02' ?'selected=selected':'' }"/>>월별</option>
 							</select> <i></i>
 						</li>
 						<div class="selectYear" style="display:none">
@@ -141,7 +141,7 @@ $(function(){
 	                            <select id="sYear" name="sYear" class="form-control">
 	                                <option value="">연도선택</option>
 	                                <c:forEach var="year" items="${cal.year }">
-										<option value="${year }" ${param.sYear eq year?'selected="selected"':'' } >${year }</option>
+										<option value="<c:out value='${year }'/>" <c:out value="${param.sYear eq year?'selected=selected':'' }"/> ><c:out value="${year }"/></option>
 									</c:forEach>
 	                            </select> <i></i>
 	                        </li>
@@ -151,7 +151,7 @@ $(function(){
 								<select id="sMonth" name="sMonth" class="form-control">
 									<option value="">선택</option>
 									<c:forEach var="month" items="${cal.month }">
-										<option value="${month }" ${param.sMonth eq month?'selected="selected"':'' } >${month }월</option>
+										<option value="<c:out value='${month }'/>" <c:out value="${param.sMonth eq month?'selected=selected':'' }"/> ><c:out value="${month }"/>월</option>
 									</c:forEach>
 								</select> <i></i>
 	                        </li>
@@ -199,11 +199,11 @@ $(function(){
 							</c:if>
 							<c:forEach var="list" items="${rslist }" varStatus="idx">
 								<tr>
-									<td class="invisible"><input type="checkbox" class="index" value="${list.EXCEL_SEQ }"></td>
-									<td>${list.MENU_NM }</td>
-									<td>${list.EXCEL_CN1 }</td>
-									<td>${list.FRST_USER_NM }</td>
-									<td>${list.REGIST_DATE }</td>
+									<td class="invisible"><input type="checkbox" class="index" value="<c:out value='${list.EXCEL_SEQ }'/>"></td>
+									<td><c:out value="${list.MENU_NM }"/></td>
+									<td><c:out value="${list.EXCEL_CN1 }"/></td>
+									<td><c:out value="${list.FRST_USER_NM }"/></td>
+									<td><c:out value="${list.REGIST_DATE }"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

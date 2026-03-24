@@ -7,8 +7,8 @@ $(function(){
 	CKEDITOR.replace('eduCn',{height : 200});
 	
 	var baseInfo = {
-			lUrl : "${pageInfo.READ_AT eq 'Y' ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }",
-			fUrl : "${pageInfo.MENU_DETAIL_URL }",
+			lUrl : "<c:out value='${pageInfo.READ_AT eq "Y" ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }'/>",
+			fUrl : "<c:out value='${pageInfo.MENU_DETAIL_URL }'/>",
 			appliPopup : "/ncts/mngr/eduReqstMngr/mngrEduAppliAddPopup.do",
 			instrctrPopup : "/ncts/mngr/eduReqstMngr/mngrEduInstrctrAppliListPopup.do",
 			excel : "/ncts/mngr/eduReqstMngr/mngrEduApplicantDownload.do",
@@ -124,7 +124,7 @@ $(function(){
 			data			: {
 								deptDepth : depth,
 								parentCd  : parentCd,
-								"${_csrf.parameterName}" : "${_csrf.token}"
+								"<c:out value='${_csrf.parameterName}'/>" : "<c:out value='${_csrf.token}'/>"
 			},
 			dataType		: 'json',
 			success			: function(result) {
@@ -150,8 +150,8 @@ $(function(){
 									"appliSeq" : $this.parent().parent().parent().find("input[name='appliSeq']").val(),
 									"applStat" : "Y", 
 									"eduDivision" : $("#sForm input[name='eduDivision']").val(),
-									"procType" : "${common.baseType[1].key() }",
-									"${_csrf.parameterName}" : "${_csrf.token}"
+									"procType" : "<c:out value='${common.baseType[1].key() }'/>",
+									"<c:out value='${_csrf.parameterName}'/>" : "<c:out value='${_csrf.token}'/>"
 				},
 				dataType		: 'json',
 				success			: function(result) {
@@ -290,7 +290,7 @@ $(function(){
 			url				: "/ncts/mngr/eduReqstMngr/selectMngrEduApplicantList.do",
 			data			: {
 								"eduSeq" : $("#eduSeq").val(),
-								"${_csrf.parameterName}" : "${_csrf.token}"
+								"<c:out value='${_csrf.parameterName}'/>" : "<c:out value='${_csrf.token}'/>"
 			},
 			dataType		: 'json',
 			success			: function(data) {
@@ -422,7 +422,7 @@ $(function(){
           	<form name="sForm" id="sForm" method="post">
 				<input type="hidden" name="excelFileNm">
 				<input type="hidden" name="excelPageNm">
-				<input type="hidden" name="eduSeq" value="${result.EDU_SEQ}">
+				<input type="hidden" name="eduSeq" value="<c:out value='${result.EDU_SEQ}'/>">
 				<input type="hidden" id="eduDivision" name="eduDivision" value="01"> <!-- eduDivision -->
 				<input type="hidden" name="sGubun2" value=""> <!-- instrctrDivision -->
 				<input type="hidden" name="boardType" value='<c:out value="${param.tempSeq}"/>'>
@@ -459,8 +459,8 @@ $(function(){
 						<input type="hidden" class="tempSeq" name="tempSeq" value="" />
 						<input type="hidden" name="eduDivision" value="01">
 						<input type="hidden" name="typeCd" value="01">
-						<input type="hidden" name="pwSeq" value="${result.PW_SEQ }">
-						<input type="hidden" name="instrctrOthbcYn1" value="${result.INSTRCTR_OTHBC_YN}">
+						<input type="hidden" name="pwSeq" value="<c:out value='${result.PW_SEQ }'/>">
+						<input type="hidden" name="instrctrOthbcYn1" value="<c:out value='${result.INSTRCTR_OTHBC_YN}'/>">
 						
 						<table class="table table-bordered tb_type03">
 							<colgroup>
@@ -481,8 +481,8 @@ $(function(){
                                             <select id="lectureId" name="lectureId">
                                                 <option value="">선택</option>
                                                     <c:forEach var="lecList" items="${eduResult}" varStatus="idx">
-                                                        <c:if test="${lecList.COURSES ne '00' and lecList.COURSES ne '07' and lecList.VIDEO_AT ne 'Y'}">
-                                                            <option value="${lecList.LECTURE_ID}" ${result.LECTURE_ID eq lecList.LECTURE_ID ? 'selected="selected"' : ''}> ${lecList.LECTURE_NM}</option>
+                                                        <c:if test="${lecList.COURSES ne '00' and lecList.VIDEO_AT ne 'Y'}">
+                                                            <option value="<c:out value='${lecList.LECTURE_ID}'/>" <c:out value="${result.LECTURE_ID eq lecList.LECTURE_ID ? 'selected=selected' : ''}"/>> <c:out value="${lecList.LECTURE_NM}"/></option>
                                                         </c:if>
                                                     </c:forEach>
                                             </select> <i></i>
@@ -491,7 +491,7 @@ $(function(){
 									<th scope="row">비밀번호 </th>
 									<td colspan="4">
 									   <label class="input w250 fL">
-											<input type="password" id="bbsPw" name="bbsPw" class="pw" value="${result.BBS_PW}">
+											<input type="password" id="bbsPw" name="bbsPw" class="pw" value="<c:out value='${result.BBS_PW}'/>">
 										</label>
 										<a href="javascript:void(0);" class="pw_show pwControl fL" style="margin-top: 6px;"></a>
 									</td>
@@ -500,7 +500,7 @@ $(function(){
                                     <th scope="row">교육명 </th>
                                     <td colspan="7">
                                        <label class="input w300">
-                                            <input type="text" id="eduNm" name="eduNm"  value="${result.EDU_NM }" />
+                                            <input type="text" id="eduNm" name="eduNm"  value="<c:out value='${result.EDU_NM }'/>" />
                                         </label>
                                     </td>
                                 </tr>
@@ -511,7 +511,7 @@ $(function(){
 											<c:forEach var="list" items="${codeMap.DMH14 }" varStatus="idx">
 												<c:if test="${list.CODE eq '01' or list.CODE eq '02' or list.CODE eq '03' or list.CODE eq '04' or list.CODE eq '07' or list.CODE eq '11' }">
 													<label class="radio">
-														<input type="radio" value="${list.CODE }" name="eduProcess" ${result.EDU_PROCESS eq list.CODE ? 'checked="checked"' :'' }><i></i>${list.CODE_NM }
+														<input type="radio" value="<c:out value='${list.CODE }'/>" name="eduProcess" <c:out value="${result.EDU_PROCESS eq list.CODE ? 'checked=checked' :'' }"/>><i></i><c:out value="${list.CODE_NM }"/>
 													</label>
 												</c:if>
 											</c:forEach>
@@ -522,11 +522,11 @@ $(function(){
 									<th scope="row">교육날짜</th>
 									<td colspan="7">
 										<label class="input w120 col"><i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="eduDe" name="eduDe" value="${result.EDU_DE }" class="date inputcal tt">
+											<input type="text" id="eduDe" name="eduDe" value="<c:out value='${result.EDU_DE }'/>" class="date inputcal tt">
 										</label>
 										<label class="label col">~</label>
 										<label class="input w120 col ml5"><i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="eduEndDe" name="eduEndDe"     value="${result.EDU_END_DE }" class="date inputcal tt">
+											<input type="text" id="eduEndDe" name="eduEndDe"     value="<c:out value='${result.EDU_END_DE }'/>" class="date inputcal tt">
 										</label>
 									</td>
 								</tr>
@@ -534,35 +534,35 @@ $(function(){
 									<th scope="row">교육시간</th>
 									<td colspan="4">
 										<label class="input w40 col mr5">
-											<input type="text" class="onlyNum hh" id="eduBeginTimeHour" name="eduBeginTimeHour" value="${result.EDU_BEGIN_TIME_HOUR }" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum hh" id="eduBeginTimeHour" name="eduBeginTimeHour" value="<c:out value='${result.EDU_BEGIN_TIME_HOUR }'/>" class="part_time" maxlength="2">
 										</label>
 										<label class="label col">:</label>
 										<label class="input w40 col ml5 mr5"> 
-											<input type="text" class="onlyNum mm" id="eduBeginTimeMin" name="eduBeginTimeMin"   value="${result.EDU_BEGIN_TIME_MIN }" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum mm" id="eduBeginTimeMin" name="eduBeginTimeMin"   value="<c:out value='${result.EDU_BEGIN_TIME_MIN }'/>" class="part_time" maxlength="2">
 										</label>
 										<label class="label col">-</label>
 										<label class="input w40 col ml5 mr5">
-											<input type="text" class="onlyNum hh" id="eduEndTimeHour" name="eduEndTimeHour"     value="${result.EDU_END_TIME_HOUR }" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum hh" id="eduEndTimeHour" name="eduEndTimeHour"     value="<c:out value='${result.EDU_END_TIME_HOUR }'/>" class="part_time" maxlength="2">
 										</label> 
 										<label class="label col">:</label>
 										<label class="input w40 col ml5 mr5">
-											<input type="text" class="onlyNum mm" id="eduEndTimeMin" name="eduEndTimeMin"       value="${result.EDU_END_TIME_MIN }" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum mm" id="eduEndTimeMin" name="eduEndTimeMin"       value="<c:out value='${result.EDU_END_TIME_MIN }'/>" class="part_time" maxlength="2">
 										</label>
 									</td>
 									<th scope="row">캘린더 노출<br>여부</th>
 									<td colspan="2">
-										<label class="checkbox checkboxCenter col"><input type="checkbox" id="calendarYn" name="calendarYn" value="Y" ${result.CALENDAR_YN eq 'Y' ? 'checked="checked"':''}><i></i></label><span class="col mt7 ml30 mr5">노출</span>
+										<label class="checkbox checkboxCenter col"><input type="checkbox" id="calendarYn" name="calendarYn" value="Y" <c:out value="${result.CALENDAR_YN eq 'Y' ? 'checked=checked':''}"/>><i></i></label><span class="col mt7 ml30 mr5">노출</span>
 									</td>									
 								</tr>
 								<tr>
 									<th scope="row">모집날짜</th>
 									<td colspan="7">
 										<label class="input w120 col"><i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="startDe" name="startDe" value="${result.START_DE }" class="date inputcal tt">
+											<input type="text" id="startDe" name="startDe" value="<c:out value='${result.START_DE }'/>" class="date inputcal tt">
 										</label>
 										<label class="label col">~</label>
 										<label class="input w120 col ml5"><i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="endDe" name="endDe"     value="${result.END_DE }" class="date inputcal tt">
+											<input type="text" id="endDe" name="endDe"     value="<c:out value='${result.END_DE }'/>" class="date inputcal tt">
 										</label>
 									</td>
 								</tr>
@@ -570,19 +570,19 @@ $(function(){
 									<th scope="row">모집시간</th>
 									<td colspan="7">
 										<label class="input w40 col mr5">
-											<input type="text" class="onlyNum hh" id="startHH" name="startHH" value="${result.START_HH }" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum hh" id="startHH" name="startHH" value="<c:out value='${result.START_HH }'/>" class="part_time" maxlength="2">
 										</label>
 										<label class="label col">:</label>
 										<label class="input w40 col ml5 mr5"> 
-											<input type="text" class="onlyNum mm" id="startMM" name="startMM"   value="${result.START_MM }" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum mm" id="startMM" name="startMM"   value="<c:out value='${result.START_MM }'/>" class="part_time" maxlength="2">
 										</label>
 										<label class="label col">-</label>
 										<label class="input w40 col ml5 mr5">
-											<input type="text" class="onlyNum hh" id="endHH" name="endHH"     value="${result.END_HH }" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum hh" id="endHH" name="endHH"     value="<c:out value='${result.END_HH }'/>" class="part_time" maxlength="2">
 										</label> 
 										<label class="label col">:</label>
 										<label class="input w40 col ml5 mr5">
-											<input type="text" class="onlyNum mm" id="endMM" name="endMM"       value="${result.END_MM }" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum mm" id="endMM" name="endMM"       value="<c:out value='${result.END_MM }'/>" class="part_time" maxlength="2">
 										</label>
 									</td>
 								</tr>
@@ -590,11 +590,11 @@ $(function(){
 									<th scope="row">강사모집<br>날짜</th>
 									<td colspan="7">
 										<label class="input w120 col"><i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="instrctrStartDe" name="instrctrStartDe" value="${result.INSTRCTR_START_DE }" class="date inputcal tt instrctrDe" data-title="강사모집 시작일">
+											<input type="text" id="instrctrStartDe" name="instrctrStartDe" value="<c:out value='${result.INSTRCTR_START_DE }'/>" class="date inputcal tt instrctrDe" data-title="강사모집 시작일">
 										</label>
 										<label class="label col">~</label>
 										<label class="input w120 col ml5"><i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="instrctrEndDe" name="instrctrEndDe"     value="${result.INSTRCTR_END_DE }" class="date inputcal tt instrctrDe" data-title="강사모집 종료일">
+											<input type="text" id="instrctrEndDe" name="instrctrEndDe"     value="<c:out value='${result.INSTRCTR_END_DE }'/>" class="date inputcal tt instrctrDe" data-title="강사모집 종료일">
 										</label>
 									</td>
 								</tr>
@@ -602,19 +602,19 @@ $(function(){
 									<th scope="row">강사모집<br>시간</th>
 									<td colspan="7">
 										<label class="input w40 col mr5">
-											<input type="text" class="onlyNum hh instrctrDe" id="instrctrStartHH" name="instrctrStartHH" value="${result.INSTRCTR_START_HH }" class="part_time " maxlength="2" data-title="강사모집 시작시간">
+											<input type="text" class="onlyNum hh instrctrDe" id="instrctrStartHH" name="instrctrStartHH" value="<c:out value='${result.INSTRCTR_START_HH }'/>" class="part_time " maxlength="2" data-title="강사모집 시작시간">
 										</label>
 										<label class="label col">:</label>
 										<label class="input w40 col ml5 mr5"> 
-											<input type="text" class="onlyNum mm instrctrDe" id="instrctrStartMM" name="instrctrStartMM"   value="${result.INSTRCTR_START_MM }" class="part_time" maxlength="2" data-title="강사모집 시작분">
+											<input type="text" class="onlyNum mm instrctrDe" id="instrctrStartMM" name="instrctrStartMM"   value="<c:out value='${result.INSTRCTR_START_MM }'/>" class="part_time" maxlength="2" data-title="강사모집 시작분">
 										</label>
 										<label class="label col">-</label>
 										<label class="input w40 col ml5 mr5">
-											<input type="text" class="onlyNum hh instrctrDe" id="instrctrEndHH" name="instrctrEndHH"     value="${result.INSTRCTR_END_HH }" class="part_time" maxlength="2" data-title="강사모집 종료시간">
+											<input type="text" class="onlyNum hh instrctrDe" id="instrctrEndHH" name="instrctrEndHH"     value="<c:out value='${result.INSTRCTR_END_HH }'/>" class="part_time" maxlength="2" data-title="강사모집 종료시간">
 										</label> 
 										<label class="label col">:</label>
 										<label class="input w40 col ml5 mr5">
-											<input type="text" class="onlyNum mm instrctrDe" id="instrctrEndMM" name="instrctrEndMM"       value="${result.INSTRCTR_END_MM }" class="part_time" maxlength="2" data-title="강사모집 종료분">
+											<input type="text" class="onlyNum mm instrctrDe" id="instrctrEndMM" name="instrctrEndMM"       value="<c:out value='${result.INSTRCTR_END_MM }'/>" class="part_time" maxlength="2" data-title="강사모집 종료분">
 										</label>
 									</td>
 								</tr>
@@ -632,38 +632,38 @@ $(function(){
 									</td> --%>
 									<th scope="row">별도접수</th>
 									<td colspan="1">
-										<label class="checkbox checkboxCenter col"><input type="checkbox" id="weAcceptAt" name="weAcceptAt" value="Y" ${result.WE_ACCEPT_AT eq 'Y' ? 'checked="checked"':''}><i></i></label>
+										<label class="checkbox checkboxCenter col"><input type="checkbox" id="weAcceptAt" name="weAcceptAt" value="Y" <c:out value="${result.WE_ACCEPT_AT eq 'Y' ? 'checked=checked':''}"/>><i></i></label>
 									</td>
 									<th scope="row">홈페이지<br>게시여부</th>
 									<td colspan="2">
-										<label class="checkbox checkboxCenter col"><input type="checkbox" id="homepageAt" name="homepageAt" value="Y" ${result.HOMEPAGE_AT eq 'Y' ? 'checked="checked"':''}><i></i></label><span class="col mt7 ml30 mr5">게시</span>
+										<label class="checkbox checkboxCenter col"><input type="checkbox" id="homepageAt" name="homepageAt" value="Y" <c:out value="${result.HOMEPAGE_AT eq 'Y' ? 'checked=checked':''}"/>><i></i></label><span class="col mt7 ml30 mr5">게시</span>
 									</td>
 									<th scope="row">강사모집<br>여부</th>
 									<td colspan="2">
-										<label class="checkbox checkboxCenter col"><input type="checkbox" id="instrctrOthbcYn" name="instrctrOthbcYn" value="Y" ${result.INSTRCTR_OTHBC_YN eq 'Y' ? 'checked="checked"':''}><i></i></label><span class="col mt7 ml30 mr5">게시</span>
+										<label class="checkbox checkboxCenter col"><input type="checkbox" id="instrctrOthbcYn" name="instrctrOthbcYn" value="Y" <c:out value="${result.INSTRCTR_OTHBC_YN eq 'Y' ? 'checked=checked':''}"/>><i></i></label><span class="col mt7 ml30 mr5">게시</span>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">교육장소</th>
 									<td colspan="2">
 										<label class="input">
-											<input type="text" id="eduPlace" name="eduPlace" value="${result.EDU_PLACE }" />
+											<input type="text" id="eduPlace" name="eduPlace" value="<c:out value='${result.EDU_PLACE }'/>" />
 										</label>
 									</td>
 									<th scope="row">교육강사</th>
 									<td colspan="4">
 										<label class="input w200">
-											<input type="hidden" id="eduInstNo" name="eduInstNo" value="${result.INSTRCTR_NO_I }">
+											<input type="hidden" id="eduInstNo" name="eduInstNo" value="<c:out value='${result.INSTRCTR_NO_I }'/>">
 											주강사
 											<div class="fL wp5">
-											<input type="text" id="eduInstNm" value="${result.INSTRCTR_NM_I }" readonly/>
+											<input type="text" id="eduInstNm" value="<c:out value='${result.INSTRCTR_NM_I }'/>" readonly/>
 											</div>
 										</label>	
 										<button class="btn btn-primary ml2 instrctrListBtn" type="button" id="instrctrListBtn"><i class="fa fa-edit" title="주강사"></i>주강사 배정</button>
 											<label class="input w200">
-											<input type="hidden" id="eduAssistInstNo" name="eduAssistInstNo" value="${result.INSTRCTR_NO_S }">
+											<input type="hidden" id="eduAssistInstNo" name="eduAssistInstNo" value="<c:out value='${result.INSTRCTR_NO_S }'/>">
 											준강사
-											<div class="fL wp5"><input type="text" id="eduAssistInstNm" value="${result.INSTRCTR_NM_S }" readonly/></div>
+											<div class="fL wp5"><input type="text" id="eduAssistInstNm" value="<c:out value='${result.INSTRCTR_NM_S }'/>" readonly/></div>
 											</label>
 										<button class="btn btn-primary ml2 instrctrListBtn" type="button" id="copInstrctrListBtn"><i class="fa fa-edit" title="준강사"></i>준강사 배정</button>
 										
@@ -689,7 +689,7 @@ $(function(){
 														<select id="centerCd" name="centerCd">
 															<option value="">선택</option>
 															<c:forEach var="center" items="${centerList }" varStatus="idx">
-																<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq result.CENTER_CD ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
+																<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq result.CENTER_CD ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
 															</c:forEach>
 														</select> <i></i>
 													</label>
@@ -706,13 +706,13 @@ $(function(){
 									<th>교육대상</th>
 									<td colspan="3">
 										<label class="input">
-											<input type="text" id="eduTargetType" name="eduTargetType" value="${result.EDU_TARGET_TYPE }">
+											<input type="text" id="eduTargetType" name="eduTargetType" value="<c:out value='${result.EDU_TARGET_TYPE }'/>">
 										</label>
 									</td>
 									<th scope="row">교육인원</th>
 									<td colspan="3">
 										<label class="input w150 col">
-											<input type="text" id="eduNmpr" name="eduNmpr" value="${result.EDU_NMPR }" class="onlyNum10">
+											<input type="text" id="eduNmpr" name="eduNmpr" value="<c:out value='${result.EDU_NMPR }'/>" class="onlyNum10">
 										</label>
 									</td>
 								</tr>
@@ -721,13 +721,13 @@ $(function(){
 								<tr>
 									<th scope="row">첨부파일 </th>
 									<td colspan="7">
-										${markup }
+										<c:out value="${markup }"/>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">교육내용 </th>
 									<td colspan="7"  class="board_contents">
-										<textarea id="eduCn" name="eduCn" class="part_long board_contents" style="width: 100%; min-width: 100%;">${result.EDU_CN }</textarea>
+										<textarea id="eduCn" name="eduCn" class="part_long board_contents" style="width: 100%; min-width: 100%;"><c:out value="${result.EDU_CN }"/></textarea>
 									</td>
 								</tr>
 							</tbody>
@@ -737,7 +737,7 @@ $(function(){
 				<c:if test="${common.procType eq common.baseType[1].key()}">
 					<article class="col-md-6 col-lg-6">
 						<div class="fL mt15">
-							승인됨: ${result.APPL_STAT_Y_CNT }명 / 승인대기: ${result.APPL_STAT_NULL_CNT }명 / 취소: ${result.APPL_STAT_N_CNT }명 / 반려: ${result.APPL_STAT_F_CNT }명
+							승인됨: <c:out value="${result.APPL_STAT_Y_CNT }"/>명 / 승인대기: <c:out value="${result.APPL_STAT_NULL_CNT }"/>명 / 취소: <c:out value="${result.APPL_STAT_N_CNT }"/>명 / 반려: <c:out value="${result.APPL_STAT_F_CNT }"/>명
 						</div>	
 						<div class="fR mt5 mb5">	
 							<c:if test="${pageInfo.EXCEL_AT eq 'Y'}">

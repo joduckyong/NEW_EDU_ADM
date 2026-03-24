@@ -2,9 +2,9 @@
 <script type="text/javascript">
 $(function(){
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+			updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+			deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
 			lUrl : "/ncts/cmm/sys/ipauth/ipAuthList.do",
 			fUrl : "/ncts/cmm/sys/ipauth/ipAuthForm.do",
 			dUrl : "/ncts/cmm/sys/ipauth/ipAuthProcess.do"
@@ -91,7 +91,7 @@ $(function(){
 				<article class="col-md-12 col-lg-12">
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 						<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-						<input type="hidden" id="ipSeq" name="ipSeq" value="${result.IP_SEQ }" >
+						<input type="hidden" id="ipSeq" name="ipSeq" value="<c:out value='${result.IP_SEQ }'/>" >
 						<table class="table table-bordered tb_type03">
 							<colgroup>
 								<col width="20%">
@@ -102,7 +102,7 @@ $(function(){
 									<th>IP주소</th>
 									<td>
 										<label class="input w180 col">
-											<input type="text" id="ipAdress" name="ipAdress" class="ipAdress" value="${result.IP_ADRESS }" placeholder="" maxlength="25" >
+											<input type="text" id="ipAdress" name="ipAdress" class="ipAdress" value="<c:out value='${result.IP_ADRESS }'/>" placeholder="" maxlength="25" >
 										</label>
 									</td>
 								</tr>
@@ -110,7 +110,7 @@ $(function(){
 									<th>IP사용기관</th>
 									<td>
 										<label class="input w180 col">
-											<input type="text" id="ipUseAgency" name="ipUseAgency" class="ipUseAgency" value="${result.IP_USE_AGENCY }" placeholder="" maxlength="25">
+											<input type="text" id="ipUseAgency" name="ipUseAgency" class="ipUseAgency" value="<c:out value='${result.IP_USE_AGENCY }'/>" placeholder="" maxlength="25">
 										</label>
 									</td>
 								</tr>
@@ -118,17 +118,17 @@ $(function(){
 									<th>사용여부</th>
 									<td>
 										<label class="radio mr5 mt5" style="display: inline-block;">
-											<input type="radio" name="useYn" value="Y" class="" ${result.USE_YN eq 'Y'? 'checked="checked"':''}><i></i>사용
+											<input type="radio" name="useYn" value="Y" class="" <c:out value="${result.USE_YN eq 'Y'? 'checked=checked':''}"/>><i></i>사용
 										</label>
 										<label class="radio ml5 mt5" style="display: inline-block;">
-											<input type="radio" name="useYn" value="N" class="" ${result.USE_YN eq 'N'? 'checked="checked"':''}><i></i>미사용
+											<input type="radio" name="useYn" value="N" class="" <c:out value="${result.USE_YN eq 'N'? 'checked=checked':''}"/>><i></i>미사용
 										</label>
 									</td>                                                                
 								</tr>
 								<tr>
 									<th>IP사용사유</th>
 									<td>
-										<textarea id="ipUseReason" name="ipUseReason" rows="5" cols="33" style="border-radius: 0;">${result.IP_USE_REASON }</textarea>
+										<textarea id="ipUseReason" name="ipUseReason" rows="5" cols="33" style="border-radius: 0;"><c:out value="${result.IP_USE_REASON }"/></textarea>
 									</td>
 								</tr>
 							</tbody>

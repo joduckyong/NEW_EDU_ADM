@@ -7,7 +7,7 @@ $(function(){
 			type			: "POST",
 			url				: "/ncts/cmm/sys/urgent/urgentDetail.do",
 			data			: {
-				"${_csrf.parameterName}" : "${_csrf.token}"
+				"<c:out value='${_csrf.parameterName}'/>" : "<c:out value='${_csrf.token}'/>"
 			},
 			dataType		: 'json',
 			success			: function(result) {
@@ -29,7 +29,7 @@ $(function(){
 </script>
 
 <form id="logoutForm" method="post" action="/ncts/login/logoutRequest.do">
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	<input type="hidden" name="<c:out value='${_csrf.parameterName}'/>" value="<c:out value='${_csrf.token}'/>" />
 </form>
 <header id="header">
 	<div id="logo-group" style="text-align:center">
@@ -45,18 +45,18 @@ $(function(){
 							<c:choose>
 								<%-- 자격심사, 직무 교육 관리 --%>
 								<c:when test="${(HIGH_PARENT_CD eq '11011') or (HIGH_PARENT_CD eq '11012')}">
-									<li><a class="${high.MENU_CD eq '110020000' ? 'on':'' }" href="/ncts/high/${high.MENU_CD }.do">${high.MENU_NM }</a></li>
+									<li><a class='<c:out value="${high.MENU_CD eq '110020000' ? 'on':'' }"/>' href="/ncts/high/<c:out value="${high.MENU_CD }"/>.do"><c:out value="${high.MENU_NM }"/></a></li>
 								</c:when>
 								<%-- 직무 이수관리 --%>
 								<c:when test="${(HIGH_PARENT_CD eq '11013')}">
-									<li><a class="${high.MENU_CD eq '110040000' ? 'on':'' }" href="/ncts/high/${high.MENU_CD }.do">${high.MENU_NM }</a></li>
+									<li><a class='<c:out value="${high.MENU_CD eq '110040000' ? 'on':'' }"/>' href="/ncts/high/<c:out value="${high.MENU_CD }"/>.do"><c:out value="${high.MENU_NM }"/></a></li>
 								</c:when>
 								<%-- 직무 동영상관리 --%>
 								<c:when test="${(HIGH_PARENT_CD eq '11014')}">
-									<li><a class="${high.MENU_CD eq '110030000' ? 'on':'' }" href="/ncts/high/${high.MENU_CD }.do">${high.MENU_NM }</a></li>
+									<li><a class='<c:out value="${high.MENU_CD eq '110030000' ? 'on':'' }"/>' href="/ncts/high/<c:out value="${high.MENU_CD }"/>.do"><c:out value="${high.MENU_NM }"/></a></li>
 								</c:when>
 								<c:otherwise>
-									<li><a class="${pageInfo.HIGH_PARENT_CD eq high.MENU_CD ? 'on':'' }" href="/ncts/high/${high.MENU_CD }.do">${high.MENU_NM }</a></li>
+									<li><a class='<c:out value="${pageInfo.HIGH_PARENT_CD eq high.MENU_CD ? 'on':'' }"/>' href="/ncts/high/<c:out value="${high.MENU_CD }"/>.do"><c:out value="${high.MENU_NM }"/></a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -65,16 +65,16 @@ $(function(){
 						<c:if test="${high.MENU_CD ne '110110000' and high.MENU_CD ne '110120000' and high.MENU_CD ne '110130000' and high.MENU_CD ne '110140000' }">
 							<c:choose>
 								<c:when test="${(HIGH_PARENT_CD eq '11011') or (HIGH_PARENT_CD eq '11012')}">
-									<li><a class="${high.MENU_CD eq '110020000' ? 'on':'' }" href="/ncts/high/${high.MENU_CD }.do">${high.MENU_NM }</a></li>
+									<li><a class='<c:out value="${high.MENU_CD eq '110020000' ? 'on':'' }"/>' href="/ncts/high/<c:out value='${high.MENU_CD }'/>.do"><c:out value='${high.MENU_NM }'/></a></li>
 								</c:when>
 								<c:when test="${(HIGH_PARENT_CD eq '11013')}">
-									<li><a class="${high.MENU_CD eq '110040000' ? 'on':'' }" href="/ncts/high/${high.MENU_CD }.do">${high.MENU_NM }</a></li>
+									<li><a class='<c:out value="${high.MENU_CD eq '110040000' ? 'on':'' }"/>' href="/ncts/high/<c:out value='${high.MENU_CD }'/>.do"><c:out value='${high.MENU_NM }'/></a></li>
 								</c:when>
 								<c:when test="${(HIGH_PARENT_CD eq '11014')}">
-									<li><a class="${high.MENU_CD eq '110030000' ? 'on':'' }" href="/ncts/high/${high.MENU_CD }.do">${high.MENU_NM }</a></li>
+									<li><a class='<c:out value="${high.MENU_CD eq '110030000' ? 'on':'' }"/>' href="/ncts/high/<c:out value='${high.MENU_CD }'/>.do"><c:out value='${high.MENU_NM }'/></a></li>
 								</c:when>
 								<c:otherwise>
-									<li><a class="${fn:substring(pageInfo.PARENT_CD,0,3) eq fn:substring(high.MENU_CD,0,3)?'on':'' }" href="/ncts/high/${high.MENU_CD }.do">${high.MENU_NM }</a></li>
+									<li><a class='<c:out value="${fn:substring(pageInfo.PARENT_CD,0,3) eq fn:substring(high.MENU_CD,0,3)?'on':'' }"/>' href="/ncts/high/<c:out value='${high.MENU_CD }'/>.do"><c:out value='${high.MENU_NM }'/></a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>

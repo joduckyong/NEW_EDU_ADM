@@ -18,9 +18,9 @@
 	$(function(){
 		var excelPg = 0;
 	    var baseInfo = {
-	            insertKey : "${common.baseType[0].key() }",
-	            updateKey : "${common.baseType[1].key() }",
-	            deleteKey : "${common.baseType[2].key() }",
+	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
 	            lUrl : "/ncts/mngr/instrctrMngr/instrctrMngrList.do",
 	            fUrl : "/ncts/mngr/instrctrMngr/instrctrForm.do",
 	            dUrl : "/ncts/mngr/userMngr/mngrDeleteMember.do",
@@ -71,7 +71,7 @@
 	                    $("#packageAuthAt").packageAuthAtOnChangeEvt(baseInfo.updateKey, index);
 	                    $.instrctrResultBackgroundOnSettings();
 	                    $(".notePopBtn").notePopBtnOnClickEvt();
-	                    $(".instrctrResult").instrctrResultOnChangeEvt(baseInfo.insertKey, index);
+	                    $(".instrctrResult").instrctrResultOnChangeEvt(baseInfo.insertKey, baseInfo.deleteKey, index);
 	                    
 	                    $(".inputcal").each(function(){$(this).userDatePicker({yearRange : '1900:'+currentYear});});
 	                    
@@ -368,7 +368,7 @@
                 <input type="hidden" name="courses" id="courses" value="04">
                 <input type="hidden" name="fileConfirmAt" id="fileConfirmAt" value="">
                 <input type="hidden" name="sGubun3" id="sGubun3"  value="INSTRCTR">
-                <input type="hidden" name="searchCondition1" id="searchCondition1" value="${param.searchCondition1 }">
+                <input type="hidden" name="searchCondition1" id="searchCondition1" value="<c:out value='${param.searchCondition1 }'/>">
                 <input type="hidden" name="loginUserId" value="<sec:authentication property="principal.userId"/>" >
                 <input type="hidden" name="deptAllAuthorAt" value="<sec:authentication property="principal.deptAllAuthorAt"/>">
                 
@@ -376,19 +376,19 @@
                     <ul class="searchAreaBox">
                     	<li class="smart-form"><label class="label">아이디</label></li>
                         <li class="w100 ml5">
-                            <input id="searchKeyword4" name="searchKeyword4" class="form-control" value='<c:out value="${param.searchKeyword4}"/>'> 
+                            <input id="searchKeyword4" name="searchKeyword4" class="form-control" value="<c:out value='${param.searchKeyword4}'/>"> 
                         </li>
                         <li class="smart-form ml5"><label class="label">이름</label></li>
                         <li class="w80 ml5">
-                            <input id="searchKeyword1" name="searchKeyword1" class="form-control" value='<c:out value="${param.searchKeyword1}"/>'> 
+                            <input id="searchKeyword1" name="searchKeyword1" class="form-control" value="<c:out value='${param.searchKeyword1}'/>"> 
                         </li>
                         <li class="smart-form ml5"><label class="label">이메일</label></li>
                         <li class="w150 ml5">
-                            <input id="searchKeyword2" name="searchKeyword2" class="form-control" value='<c:out value="${param.searchKeyword2}"/>'> 
+                            <input id="searchKeyword2" name="searchKeyword2" class="form-control" value="<c:out value='${param.searchKeyword2}'/>"> 
                         </li>
                         <li class="smart-form ml5"><label class="label">연락처</label></li>
                         <li class="w100 ml5">
-                            <input id="searchKeyword3" name="searchKeyword3" class="form-control" value='<c:out value="${param.searchKeyword3}"/>'> 
+                            <input id="searchKeyword3" name="searchKeyword3" class="form-control" value="<c:out value='${param.searchKeyword3}'/>"> 
                         </li>
                         <%-- <li class="smart-form ml5">
                             <label class="label">회원등급</label>
@@ -408,8 +408,8 @@
                             <select id="sGubun1" name="sGubun1" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH23 }" varStatus="idx">
-                                    <option value="${list.CODE }" ${param.sGubun1 eq list.CODE ? 'selected="selected"':'' }>
-	                                    ${list.CODE_NM}
+                                    <option value="<c:out value='${list.CODE }'/>" <c:out value="${param.sGubun1 eq list.CODE ? 'selected=selected':'' }"/>>
+	                                    <c:out value="${list.CODE_NM}"/>
                                     </option>
                                 </c:forEach>
                             </select>
@@ -422,8 +422,8 @@
                             <select id="sGubun2" name="sGubun2" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH24 }" varStatus="idx">
-                                    <option value="${list.CODE }" ${param.sGubun2 eq list.CODE ? 'selected="selected"':'' }>
-	                                    ${list.CODE_NM}
+                                    <option value="<c:out value='${list.CODE }'/>" <c:out value="${param.sGubun2 eq list.CODE ? 'selected=selected':'' }"/>>
+	                                    <c:out value="${list.CODE_NM}"/>
                                     </option>
                                 </c:forEach>                                
                             </select>
@@ -434,8 +434,8 @@
                         <li class="w80">
                             <select id="sGubun4" name="sGubun4" class="form-control">
                                 <option value="">선택</option>
-                                <option value="Y" ${param.sGubun4 eq 'Y' ? 'selected="selected"':'' }>Y</option>
-                                <option value="N" ${param.sGubun4 eq 'N' ? 'selected="selected"':'' }>N</option>
+                                <option value="Y" <c:out value="${param.sGubun4 eq 'Y' ? 'selected=selected':'' }"/>>Y</option>
+                                <option value="N" <c:out value="${param.sGubun4 eq 'N' ? 'selected=selected':'' }"/>>N</option>
                             </select>
                         </li>                        
                         
@@ -491,11 +491,11 @@
 					<div class="tab-content">
 						<div class="jarviswidget-sortable active" id="instrctrList">
 							<ul class="nav nav-tabs" style="min-width:100%;">
-								<li class="${empty param.searchCondition1 or param.searchCondition1 eq  '' 	  ? 'active' : ''}"><a href="javascript:void(0);" data-val="">전체</a></li>
-								<li class="${param.searchCondition1 eq 'PFAT' ? 'active' : ''}"><a href="javascript:void(0);" data-val="PFAT">PFA</a></li>
-								<li class="${param.searchCondition1 eq 'PMPT' ? 'active' : ''}"><a href="javascript:void(0);" data-val="PMPT">PM+</a></li>
-								<li class="${param.searchCondition1 eq 'SPRT' ? 'active' : ''}"><a href="javascript:void(0);" data-val="SPRT">SPR</a></li>
-								<li class="${param.searchCondition1 eq 'MPGT' ? 'active' : ''}"><a href="javascript:void(0);" data-val="MPGT">MPG</a></li>
+								<li class="<c:out value="${empty param.searchCondition1 or param.searchCondition1 eq  '' 	  ? 'active' : ''}"/>"><a href="javascript:void(0);" data-val="">전체</a></li>
+								<li class="<c:out value="${param.searchCondition1 eq 'PFAT' ? 'active' : ''}"/>"><a href="javascript:void(0);" data-val="PFAT">PFA</a></li>
+								<li class="<c:out value="${param.searchCondition1 eq 'PMPT' ? 'active' : ''}"/>"><a href="javascript:void(0);" data-val="PMPT">PM+</a></li>
+								<li class="<c:out value="${param.searchCondition1 eq 'SPRT' ? 'active' : ''}"/>"><a href="javascript:void(0);" data-val="SPRT">SPR</a></li>
+								<li class="<c:out value="${param.searchCondition1 eq 'MPGT' ? 'active' : ''}"/>"><a href="javascript:void(0);" data-val="MPGT">MPG</a></li>
 							</ul>
 						</div>
 					</div>				
@@ -531,18 +531,18 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value="${list.USER_NO}">
+										<input type="checkbox" class="index" value="<c:out value='${list.USER_NO}'/>">
 										
 									</td>
 									<%-- <td>${!empty list.DIST_MANAGE_NM ? list.DIST_MANAGE_NM : '전체'  }</td> --%>
-									<td>${(paginationInfo.currentPageNo - 1) * paginationInfo.recordCountPerPage + idx.index + 1}</td>
-									<td>${list.USER_NM}</td>
-									<td>${list.USER_BIRTH_YMD}</td>
-									<td>${list.USER_ID}</td>
-									<td>${list.USER_EMAIL}</td>
-									<td>${list.USER_HP_NO}</td>
-									<td>${list.DETAIL_GRADE_CD_NM}</td>
-									<td>${list.INSTRCTR_DETAIL_GRADE_CD_NM}</td>
+									<td><c:out value="${(paginationInfo.currentPageNo - 1) * paginationInfo.recordCountPerPage + idx.index + 1}"/></td>
+									<td><c:out value="${list.USER_NM}"/></td>
+									<td><c:out value="${list.USER_BIRTH_YMD}"/></td>
+									<td><c:out value="${list.USER_ID}"/></td>
+									<td><c:out value="${list.USER_EMAIL}"/></td>
+									<td><c:out value="${list.USER_HP_NO}"/></td>
+									<td><c:out value="${list.DETAIL_GRADE_CD_NM}"/></td>
+									<td><c:out value="${list.INSTRCTR_DETAIL_GRADE_CD_NM}"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -643,7 +643,7 @@
   	      <select id="pfatInstrctrResult" class="instrctrResult" data-result="{{PFAT_INSTRCTR_RESULT}}" data-gubun="PFAT" disabled>
    	         <c:forEach var="list" items="${codeMap.DMH30 }" varStatus="idx">
     	            <c:if test="${list.CODE ne '00'}">
-    	                <option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}" data-other="${list.CODE eq '99' ? 'Y' : ''}">${list.CODE_NM}</option>
+    	                <option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' or list.CODE eq '99' ? 'Y' : ''}" data-other="${list.CODE eq '02' or list.CODE eq '99' ? 'Y' : ''}">${list.CODE_NM}</option>
    	             	</c:if>
    	         </c:forEach> 
   	      </select>
@@ -676,7 +676,7 @@
 				<select id="sprtInstrctrResult" class="instrctrResult" data-result="{{SPRT_INSTRCTR_RESULT}}" data-gubun="SPRT" disabled>
                 	<c:forEach var="list" items="${codeMap.DMH30 }" varStatus="idx">
 						<c:if test="${list.CODE ne '00'}">
-							<option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}" data-other="${list.CODE eq '99' ? 'Y' : ''}">${list.CODE_NM}</option>
+							<option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' or list.CODE eq '99' ? 'Y' : ''}" data-other="${list.CODE eq '02' or list.CODE eq '99' ? 'Y' : ''}">${list.CODE_NM}</option>
 						</c:if>
                	 	</c:forEach> 
 				</select>
@@ -709,7 +709,7 @@
 				<select id="pmptInstrctrResult" class="instrctrResult" data-result="{{PMPT_INSTRCTR_RESULT}}" data-gubun="PMPT" disabled>
                 	<c:forEach var="list" items="${codeMap.DMH30 }" varStatus="idx">
 						<c:if test="${list.CODE ne '00'}">
-							<option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}" data-other="${list.CODE eq '99' ? 'Y' : ''}">${list.CODE_NM}</option>
+							<option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' or list.CODE eq '99' ? 'Y' : ''}" data-other="${list.CODE eq '02' or list.CODE eq '99' ? 'Y' : ''}">${list.CODE_NM}</option>
 						</c:if>
                	 	</c:forEach> 
 				</select>
@@ -742,7 +742,7 @@
 				<select id="mpgtInstrctrResult" class="instrctrResult" data-result="{{MPGT_INSTRCTR_RESULT}}" data-gubun="MPGT" disabled>
                 	<c:forEach var="list" items="${codeMap.DMH30 }" varStatus="idx">
 						<c:if test="${list.CODE ne '00'}">
-							<option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}" data-other="${list.CODE eq '99' ? 'Y' : ''}">${list.CODE_NM}</option>
+							<option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' or list.CODE eq '99' ? 'Y' : ''}" data-other="${list.CODE eq '02' or list.CODE eq '99' ? 'Y' : ''}">${list.CODE_NM}</option>
 						</c:if>
                	 	</c:forEach> 
 				</select>

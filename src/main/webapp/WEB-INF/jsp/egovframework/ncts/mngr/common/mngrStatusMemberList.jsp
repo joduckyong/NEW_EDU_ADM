@@ -36,18 +36,18 @@
 			</c:if>
 			<c:forEach var="rslist" items="${statusList }">
 				<tr>
-					<td class="invisible"><input type="hidden" name="mailId" value="${rslist.MAIL_ID1 }"></td>
-					<td>${rslist.USER_ID1}</td>
-					<td>${rslist.USER_NM1}</td>
-					<td>${rslist.USER_EMAIL1}</td>
-					<td>${rslist.SEND_DATE1}</td>
-					<td>${rslist.SEND_STATUS1}</td>
-					<td class="invisible"><input type="hidden" name="mailId" value="${rslist.MAIL_ID2 }"></td>
-					<td>${rslist.USER_ID2}</td>
-					<td>${rslist.USER_NM2}</td>
-					<td>${rslist.USER_EMAIL2}</td>
-					<td>${rslist.SEND_DATE2}</td>
-					<td>${rslist.SEND_STATUS2}</td>
+					<td class="invisible"><input type="hidden" name="mailId" value='<c:out value="${rslist.MAIL_ID1 }"/>'></td>
+					<td><c:out value="${rslist.USER_ID1}"/></td>
+					<td><c:out value="${rslist.USER_NM1}"/></td>
+					<td><c:out value="${rslist.USER_EMAIL1}"/></td>
+					<td><c:out value="${rslist.SEND_DATE1}"/></td>
+					<td><c:out value="${rslist.SEND_STATUS1}"/></td>
+					<td class="invisible"><input type="hidden" name="mailId" value='<c:out value="${rslist.MAIL_ID2 }"/>'></td>
+					<td><c:out value="${rslist.USER_ID2}"/></td>
+					<td><c:out value="${rslist.USER_NM2}"/></td>
+					<td><c:out value="${rslist.USER_EMAIL2}"/></td>
+					<td><c:out value="${rslist.SEND_DATE2}"/></td>
+					<td><c:out value="${rslist.SEND_STATUS2}"/></td>
 				</tr>
 			</c:forEach>
 		</tbody>

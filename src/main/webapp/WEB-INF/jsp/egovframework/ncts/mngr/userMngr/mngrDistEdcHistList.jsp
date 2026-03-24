@@ -1,23 +1,25 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script type="text/javascript">
+
 	$(function(){
+		var excelPg = 0;
 	    var baseInfo = {
 	            insertKey : '<c:out value="${common.baseType[0].key() }"/>',
 	            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
 	            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
-	            lUrl : "/ncts/mngr/edcComplMngr/mngrLctreRuleList.do",
-	            fUrl : "/ncts/mngr/edcComplMngr/mngrLctreRuleForm.do",
-	            dUrl : "/ncts/mngr/edcComplMngr/mngrDeleteRuleLctre.do",
+	            lUrl : "/ncts/mngr/userMngr/mngrDistEdcHistList.do",
+	            dUrl : "/ncts/mngr/userMngr/mngrDeleteDistEdcHist.do",
+	            excel : "/ncts/mngr/userMngr/mngrDistEdcHistDownload.do"
 	    }
 	    
 	    $.dataDetail = function(index, obj){
 	        if($.isNullStr(index)) return false;
 
-	        document.sForm.ruleNo.value = index;
+	        document.sForm.distEdcHistSeq.value = index;
 	        
 	        $.ajax({
 	            type: 'POST',
-	            url: "/ncts/mngr/edcComplMngr/mngrLctreRuleDetail.do",
+	            url: "/ncts/mngr/userMngr/mngrDistEdcHistDetail.do",
 	            data: $("#sForm").serialize(),
 	            dataType: "json",
 	            success: function(data) {
@@ -35,11 +37,14 @@
 	                if($("input.index:checked").size() <= 0) {
 	                    alert("항목을 선택하시기 바랍니다.");
 	                    return false;
-	                }
+	                }else{
+	                    /* document.sForm.userNo.value = $("input.index:checked").val(); */
+	                } 
+	            }else{
+	               /*  document.sForm.userNo.value = ""; */
 	            }
-	            
 	            if(baseInfo.deleteKey == key){
-	                $.delAction(url, key);
+	            	$.delAction(url, key);
 	            }else{
 	                $.procAction(url, key);	
 	            }
@@ -83,16 +88,61 @@
 	        }
 	    }
 	    
+	    $.setCookie = function(c_name,value){
+	        var exdate=new Date();
+	        var c_value=escape(value);
+	        document.cookie=c_name + "=" + c_value + "; path=/";
+	    }
+	    
+	    $.checkDownloadCheck = function(){
+	        FILEDOWNLOAD_INTERVAL = setInterval(function() {
+	             if (document.cookie.indexOf("fileDownloadToken=true") != -1) {
+	                excelPg = 0;
+	                clearInterval(FILEDOWNLOAD_INTERVAL);
+	                $.loadingBarClose();
+	              }
+	        }, 500);
+	    }
+	    
+	    
 	    $.initView = function(){
-	    	$(".inputcal").each(function(){ $(this).userDatePicker({ yearRange : '1900:'+currentYear}); });
 	        $.onClickTableTr();
 	        $("#searchBtn").searchBtnOnClickEvt($.searchAction);
 	        $("#saveBtn").procBtnOnClickEvt(baseInfo.fUrl, baseInfo.insertKey);
 	        $("#updBtn").procBtnOnClickEvt(baseInfo.fUrl, baseInfo.updateKey);
 	        $("#delBtn").procBtnOnClickEvt(baseInfo.dUrl, baseInfo.deleteKey);
+	        $("#sGubun").change();
+	        $(".excelDown").on("click", function(e){
+	        	excelPg = 1;
+				$("[name='excelFileNm']").val("재난관련 교육이력_"+$.toDay());
+				$("[name='excelPageNm']").val("mngrDistEdcHistList.xlsx");		        	
+	            with(document.sForm){
+	                target = "";
+	                action = baseInfo.excel;
+	                submit();
+	                
+	                $.setCookie("fileDownloadToken","false"); 
+	                $.loadingBarStart(e);
+	                $.checkDownloadCheck();
+	            }
+	        });
+	        
+	        $("body").on("keydown", function(e){
+		        $.loadingBarKeyDown(e, excelPg);
+	        })
 	    }
 	    
-	    $.initView();
+        /* $("#sGubun").change(function(){
+            if($('#sGubun').val() == '01'){
+                $('#search').hide();
+                $('#sel').show();
+            } else {
+                $('#search').show();
+                $('#sel').hide();
+            }
+        }) */
+
+        $.initView();
 	})
 </script>
 
@@ -102,31 +152,40 @@
 <!-- MAIN CONTENT -->
 <div id="content">
 	<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/menuTitle.jsp" flush="false" />
+	
 	<!-- widget grid start -->
 	<section id="widget-grid" class="">
 		<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-                <input type="hidden" name="ruleNo" id="ruleNo"  value=0>
+				<input type="hidden" name="excelFileNm" id="excelFileNm"  value="">
+				<input type="hidden" name="excelPageNm" id="excelPageNm"  value="">           	
+                <input type="hidden" name="distEdcHistSeq" id="distEdcHistSeq"  value="0">
                 <div class="fL wp70">
                     <ul class="searchAreaBox">
                         <li class="smart-form ml5">
-                            <label class="label">교육과정</label>
+                            <label class="label">구분</label>
                         </li>
-                        <li class="w100">
-                            <select id="sGubun1" name="sGubun1" class="form-control">
+                        <li class="w130 ml5">
+                            <select id="sGubun" name="sGubun" class="form-control">
                                 <option value="">선택</option>
-                                <c:forEach var="list" items="${codeMap }" varStatus="idx">
-                                	<c:if test="${idx.index ne 0 and idx.index lt 5}">
-                                    	<option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun1 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
-                                    </c:if>
-                                </c:forEach>
+                                <option value="01" <c:out value="${param.sGubun eq '01' ? 'selected=selected':'' }"/>>작성자</option>
+                                <option value="02" <c:out value="${param.sGubun eq '02' ? 'selected=selected':'' }"/>>교육제목</option>
+                                <option value="03" <c:out value="${param.sGubun eq '03' ? 'selected=selected':'' }"/>>주최(기관명)</option>
+                                <option value="04" <c:out value="${param.sGubun eq '04' ? 'selected=selected':'' }"/>>시간</option>
                             </select>
                         </li>
-                        <li class="smart-form ml5"><label class="label">Rule명</label></li>
-                        <li class="w150 ml5">
+                        <li class="w200 ml5" id = "search">
                             <input id="searchKeyword1" name="searchKeyword1" class="form-control" value='<c:out value="${param.searchKeyword1}"/>'>
                         </li>
+                        <%-- <li class="w280 ml5" id = "sel">
+                            <select id="sGubun1" name="sGubun1" class="form-control">
+                                <option value="">선택</option>
+                                <c:forEach var="list" items="${codeMap.DMH11 }" varStatus="idx">
+                                    <option value="${list.CODE }" ${param.sGubun1 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
+                                </c:forEach>
+                            </select>
+                        </li> --%>
                         <li class="ml10">
                             <button class="btn btn-primary searchReset" type="button" id="searchBtn"><i class="fa fa-search"></i> 검색</button>
                         </li>
@@ -134,7 +193,7 @@
                 </div>
                 <jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/button.jsp" flush="false">
                     <jsp:param value="list"     name="formType"/>
-                    <jsp:param value="2,3,4"     name="buttonYn"/>
+                    <jsp:param value="1,2"  name="buttonYn"/>
                 </jsp:include>
                 <jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
             </form>
@@ -149,33 +208,34 @@
 				<article class="col-md-12 col-lg-6">
 					<table class="table table-bordered tb_type01 listtable">
 						<colgroup>
-							<col width="15%">
-							<col width="40%">
-                            <col width="30%">
-                            <col width="15%">
+							<col width="20%">
+							<col width="35%">
+                            <col width="35%">
+                            <col width="10%">
+                            
 						</colgroup>
 						<thead>
 							<tr>
 								<th class="invisible"></th>
-								<th>교육과정</th>
-								<th>강의코드</th>
-								<th>Rule명</th>
-								<th>강의등록일자</th>
+								<th>작성자</th>
+								<th>교육제목</th>
+								<th>주최(기관명)</th>
+								<th>시간</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:if test="${empty list }">
 								<tr ><td colspan="4">데이터가 없습니다.</td></tr>
 							</c:if>
-							<c:forEach var="list" items="${list}" varStatus="idx">
+							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-									   <input type="checkbox" name="ruleNO" class="index" value='<c:out value="${list.RULE_NO}"/>'>
+										<input type="checkbox" class="index" value='<c:out value="${list.DIST_EDC_HIST_SEQ}"/>'>
 									</td>
-									<td><c:out value="${list.COURSES_NM}"/></td>
-									<td><c:out value="${list.LECTURE_ID}"/></td>
-									<td><c:out value="${list.LECTURE_NM}"/></td>
-									<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
+									<td><c:out value="${list.USER_NM}"/></td>
+									<td><c:out value="${list.DIST_EDC_NM}"/></td>
+									<td><c:out value="${list.AUSPC_INSTT}"/></td>
+									<td><c:out value="${list.EDC_TIME}"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -186,22 +246,11 @@
 				<article class="col-md-12 col-lg-6">
 					<table class="table table-bordered tb_type03">
 						<colgroup>
-							<col width="15%">
-							<col width="35%">
-							<col width="15%">
-							<col width="35%">
-						</colgroup>
-						<tbody id="detailTable">
-							<tr><td colspan="6" class="textAlignCenter">항목을 선택해주세요.</td></tr>
-						</tbody>
-					</table>
-
-					<table class="table table-bordered table-hover tb_type01">
-						<colgroup>
 							<col width="20%">
 							<col width="80%">
 						</colgroup>
-						<tbody id="seTable">							
+						<tbody id="detailTable">
+							<tr><td colspan="6" class="textAlignCenter">항목을 선택해주세요.</td></tr>
 						</tbody>
 					</table>
 				</article>
@@ -210,22 +259,25 @@
 		</div>
 	</section>
 	<!-- widget grid end -->
+
 </div>
 <!-- END MAIN CONTENT -->
 
 <script id="detail-template" type="text/x-handlebars-template">
 <tr>
-	<th scope="row">교육과정 </th>
-	<td>{{COURSES_NM}}</td>
-    <th scope="row">등록일자 </th>
-    <td>{{FRST_REGIST_PNTTM}}</td>
+	<th scope="row">작성자 </th>
+	<td>{{USER_NM}}</td>
 </tr>
 <tr>
-    <th scope="row">강의코드</th>
-    <td colspan="3">{{LECTURE_ID}}</td>
+	<th scope="row">교육제목</th>
+	<td>{{DIST_EDC_NM}}</td>
 </tr>
 <tr>
-	<th scope="row">Rule명</th>
-	<td colspan="3">{{LECTURE_NM}}</td>
+	<th scope="row">주최(기관명)</th>
+	<td>{{AUSPC_INSTT}}</td>
+</tr>
+<tr>
+    <th scope="row">시간</th>
+    <td>{{EDC_TIME}}</td>
 </tr>
 </script>

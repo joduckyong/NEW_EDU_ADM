@@ -3,8 +3,8 @@
 
 $(function(){
 	var baseInfo = {
-			lUrl : "${pageInfo.READ_AT eq 'Y' ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }",
-			fUrl : "${pageInfo.MENU_DETAIL_URL }"
+			lUrl : "<c:out value='${pageInfo.READ_AT eq "Y" ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }'/>",
+			fUrl : "<c:out value='${pageInfo.MENU_DETAIL_URL }'/>"
 	}	
 	
 	$.setValidation = function(){
@@ -25,8 +25,8 @@ $(function(){
 	
 	$.setReadonly = function(){
 		$("#iForm").readonly({
-			basekey  : "${common.baseType[1].key()}" ,
-			paramkey : "${common.procType}", 
+			basekey  : "<c:out value='${common.baseType[1].key()}'/>" ,
+			paramkey : "<c:out value='${common.procType}'/>", 
 			tags: {
 				menuCd         : {className : "userId",  readonly  : true},
 				parentCd       : {className : "isReadonly",  readonly  : true},
@@ -208,11 +208,11 @@ $(document).on("keyup", ".phoneNumber", function() {
 		<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-				<input type="hidden" name="searchKeyword1" class="form-control" value="${param.searchKeyword1}"> 
-				<input type="hidden" name="searchKeyword2" class="form-control" value="${param.searchKeyword2}"> 
-				<input type="hidden" name="searchCondition2" class="form-control" value="${param.searchCondition2}"> 
-				<input type="hidden" name="searchCondition3" class="form-control" value="${param.searchCondition3}"> 
-				<input type="hidden" name="userRoleNm" id="userRoleNm" value="${userRoleNm}">
+				<input type="hidden" name="searchKeyword1" class="form-control" value="<c:out value='${param.searchKeyword1}'/>"> 
+				<input type="hidden" name="searchKeyword2" class="form-control" value="<c:out value='${param.searchKeyword2}'/>"> 
+				<input type="hidden" name="searchCondition2" class="form-control" value="<c:out value='${param.searchCondition2}'/>"> 
+				<input type="hidden" name="searchCondition3" class="form-control" value="<c:out value='${param.searchCondition3}'/>"> 
+				<input type="hidden" name="userRoleNm" id="userRoleNm" value="<c:out value='${userRoleNm}'/>">
 				<div class="fL wp50">
 					<ul class="searchAreaBox">
 					</ul>
@@ -242,8 +242,8 @@ $(document).on("keyup", ".phoneNumber", function() {
 						<c:if test="${ common.procType eq common.baseType[1].key()  }">
 							<input type="hidden" id="dupChk" value="Y">
 						</c:if>
-						<input type="hidden" name="useAtDisabledDe" value="${empty result.USE_AT ? 'Y' : result.USE_AT}">
-						<input type="hidden" id="orginlLockAt" name="orginlLockAt" value="${result.LOCK_AT }">
+						<input type="hidden" name="useAtDisabledDe" value="<c:out value='${empty result.USE_AT ? "Y" : result.USE_AT}'/>">
+						<input type="hidden" id="orginlLockAt" name="orginlLockAt" value="<c:out value='${result.LOCK_AT }'/>">
 						<table class="table table-bordered tb_type03">
 							
 							<tbody>
@@ -252,10 +252,10 @@ $(document).on("keyup", ".phoneNumber", function() {
 									<td>
 										<label class="input w150 fL">
 											<c:if test="${common.procType ne common.baseType[1].key()}">
-												<input type="text" id="userId" name="userId" value="${result.USER_ID}">
+												<input type="text" id="userId" name="userId" value="<c:out value='${result.USER_ID}'/>">
 											</c:if>
 											<c:if test="${common.procType eq common.baseType[1].key()}">
-												<input type="text" id="userId" name="userId" value="${result.USER_ID}" readonly>
+												<input type="text" id="userId" name="userId" value="<c:out value='${result.USER_ID}'/>" readonly>
 											</c:if>
 										</label>
 										<label class="input col ml5 fR">
@@ -265,14 +265,14 @@ $(document).on("keyup", ".phoneNumber", function() {
 									<th scope="row">사용자명 </th>
 									<td>
 										<label class="input w250">
-											<input type="text" id="userNm" name="userNm" value="${result.USER_NM}">
+											<input type="text" id="userNm" name="userNm" value="<c:out value='${result.USER_NM}'/>">
 										</label>
 									</td>
 									<th scope="row">생년월일 </th>
 									<td>
 										<label class="input w250">
 											<i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="userBirth" class="inputcal" name="userBirth" value="${result.USER_BIRTH}">
+											<input type="text" id="userBirth" class="inputcal" name="userBirth" value="<c:out value='${result.USER_BIRTH}'/>">
 										</label>
 									</td>
 								</tr>
@@ -282,7 +282,7 @@ $(document).on("keyup", ".phoneNumber", function() {
 										<div class="inline-group">
 											<c:forEach var="list" items="${codeMap.SYS02 }" varStatus="idx">
 												<label class="radio">
-													<input type="radio" id="${list.CODE }" value="${list.CODE }" name="userGender" ${result.USE_AT eq list.CODE or idx.first ? 'checked="checked"' :'' }><i></i>${list.CODE_NM }
+													<input type="radio" id="<c:out value='${list.CODE }'/>" value="<c:out value='${list.CODE }'/>" name="userGender" <c:out value="${result.USER_GENDER eq list.CODE or idx.first ? 'checked=checked' :'' }"/>><i></i><c:out value="${list.CODE_NM }"/>
 												</label>
 											</c:forEach>
 										</div>
@@ -290,13 +290,13 @@ $(document).on("keyup", ".phoneNumber", function() {
 									<th scope="row">핸드폰번호 </th>
 									<td>
 										<label class="input w250">
-											<input type="text" class="phoneNumber onlyNum" id="userHp" name="userHp" maxlength='13' value="${result.USER_HP}">
+											<input type="text" class="phoneNumber onlyNum" id="userHp" name="userHp" maxlength='13' value="<c:out value='${result.USER_HP}'/>">
 										</label>
 									</td>
 									<th scope="row">이메일 </th>
 									<td>
 										<label class="input w250">
-											<input type="text" id="userEmail" name="userEmail" value="${result.USER_EMAIL}" >
+											<input type="text" id="userEmail" name="userEmail" value="<c:out value='${result.USER_EMAIL}'/>" >
 										</label>
 									</td>
 								</tr>
@@ -308,7 +308,7 @@ $(document).on("keyup", ".phoneNumber", function() {
 												<select id="centerCd" name="centerCd">
 													<option value="">선택</option>
 													<c:forEach var="center" items="${centerList }" varStatus="idx">
-														<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" data-all-auth="${center.DEPT_ALL_AUTHOR_AT}" ${center.DEPT_CD eq result.CENTER_CD ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
+														<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" data-all-auth="<c:out value='${center.DEPT_ALL_AUTHOR_AT}'/>" <c:out value="${center.DEPT_CD eq result.CENTER_CD ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
 										  			</c:forEach>
 												</select> <i></i>
 											</label>
@@ -326,13 +326,13 @@ $(document).on("keyup", ".phoneNumber", function() {
 												
 													<sec:authorize access="hasRole('ROLE_MASTER')">
 														<c:if test="${list.CODE eq 'ROLE_MASTER' or list.CODE eq 'ROLE_SYSTEM' or list.CODE eq 'ROLE_USER'}">
-															<option value="${list.CODE }" ${result.ROLE_NM eq list.CODE ? 'selected':'' }>${list.CODE_NM }</option>
+															<option value="<c:out value='${list.CODE }'/>" <c:out value="${result.ROLE_NM eq list.CODE ? 'selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
 														</c:if>
 													</sec:authorize>
 													
 													<sec:authorize access="hasRole('ROLE_SYSTEM') or hasRole('ROLE_USER')">
 														<c:if test="${list.CODE eq 'ROLE_MASTER' or list.CODE eq 'ROLE_SYSTEM' or list.CODE eq 'ROLE_USER'}">
-															<option value="${list.CODE }" ${result.ROLE_NM eq list.CODE ? 'selected':'' } disabled>${list.CODE_NM }</option>
+															<option value="<c:out value='${list.CODE }'/>" <c:out value="${result.ROLE_NM eq list.CODE ? 'selected':'' }"/> disabled><c:out value="${list.CODE_NM }"/></option>
 														</c:if>
 													</sec:authorize>
 												</c:forEach>
@@ -371,7 +371,7 @@ $(document).on("keyup", ".phoneNumber", function() {
 											<select name="userQualf">
 												<option value="">선택</option>
 												<c:forEach var="cd" items="${codeMap.NCTS10 }">
-													<option value="${cd.CODE }" ${result.USER_QUALF eq cd.CODE ? 'selected':''}>${cd.CODE_NM }</option>
+													<option value="<c:out value='${cd.CODE }'/>" <c:out value="${result.USER_QUALF eq cd.CODE ? 'selected':''}"/>><c:out value="${cd.CODE_NM }"/></option>
 												</c:forEach>	
 											</select> <i></i>
 										</label>
@@ -383,20 +383,20 @@ $(document).on("keyup", ".phoneNumber", function() {
 										<div class="inline-group">
 											<c:forEach var="list" items="${codeMap.SYS01 }" varStatus="idx">
 												<label class="radio">
-													<input type="radio" value="${list.CODE }" name="useAt" ${result.USE_AT eq list.CODE or idx.first ? 'checked="checked"' :'' }><i></i>${list.CODE_NM }
+													<input type="radio" value="<c:out value='${list.CODE }'/>" name="useAt" <c:out value="${result.USE_AT eq list.CODE or idx.first ? 'checked=checked' :'' }"/>><i></i><c:out value="${list.CODE_NM }"/>
 												</label>
 											</c:forEach>
-											<c:if test="${result.USE_AT eq 'N' and not empty result.USE_AT_DISABLED_DE}"><p style="padding-top: 9px;">(${result.USE_AT_DISABLED_DE })</p></c:if>
+											<c:if test="${result.USE_AT eq 'N' and not empty result.USE_AT_DISABLED_DE}"><p style="padding-top: 9px;">(<c:out value="${result.USE_AT_DISABLED_DE }"/>)</p></c:if>
 										</div>
 									</td>
 									<th scope="row">잠금여부 </th>
 									<td>
 										<div class="inline-group">
 											<label class="radio">
-												<input type="radio" value="N" name="lockAt" ${result.LOCK_AT eq 'N' or empty result.LOCK_AT ? 'checked="checked"' :'' }><i></i>미잠금
+												<input type="radio" value="N" name="lockAt" <c:out value="${result.LOCK_AT eq 'N' or empty result.LOCK_AT ? 'checked=checked' :'' }"/>><i></i>미잠금
 											</label>
 											<label class="radio">
-												<input type="radio" value="Y" name="lockAt" ${result.LOCK_AT eq 'Y' ? 'checked="checked"' :'' }><i></i>잠금
+												<input type="radio" value="Y" name="lockAt" <c:out value="${result.LOCK_AT eq 'Y' ? 'checked=checked' :'' }"/>><i></i>잠금
 											</label>
 										</div>
 									</td>									

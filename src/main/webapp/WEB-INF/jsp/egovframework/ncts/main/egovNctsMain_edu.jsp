@@ -243,8 +243,8 @@ $(function(){
 						</div>
 						<div class="sheet_wrap sheet01 fLeft">
 							<h3><span>&middot; </span>회원</h3>
-							<p><span class="part">가입</span><input type="text" class="inpA" value="${homeUser.JOIN_USER }" readonly=""></p>
-							<p><span class="part">인증</span><input type="text" class="inpA" value="${homeUser.CRTFC_Y_USER }" readonly="">&nbsp; &nbsp;/&nbsp; &nbsp;<input type="text" class="inpA" value="${homeUser.ALL_USER }" readonly=""></p>
+							<p><span class="part">가입</span><input type="text" class="inpA" value="<c:out value='${homeUser.JOIN_USER }'/>" readonly=""></p>
+							<p><span class="part">인증</span><input type="text" class="inpA" value="<c:out value='${homeUser.CRTFC_Y_USER }'/>" readonly="">&nbsp; &nbsp;/&nbsp; &nbsp;<input type="text" class="inpA" value="<c:out value='${homeUser.ALL_USER }'/>" readonly=""></p>
 							<%-- <p><span class="part">온라인</span><input type="text" class="inpA" value="${homeUser.ONLINE_USER }" readonly=""></p> --%>
 							
 							<div class="footnote">
@@ -254,10 +254,10 @@ $(function(){
 						</div>
 						<div class="sheet_wrap sheet02 fLeft">
 							<h3><span>&middot; </span>방문자</h3>
-							<p><span class="part trigger4">일일</span><input type="text" class="inpA" value="${visitUser.TODAY}" readonly=""></p>
-							<p><span class="part trigger">주간</span><input type="text" class="inpA" value="${visitUser.WEEK}" readonly=""></p>
-							<p><span class="part trigger2">월간</span><input type="text" class="inpA" value="${visitUser.MONTH}" readonly=""></p>
-							<p><span class="part trigger3">누적</span><input type="text" class="inpA" value="${visitUser.TOTAL}" readonly=""></p>
+							<p><span class="part trigger4">일일</span><input type="text" class="inpA" value="<c:out value='${visitUser.TODAY}'/>" style="width:70px;" readonly=""></p>
+							<p><span class="part trigger">주간</span><input type="text" class="inpA" value="<c:out value='${visitUser.WEEK}'/>" style="width:70px;" readonly=""></p>
+							<p><span class="part trigger2">월간</span><input type="text" class="inpA" value="<c:out value='${visitUser.MONTH}'/>" style="width:70px;" readonly=""></p>
+							<p><span class="part trigger3">누적</span><input type="text" class="inpA" value="<c:out value='${visitUser.TOTAL}'/>" style="width:70px;" readonly=""></p>
 							<%-- <p>
 								<form name="sForm" id="sForm" method="post">
 									<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
@@ -275,11 +275,11 @@ $(function(){
 						</div>
 						<div class="sheet_wrap sheet02 fLeft">
 							<h3><span>&middot; </span>수료자</h3>
-							<p><span class="part">초급</span><input type="text" class="inpA" value="${homeUser.LOW}" readonly=""></p>
-							<p><span class="part">중급</span><input type="text" class="inpA" value="${homeUser.MID}" readonly=""></p>
-							<p><span class="part">고급</span><input type="text" class="inpA" value="${homeUser.HIGH}" readonly=""></p>
-							<p><span class="part">준강사</span><input type="text" class="inpA" value="${homeUser.ASSIST_INSTRCTR}" readonly=""></p>
-							<p><span class="part">강사</span><input type="text" class="inpA" value="${homeUser.INSTRCTR}" readonly=""></p>
+							<p><span class="part">초급</span><input type="text" class="inpA" value="<c:out value='${homeUser.LOW}'/>" readonly=""></p>
+							<p><span class="part">중급</span><input type="text" class="inpA" value="<c:out value='${homeUser.MID}'/>" readonly=""></p>
+							<p><span class="part">고급</span><input type="text" class="inpA" value="<c:out value='${homeUser.HIGH}'/>" readonly=""></p>
+							<p><span class="part">준강사</span><input type="text" class="inpA" value="<c:out value='${homeUser.ASSIST_INSTRCTR}'/>" readonly=""></p>
+							<p><span class="part">강사</span><input type="text" class="inpA" value="<c:out value='${homeUser.INSTRCTR}'/>" readonly=""></p>
 						</div>
 						
 						<div class="sheet_wrap sheet01 fLeft">
@@ -288,10 +288,10 @@ $(function(){
 								<span class="mgl40">위촉강사</span>
 								<span class="mgl20">준강사</span>
 							</div>
-							<p><span class="part">PFA</span><input type="text" value="${instrctrUser.PFAT_GRADE_00}" readonly=""><input type="text" class="inpA mgl20" value="${instrctrUser.PFAT_GRADE_01}" readonly=""></p>
-							<p><span class="part">PM+</span><input type="text" value="${instrctrUser.PMPT_GRADE_00}" readonly=""><input type="text" class="inpA mgl20" value="${instrctrUser.PMPT_GRADE_01}" readonly=""></p>
-							<p><span class="part">SPR</span><input type="text" value="${instrctrUser.SPRT_GRADE_00}" readonly=""><input type="text" class="inpA mgl20" value="${instrctrUser.SPRT_GRADE_01}" readonly=""></p>
-							<p><span class="part">MPG</span><input type="text" value="${instrctrUser.MPGT_GRADE_00}" readonly=""><input type="text" class="inpA mgl20" value="${instrctrUser.MPGT_GRADE_01}" readonly=""></p>
+							<p><span class="part">PFA</span><input type="text" value="<c:out value='${instrctrUser.PFAT_GRADE_00}'/>" readonly=""><input type="text" class="inpA mgl20" value="<c:out value='${instrctrUser.PFAT_GRADE_01}'/>" readonly=""></p>
+							<p><span class="part">PM+</span><input type="text" value="<c:out value='${instrctrUser.PMPT_GRADE_00}'/>" readonly=""><input type="text" class="inpA mgl20" value="<c:out value='${instrctrUser.PMPT_GRADE_01}'/>" readonly=""></p>
+							<p><span class="part">SPR</span><input type="text" value="<c:out value='${instrctrUser.SPRT_GRADE_00}'/>" readonly=""><input type="text" class="inpA mgl20" value="<c:out value='${instrctrUser.SPRT_GRADE_01}'/>" readonly=""></p>
+							<p><span class="part">MPG</span><input type="text" value="<c:out value='${instrctrUser.MPGT_GRADE_00}'/>" readonly=""><input type="text" class="inpA mgl20" value="<c:out value='${instrctrUser.MPGT_GRADE_01}'/>" readonly=""></p>
 						</div>						
 					</li>
 					<li class="fClr fLeft">
@@ -302,12 +302,12 @@ $(function(){
 								<select id="searchCondition2" name="searchCondition2">
 									<option value="">전체</option> 
 									<c:forEach var="list" items="${centerList}" varStatus="idx">
-										<option value="${list.DEPT_CD }" ${param.searchCondition2 eq list.DEPT_CD ? 'selected':'' }>${list.DEPT_NM }</option> 
+										<option value="<c:out value='${list.DEPT_CD }'/>" <c:out value="${param.searchCondition2 eq list.DEPT_CD ? 'selected':'' }"/>><c:out value="${list.DEPT_NM }"/></option>
 									</c:forEach>
 								</select>
 							</c:if>
 							<c:if test="${userinfo.deptAllAuthorAt ne 'Y' }">
-								<input type="hidden" name="searchCondition2" value="${paginationInfo.centerCd }">
+								<input type="hidden" name="searchCondition2" value="<c:out value='${paginationInfo.centerCd }'/>">
 							</c:if>
 						</div>
 						<div class="sheet_wrap sheet03 fLeft">
@@ -334,39 +334,39 @@ $(function(){
 								<tbody>
 									<tr>
 										<th>진행</th>
-										<td><input type="text" class="inpA" value="${selectEduProgress.ALL_GNRL_TOTAL_CNT}" readonly=""></td>
-										<td><input type="text" class="inpA" value="${selectEduProgress.ALL_LOW_TOTAL_CNT}" readonly=""></td>
-										<td><input type="text" class="inpA" value="${selectEduProgress.ALL_MID_TOTAL_CNT}" readonly=""></td>
-										<td><input type="text" class="inpA" value="${selectEduProgress.ALL_HIGH_TOTAL_CNT}" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectEduProgress.ALL_GNRL_TOTAL_CNT}'/>" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectEduProgress.ALL_LOW_TOTAL_CNT}'/>" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectEduProgress.ALL_MID_TOTAL_CNT}'/>" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectEduProgress.ALL_HIGH_TOTAL_CNT}'/>" readonly=""></td>
 										<%-- <td><input type="text" class="inpA" value="${selectEduProgress.ALL_INSTRCTR_S_TOTAL_CNT}" readonly=""></td> --%>
-										<td><input type="text" class="inpA" value="${selectEduProgress.ALL_INSTRCTR_I_TOTAL_CNT}" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectEduProgress.ALL_INSTRCTR_I_TOTAL_CNT}'/>" readonly=""></td>
 									</tr>
 									<tr>
 										<th>누적</th>
-										<td><input type="text" class="inpA" value="${selectEduTotal.ALL_GNRL_TOTAL_CNT}" readonly=""></td>
-										<td><input type="text" class="inpA" value="${selectEduTotal.ALL_LOW_TOTAL_CNT}" readonly=""></td>
-										<td><input type="text" class="inpA" value="${selectEduTotal.ALL_MID_TOTAL_CNT}" readonly=""></td>
-										<td><input type="text" class="inpA" value="${selectEduTotal.ALL_HIGH_TOTAL_CNT}" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectEduTotal.ALL_GNRL_TOTAL_CNT}'/>" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectEduTotal.ALL_LOW_TOTAL_CNT}'/>" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectEduTotal.ALL_MID_TOTAL_CNT}'/>" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectEduTotal.ALL_HIGH_TOTAL_CNT}'/>" readonly=""></td>
 										<%-- <td><input type="text" class="inpA" value="${selectEduTotal.ALL_INSTRCTR_S_TOTAL_CNT}" readonly=""></td> --%>
-										<td><input type="text" class="inpA" value="${selectEduTotal.ALL_INSTRCTR_I_TOTAL_CNT}" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectEduTotal.ALL_INSTRCTR_I_TOTAL_CNT}'/>" readonly=""></td>
 									</tr>
 									<tr>
 										<th>실인원</th>
-										<td><input type="text" class="inpA" value="${selectApplicantTotal.ALL_GNRL_TOTAL_APLI_CNT}" readonly=""></td>
-										<td><input type="text" class="inpA" value="${selectApplicantTotal.ALL_LOW_TOTAL_APLI_CNT}" readonly=""></td>
-										<td><input type="text" class="inpA" value="${selectApplicantTotal.ALL_MID_TOTAL_APLI_CNT}" readonly=""></td>
-										<td><input type="text" class="inpA" value="${selectApplicantTotal.ALL_HIGH_TOTAL_APLI_CNT}" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectApplicantTotal.ALL_GNRL_TOTAL_APLI_CNT}'/>" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectApplicantTotal.ALL_LOW_TOTAL_APLI_CNT}'/>" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectApplicantTotal.ALL_MID_TOTAL_APLI_CNT}'/>" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectApplicantTotal.ALL_HIGH_TOTAL_APLI_CNT}'/>" readonly=""></td>
 										<%-- <td><input type="text" class="inpA" value="${selectApplicantTotal.ALL_INSTRCTR_S_TOTAL_APLI_CNT}" readonly=""></td> --%>
-										<td><input type="text" class="inpA" value="${selectApplicantTotal.ALL_INSTRCTR_I_TOTAL_APLI_CNT}" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectApplicantTotal.ALL_INSTRCTR_I_TOTAL_APLI_CNT}'/>" readonly=""></td>
 									</tr>
 									<tr>
 										<th>연인원</th>
-										<td><input type="text" class="inpA" value="${selectApplicant.ALL_GNRL_TOTAL_APLI_CNT}" readonly=""></td>
-										<td><input type="text" class="inpA" value="${selectApplicant.ALL_LOW_TOTAL_APLI_CNT}" readonly=""></td>
-										<td><input type="text" class="inpA" value="${selectApplicant.ALL_MID_TOTAL_APLI_CNT}" readonly=""></td>
-										<td><input type="text" class="inpA" value="${selectApplicant.ALL_HIGH_TOTAL_APLI_CNT}" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectApplicant.ALL_GNRL_TOTAL_APLI_CNT}'/>" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectApplicant.ALL_LOW_TOTAL_APLI_CNT}'/>" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectApplicant.ALL_MID_TOTAL_APLI_CNT}'/>" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectApplicant.ALL_HIGH_TOTAL_APLI_CNT}'/>" readonly=""></td>
 										<%-- <td><input type="text" class="inpA" value="${selectApplicant.ALL_INSTRCTR_S_TOTAL_APLI_CNT}" readonly=""></td> --%>
-										<td><input type="text" class="inpA" value="${selectApplicant.ALL_INSTRCTR_I_TOTAL_APLI_CNT}" readonly=""></td>
+										<td><input type="text" class="inpA" value="<c:out value='${selectApplicant.ALL_INSTRCTR_I_TOTAL_APLI_CNT}'/>" readonly=""></td>
 									</tr>
 								</tbody>
 							</table>
@@ -391,9 +391,9 @@ $(function(){
 							<ul class="rsv_list">
 								<li>
 									<c:if test="${not empty mainSche.RESE_CODE_TXT}">
-										<span class="date">${mainSche.FRST_REGIST_PNTTM}</span>
-										<span class="time">${mainSche.RESE_BEGIN_TIME_HOUR} : ${mainSche.RESE_BEGIN_TIME_MIN} ~ ${mainSche.RESE_END_TIME_HOUR} : ${mainSche.RESE_END_TIME_MIN}</span>
-										<span class="location">${mainSche.RESE_CODE_TXT}</span>
+										<span class="date"><c:out value="${mainSche.FRST_REGIST_PNTTM}"/></span>
+										<span class="time"><c:out value="${mainSche.RESE_BEGIN_TIME_HOUR}"/> : <c:out value="${mainSche.RESE_BEGIN_TIME_MIN}"/> ~ <c:out value="${mainSche.RESE_END_TIME_HOUR}"/> : <c:out value="${mainSche.RESE_END_TIME_MIN}"/></span>
+										<span class="location"><c:out value="${mainSche.RESE_CODE_TXT}"/></span>
 										<c:if test="${empty mainSche.RESE_CODE_TXT}"><li></li></c:if>
 									</c:if>
 								</li>
@@ -407,13 +407,13 @@ $(function(){
 							<h3><span class="red">1</span>대<span class="red">1</span> 문의</h3>
 						</div>
 						<div class="part_wrap fLeft">
-							<p>미처리<input type="text" class="inpA" value="${oneOnOne.WAITING }" readonly=""></p>
+							<p>미처리<input type="text" class="inpA" value="<c:out value='${oneOnOne.WAITING }'/>" readonly=""></p>
 						</div>
 						<div class="part_wrap fLeft">
-							<p>처리완료<input type="text" class="inpA" value="${oneOnOne.COMPLETE }" readonly=""></p>
+							<p>처리완료<input type="text" class="inpA" value="<c:out value='${oneOnOne.COMPLETE }'/>" readonly=""></p>
 						</div>
 						<div class="part_wrap fLeft">
-							<p>누계<input type="text" class="inpA" value="${oneOnOne.TOTAL }" readonly=""></p>
+							<p>누계<input type="text" class="inpA" value="<c:out value='${oneOnOne.TOTAL }'/>" readonly=""></p>
 						</div>
 					</div>
 					
@@ -424,9 +424,9 @@ $(function(){
 								<li class="noticeDetail">
 									<!-- <a href="javascript:void(0);"> -->
 									<a href="/ncts/mngr/homeMngr/mngrBbsNoticeList.do">
-										<span class="notice" data-seq = "${list.BBS_NO }">[공지]</span>${list.TITLE}
+										<span class="notice" data-seq = "<c:out value='${list.BBS_NO }'/>">[공지]</span><c:out value="${list.TITLE}"/>
 									</a>
-									<span class="date">${list.FRST_REGIST_PNTTM}</span>
+									<span class="date"><c:out value="${list.FRST_REGIST_PNTTM}"/></span>
 								</li>
 							</c:forEach>
 						</ul>

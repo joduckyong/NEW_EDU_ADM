@@ -8,9 +8,9 @@ $(function(){
 	CKEDITOR.replace('contents',{height : 400});
 	
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-            updateKey : "${common.baseType[1].key() }",
-            deleteKey : "${common.baseType[2].key() }",
+			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
             lUrl : "/ncts/mngr/homeMngr/mngrBbsNoticeList.do",
             fUrl : "/ncts/mngr/homeMngr/mngrBbsNoticeForm.do",
             dUrl : "/ncts/mngr/homeMngr/mngrDeleteBbsNotice.do",
@@ -119,8 +119,8 @@ $(function(){
 				<article class="col-md-12 col-lg-12">
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 						<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-						<input type="hidden" id="bbsNo" name="bbsNo" value="${result.BBS_NO}">
-						<input type="hidden" name="atchFileId" value="${result.ATCH_FILE_ID}">
+						<input type="hidden" id="bbsNo" name="bbsNo" value="<c:out value='${result.BBS_NO}'/>">
+						<input type="hidden" name="atchFileId" value="<c:out value='${result.ATCH_FILE_ID}'/>">
 						<%-- <input type="hidden" name="centerCd" value="<sec:authentication property="principal.centerId"/>" > --%>
 						
 						<table class="table table-bordered tb_type03">
@@ -137,20 +137,20 @@ $(function(){
 									<th scope="row">제목 </th>
 									<td>
 										<label class="input w500 col">
-											<input type="text" id="title" name="title" value="${result.TITLE}">
+											<input type="text" id="title" name="title" value="<c:out value='${result.TITLE}'/>">
 										</label>
 									</td>
 									<th scope="row">홈페이지 게시여부 </th>
 									<td>
 										<label class="checkbox checkboxCenter col ml10 mt5">
-											<input type="checkbox" id="homepageAt" name="homepageAt" value="Y" ${result.HOMEPAGE_AT eq 'Y' ? 'checked="checked"':''}><i></i>
+											<input type="checkbox" id="homepageAt" name="homepageAt" value="Y" <c:out value="${result.HOMEPAGE_AT eq 'Y' ? 'checked=checked':''}"/>><i></i>
 										</label>
 										<span class="col mt7 ml30 mr5">홈페이지 게시</span>												
 									</td>
 									<th scope="row">상단고정 여부 </th>
 									<td>
 										<label class="checkbox checkboxCenter col ml10 mt5">
-											<input type="checkbox" id="holdYn" name="holdYn" value="Y" ${result.HOLD_YN eq 'Y' ? 'checked="checked"':''}><i></i>
+											<input type="checkbox" id="holdYn" name="holdYn" value="Y" <c:out value="${result.HOLD_YN eq 'Y' ? 'checked=checked':''}"/>><i></i>
 										</label>
 										<span class="col mt7 ml30 mr5">상단고정</span>												
 									</td>
@@ -158,7 +158,7 @@ $(function(){
 								<tr>
 									<th scope="row">내용 </th>
 									<td class="board_contents" colspan="5">
-										<textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;">${result.CONTENTS}</textarea>
+										<textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;"><c:out value="${result.CONTENTS}"/></textarea>
 									</td>
 								</tr>
 								<tr>
@@ -166,7 +166,7 @@ $(function(){
 									<td colspan="5">
 										<c:choose>
 											<c:when test="${common.baseType[1].key() eq common.procType }">
-												<input type="hidden" id="centerCd" name="centerCd" value="${result.CENTER_CD }" >
+												<input type="hidden" id="centerCd" name="centerCd" value="<c:out value='${result.CENTER_CD }'/>" >
 												<c:out value="${result.CENTER_NM }" />
 											</c:when>
 											<c:otherwise>
@@ -175,7 +175,7 @@ $(function(){
 														<select id="centerCd" name="centerCd">
 															<option value="">선택</option>
 															<c:forEach var="center" items="${centerList }" varStatus="idx">
-																<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq result.CENTER_CD ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
+																<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq result.CENTER_CD ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
 															</c:forEach>
 														</select> <i></i>
 													</label>
@@ -191,7 +191,7 @@ $(function(){
 								<tr>
                                     <th scope="row">첨부파일 </th>
                                     <td colspan="5">
-                                        ${markup }
+										<c:out value="${markup }"/>
                                     </td>
                                 </tr>
 							</tbody>

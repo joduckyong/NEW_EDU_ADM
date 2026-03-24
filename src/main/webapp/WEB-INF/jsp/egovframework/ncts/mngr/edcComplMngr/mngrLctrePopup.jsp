@@ -24,9 +24,9 @@ $(function(){
 	}	
 	
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
 			lUrl : "/ncts/mngr/edcComplMngr/mngrLctrePopup.do"
 	}
 	
@@ -211,11 +211,11 @@ $(function(){
 		<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-          		<input type="hidden" name="pageType" id="pageType" value="${param.pageType }">
-				<input type="hidden" name="lectureId" id="lectureId" value="${param.lectureId}">
-				<input type="hidden" name="lectureSeq" id="lectureSeq" value="${param.lectureSeq}">
-				<input type="hidden" name="tempSeq" id="tempSeq" value="${param.tempSeq}">
-				<input type="hidden" name="lectureSn" id="lectureSn" value="${param.lectureSn}">
+          		<input type="hidden" name="pageType" id="pageType" value='<c:out value="${param.pageType }"/>'>
+				<input type="hidden" name="lectureId" id="lectureId" value='<c:out value="${param.lectureId}"/>'>
+				<input type="hidden" name="lectureSeq" id="lectureSeq" value='<c:out value="${param.lectureSeq}"/>'>
+				<input type="hidden" name="tempSeq" id="tempSeq" value='<c:out value="${param.tempSeq}"/>'>
+				<input type="hidden" name="lectureSn" id="lectureSn" value='<c:out value="${param.lectureSn}"/>'>
 				<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
                  <div class="fR wp50">
 					<ul class="searchAreaBox fR">
@@ -232,12 +232,12 @@ $(function(){
 				<article class="col-md-12 col-lg-12">
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 						<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-						<input type="hidden" name="atchFileId" value="${result.ATCH_FILE_ID}">
-		          		<input type="hidden" name="pageType" value="${param.pageType }">
-						<input type="hidden" name="lectureId" value="${empty result.LECTURE_ID ? param.lectureId : result.LECTURE_ID}">
-						<input type="hidden" name="lectureSeq" value="${param.lectureSeq}">
-						<input type="hidden" name="tempSeq" value="${param.tempSeq}">
-						<input type="hidden" name="lectureSn" value="${param.lectureSn}">
+						<input type="hidden" name="atchFileId" value='<c:out value="${result.ATCH_FILE_ID}"/>'>
+		          		<input type="hidden" name="pageType" value='<c:out value="${param.pageType }"/>'>
+						<input type="hidden" name="lectureId" value='<c:out value="${empty result.LECTURE_ID ? param.lectureId : result.LECTURE_ID}"/>'>
+						<input type="hidden" name="lectureSeq" value='<c:out value="${param.lectureSeq}"/>'>
+						<input type="hidden" name="tempSeq" value='<c:out value="${param.tempSeq}"/>'>
+						<input type="hidden" name="lectureSn" value='<c:out value="${param.lectureSn}"/>'>
 						
 						<table class="table table-bordered tb_type03">
 							<colgroup>
@@ -253,20 +253,20 @@ $(function(){
 									<th scope="row">동영상<br>제목</th>
 									<td>
 										<label class="input w400 col">
-											<input type="text" id="lectureNm" name="lectureNm" value="${result.LECTURE_NM}">
+											<input type="text" id="lectureNm" name="lectureNm" value='<c:out value="${result.LECTURE_NM}"/>'>
 										</label>
 									</td>	
                                     <th scope="row">동영상<br>시간</th>
                                     <td>
                                     	<label class="input w80 col">
-                                            <input type="text" id="videoDuration" name="videoDuration" value="${result.ORG_DURATION}">
+                                            <input type="text" id="videoDuration" name="videoDuration" value='<c:out value="${result.ORG_DURATION}"/>'>
                                         </label>
                                         <span class="col mt7 ml5">초</span>
                                     </td>
                                     <th scope="row">동영상<br>아이디</th>
                                     <td colspan="3">
                                     	<label class="input w200 col">
-                                            <input type="text" id="youtubeId" name="youtubeId" value="${result.YOUTUBE_ID}">
+                                            <input type="text" id="youtubeId" name="youtubeId" value='<c:out value="${result.YOUTUBE_ID}"/>'>
                                         </label>
                                     </td>
                                 </tr>
@@ -274,17 +274,17 @@ $(function(){
                                     <th scope="row">수강대상</th>
                                     <td>
                                     	<label class="input w400 col">
-                                            <input type="text" id="atnlcTaget" name="atnlcTaget" value="${result.ATNLC_TAGET}">
+                                            <input type="text" id="atnlcTaget" name="atnlcTaget" value='<c:out value="${result.ATNLC_TAGET}"/>'>
                                         </label>
                                     </td>
                                     <th scope="row">수강형태</th>
                                     <td><label class="input w200 col">
-                                            <input type="text" id="atnlcStle" name="atnlcStle" value="${result.ATNLC_STLE}">
+                                            <input type="text" id="atnlcStle" name="atnlcStle" value='<c:out value="${result.ATNLC_STLE}"/>'>
                                         </label>
                                     </td>
                                     <th scope="row">수강시간</th>
                                     <td><label class="input w80 col">
-                                            <input class="onlyNum" type="text" id="atnlcTime" name="atnlcTime" value="${result.ATNLC_TIME}">
+                                            <input class="onlyNum" type="text" id="atnlcTime" name="atnlcTime" value='<c:out value="${result.ATNLC_TIME}"/>'>
                                         </label>
                                         <span class="col mt7 ml5">분</span>
                                     </td>
@@ -293,20 +293,20 @@ $(function(){
 								<tr>
 									<th scope="row">교육목표</th>
 									<td colspan="5">
-										<textarea id="edcGoal" name="edcGoal" class="part_long" cols="100" rows="5" >${result.EDC_GOAL}</textarea>
+										<textarea id="edcGoal" name="edcGoal" class="part_long" cols="100" rows="5" ><c:out value="${result.EDC_GOAL}"/></textarea>
 									</td>
 								</tr>
 								<tr>
                                     <th scope="row">프로그램<br>구성</th>
                                     <td colspan="5">
-                                        <textarea id="progrmComposition" name="progrmComposition" class="part_long" cols="100" rows="5" >${result.PROGRM_COMPOSITION}</textarea>
+                                        <textarea id="progrmComposition" name="progrmComposition" class="part_long" cols="100" rows="5" ><c:out value="${result.PROGRM_COMPOSITION}"/></textarea>
                                     </td>
                                 </tr>
 								<tr>
                                     <th scope="row">대표이미지 </th>
                                     <td colspan="5">
-                                        ${markup }
-                                       	<img src="/utl/web/imageSrc.do?path=mngr/${result.STRE_FILE_NM }" width="240" height="135" class="viewImg" style="display:${not empty result.ATCH_FILE_ID ? 'block':'none'};"/>
+										<c:out value="${markup }"/>
+                                       	<img src="/utl/web/imageSrc.do?path=mngr/<c:out value='${result.STRE_FILE_NM }'/>" width="240" height="135" class="viewImg" style="display:'<c:out value="${not empty result.ATCH_FILE_ID ? 'block':'none'}"/>'">
                                     </td>
                                 </tr>
 							</tbody>

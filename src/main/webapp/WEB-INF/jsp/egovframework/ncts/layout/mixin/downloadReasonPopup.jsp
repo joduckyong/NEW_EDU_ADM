@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <form method="post" name="drForm" id="drForm">
 	<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-	<input type="hidden" name="menuSeq" value="${menuCd }" >
+	<input type="hidden" name="menuSeq" value="<c:out value='${menuCd }'/>" >
 	
 	<div id="downPopup" class="popup-con" style="display:none">
 	    <div class="close_box fClr" style="text-align:left;">

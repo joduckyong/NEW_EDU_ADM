@@ -7,9 +7,9 @@ $(function(){
 	CKEDITOR.replace('contents',{height : 150});
 	var excelPg = 0;
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
 			lUrl : "/ncts/mngr/mlbxMngr/mngrMailBoxList.do",
 			uUrl : "/ncts/mngr/mlbxMngr/updatePostProcess.do",
 			eUrl : "/ncts/mngr/mlbxMngr/mngrMailBoxEmailSend.do",
@@ -347,9 +347,9 @@ $(function(){
                         <li class="w130">
                             <select id="sGubun1" name="sGubun1" class="form-control">
                                 <option value="">전체</option>
-                                <option value="N" ${param.sGubun1 eq 'N' ? 'selected="selected"':'' }>전송대기</option>
-                                <option value="Y" ${param.sGubun1 eq 'Y' ? 'selected="selected"':'' }>전송완료</option>
-                                <option value="E" ${param.sGubun1 eq 'E' ? 'selected="selected"':'' }>이메일 전송</option>
+                                <option value="N" <c:out value="${param.sGubun1 eq 'N' ? 'selected=selected':'' }"/>>전송대기</option>
+                                <option value="Y" <c:out value="${param.sGubun1 eq 'Y' ? 'selected=selected':'' }"/>>전송완료</option>
+                                <option value="E" <c:out value="${param.sGubun1 eq 'E' ? 'selected=selected':'' }"/>>이메일 전송</option>
                             </select>
                         </li>
                         <li class="ml10">
@@ -404,15 +404,15 @@ $(function(){
 							</c:if>
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
-									<td class="invisible"><input type="checkbox" class="index" value="${list.POST_NO }"></td>
-									<td>${paginationInfo.totalRecordCount - ((paginationInfo.currentPageNo-1) * paginationInfo.recordCountPerPage+ idx.index)}</td>
-									<td>${list.USER_NAME }</td>
-									<td>${list.USER_EMAIL }</td>
-									<td>${list.USER_BIRTH }</td>
-									<td>${list.TEL_NO }</td>
-									<td>${list.FRST_REGIST_PNTTM }</td>
-									<td>${list.POST_YN }</td>
-									<td><input type="checkbox" name="postNo" value="${list.POST_NO }" data-yn="${list.POST_YN }" data-email="${list.USER_EMAIL }" class="postYnCheckbox"></td>
+									<td class="invisible"><input type="checkbox" class="index" value='<c:out value="${list.POST_NO }"/>'></td>
+									<td><c:out value="${paginationInfo.totalRecordCount - ((paginationInfo.currentPageNo-1) * paginationInfo.recordCountPerPage+ idx.index)}"/></td>
+									<td><c:out value="${list.USER_NAME }"/></td>
+									<td><c:out value="${list.USER_EMAIL }"/></td>
+									<td><c:out value="${list.USER_BIRTH }"/></td>
+									<td><c:out value="${list.TEL_NO }"/></td>
+									<td><c:out value="${list.FRST_REGIST_PNTTM }"/></td>
+									<td><c:out value="${list.POST_YN }"/></td>
+									<td><input type="checkbox" name="postNo" value='<c:out value="${list.POST_NO }"/>' data-yn='<c:out value="${list.POST_YN }"/>' data-email='<c:out value="${list.USER_EMAIL }"/>' class="postYnCheckbox"></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -457,7 +457,7 @@ $(function(){
 	                            </colgroup> -->
 	                            <tbody id="mailDetail">
 	                                <td class="board_contents">
-	                                    <textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}></textarea>
+	                                    <textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>></textarea>
 	                                </td>
 	                            </tbody>
 	                        </table>

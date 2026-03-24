@@ -15,9 +15,9 @@
 	    CKEDITOR.replace('contents',{height : 150});
 		
 	    var baseInfo = {
-	            insertKey : "${common.baseType[0].key() }",
-	            updateKey : "${common.baseType[1].key() }",
-	            deleteKey : "${common.baseType[2].key() }",
+	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
 	            lUrl : "/ncts/mngr/homeMngr/mngrOneOnOneList.do",
 	            fUrl : "/ncts/mngr/homeMngr/mngrOneOnOneForm.do",
 	            dUrl : "/ncts/mngr/homeMngr/mngrDeleteOneOnOne.do",
@@ -255,7 +255,7 @@
 									<option value="">전체</option>
 									<c:forEach var="center" items="${centerList }" varStatus="idx">
 										<c:if test="${center.DEPT_CD eq '10000000' or center.DEPT_CD eq '30000000' or center.DEPT_CD eq '50000000' or center.DEPT_CD eq '60000000' or center.DEPT_CD eq '70000000'}">
-											<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq param.centerCd ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
+											<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq param.centerCd ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
 										</c:if>
 									</c:forEach>
 								</select> <i></i>
@@ -272,10 +272,10 @@
                         <li class="w100">
 	                        <select name="sGubun2" id="division" class="form-control division">
 	                            <option value="">선택</option>
-	                            <option value="edu" ${param.sGubun3 eq '01' or param.sGubun3 eq '02' ? 'selected' : '' }>교육신청</option>
-	                            <option value="user" ${param.sGubun3 eq '03' or param.sGubun3 eq '04' ? 'selected' : '' }>회원관리</option>
-	                            <option value="instrctr" ${param.sGubun3 eq '05' or param.sGubun3 eq '06' ? 'selected' : '' }>강사관리</option>
-	                            <option value="etc" ${param.sGubun3 eq '07' ? 'selected' : '' }>기타</option>
+	                            <option value="edu" <c:out value="${param.sGubun3 eq '01' or param.sGubun3 eq '02' ? 'selected' : '' }"/>>교육신청</option>
+	                            <option value="user" <c:out value="${param.sGubun3 eq '03' or param.sGubun3 eq '04' ? 'selected' : '' }"/>>회원관리</option>
+	                            <option value="instrctr" <c:out value="${param.sGubun3 eq '05' or param.sGubun3 eq '06' ? 'selected' : '' }"/>>강사관리</option>
+	                            <option value="etc" <c:out value="${param.sGubun3 eq '07' ? 'selected' : '' }"/>>기타</option>
 	                        </select>
                         </li>
                         <li class="smart-form ml5"></li>
@@ -290,8 +290,8 @@
                         <li class="w100">
                             <select id="sGubun1" name="sGubun1" class="form-control">
                                 <option value="">전체</option>
-                                <option value="N" ${param.sGubun1 eq 'N' ? 'selected="selected"':'' }>답변대기</option>
-                                <option value="Y" ${param.sGubun1 eq 'Y' ? 'selected="selected"':'' }>답변완료</option>
+                                <option value="N" <c:out value="${param.sGubun1 eq 'N' ? 'selected=selected':'' }"/>>답변대기</option>
+                                <option value="Y" <c:out value="${param.sGubun1 eq 'Y' ? 'selected=selected':'' }"/>>답변완료</option>
                             </select>
                         </li>
                         <li class="smart-form ml5"><label class="label">작성자</label></li>
@@ -372,31 +372,31 @@
 									</td>
 									
 									<c:if test="${!empty list.ANSWER_CONTENT}">
-										<td rowspan="2" style="">${paginationInfo.totalRecordCount - ((paginationInfo.currentPageNo-1) * paginationInfo.recordCountPerPage+ idx.index)}</td>
-										<td rowspan="2" style="">${list.CENTER_NM}</td>
-										<td rowspan="2" style="vertical-align:top;">${list.BBS_TYPE_CD_NM }</td>
-										<td rowspan="2" style="vertical-align:top;" class="userDetailTd" data-no="${list.FRST_USER_NO }">${list.USER_NM}</td>
+										<td rowspan="2" style=""><c:out value="${paginationInfo.totalRecordCount - ((paginationInfo.currentPageNo-1) * paginationInfo.recordCountPerPage+ idx.index)}"/></td>
+										<td rowspan="2" style=""><c:out value="${list.CENTER_NM}"/></td>
+										<td rowspan="2" style="vertical-align:top;"><c:out value="${list.BBS_TYPE_CD_NM }"/></td>
+										<td rowspan="2" style="vertical-align:top;" class="userDetailTd" data-no="<c:out value='${list.FRST_USER_NO }'/>"><c:out value="${list.USER_NM}"/></td>
 									</c:if>
 									<c:if test="${empty list.ANSWER_CONTENT}">
-										<td>${paginationInfo.totalRecordCount - ((paginationInfo.currentPageNo-1) * paginationInfo.recordCountPerPage+ idx.index)}</td>
-										<td>${list.CENTER_NM}</td>
-                                        <td>${list.BBS_TYPE_CD_NM }</td>
-                                        <td class="userDetailTd" data-no="${list.FRST_USER_NO }">${list.USER_NM}</td>
+										<td><c:out value="${paginationInfo.totalRecordCount - ((paginationInfo.currentPageNo-1) * paginationInfo.recordCountPerPage+ idx.index)}"/></td>
+										<td><c:out value="${list.CENTER_NM}"/></td>
+                                        <td><c:out value="${list.BBS_TYPE_CD_NM }"/></td>
+                                        <td class="userDetailTd" data-no="<c:out value='${list.FRST_USER_NO }'/>"><c:out value="${list.USER_NM}"/></td>
                                     </c:if>
-									<td style="text-align:left"><p style="font-weight: bold;"><${list.BBS_TYPE_DETAIL_CD_NM }></p>${list.TITLE}</td>
-									<td>${list.FRST_REGIST_PNTTM}</td>
+									<td style="text-align:left"><p style="font-weight: bold;"><<c:out value="${list.BBS_TYPE_DETAIL_CD_NM }"/>></p><c:out value="${list.TITLE}"/></td>
+									<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
 								</tr>
 								<c:if test="${!empty list.ANSWER_CONTENT}">
 									<tr>
 									    <td class="invisible">
-	                                        <input type="checkbox" class="index" value="${list.BBS_NO}">
-	                                        <input type="hidden" name="answerNo" value="${list.ANSWER_NO}">
+	                                        <input type="checkbox" class="index" value="<c:out value='${list.BBS_NO}'/>">
+	                                        <input type="hidden" name="answerNo" value="<c:out value='${list.ANSWER_NO}'/>">
 	                                    </td>
 	                                    <td class="test" style="text-align:left; word-break:break-all;text-overflow:ellipsis; overflow:hidden;" nowrap>
 	                                    	<img src="/images/iconmonstr-arrow-55-12.png" title="RE" style="width:auto;height:auto;float:left; margin-right:10px;">
-		                                    <textarea readonly style="resize: none; width:80%; height:100px; border:none;" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}><c:out value='${list.ANSWER_CONTENT.replaceAll("\\\<.*?\\\>","").replaceAll("&nbsp;", " ")}' /></textarea>
+		                                    <textarea readonly style="resize: none; width:80%; height:100px; border:none;" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>><c:out value='${list.ANSWER_CONTENT.replaceAll("\\\<.*?\\\>","").replaceAll("&nbsp;", " ")}' /></textarea>
 	                                    </td>
-	                                    <td>${list.ANSWER_DATE}</td>
+	                                    <td><c:out value="${list.ANSWER_DATE}"/></td>
 	                                </tr>
                                 </c:if>
 							</c:forEach>
@@ -441,7 +441,7 @@
                             </colgroup> -->
                             <tbody id="1on1Detail">
 	                            <td class="board_contents">
-									<textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}><%-- ${list.ANSWER_CONTENT} --%></textarea>
+									<textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>><%-- ${list.ANSWER_CONTENT} --%></textarea>
 	                            </td>
                             </tbody>
                         </table>

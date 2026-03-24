@@ -8,9 +8,9 @@ $(function(){
 	CKEDITOR.replace('cmptReqstContents',{height : 400});
 	
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-            updateKey : "${common.baseType[1].key() }",
-            deleteKey : "${common.baseType[2].key() }",
+			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
             lUrl : "/ncts/mngr/cmptMngr/mngrCmptReqstList.do",
             fUrl : "/ncts/mngr/cmptMngr/mngrCmptReqstForm.do",
             dUrl : "/ncts/mngr/cmptMngr/mngrDeleteCmptReqst.do",
@@ -163,27 +163,27 @@ $(function(){
 									<th scope="row">제목</th>
 									<td>
 										<label class="input w500 col">
-											<input type="text" id="cmptReqstTitle" name="cmptReqstTitle" value="${result.CMPT_REQST_TITLE}">
+											<input type="text" id="cmptReqstTitle" name="cmptReqstTitle" value="<c:out value='${result.CMPT_REQST_TITLE}'/>">
 										</label>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">내용 </th>
 									<td class="board_contents">
-										<textarea id="cmptReqstContents" name="cmptReqstContents" class="part_long board_contents" style="width: 100%; min-width: 100%;">${result.CMPT_REQST_CONTENTS}</textarea>
+										<textarea id="cmptReqstContents" name="cmptReqstContents" class="part_long board_contents" style="width: 100%; min-width: 100%;"><c:out value="${result.CMPT_REQST_CONTENTS}"/></textarea>
 									</td>
 								</tr>
 								<tr>
                                     <th scope="row">첨부파일 </th>
                                     <td>
-                                        ${markup }
+										<c:out value="${markup }"/>
                                     </td>
                                 </tr>
                                 <tr>
 									<th scope="row">작성자</th>
 									<td colspan="5">
 										<label class="input w150">
-											<input type="text" id="frstRegisterId" name="frstRegisterId" value="${result.FRST_REGISTER_ID }<c:if test="${empty result.FRST_REGISTER_ID }"><sec:authentication property="principal.userNm"/></c:if>" readonly/>
+											<input type="text" id="frstRegisterId" name="frstRegisterId" value="<c:out value='${result.FRST_REGISTER_ID }'/><c:if test="${empty result.FRST_REGISTER_ID }"><sec:authentication property="principal.userNm"/></c:if>" readonly/>
 										</label>
 									</td>
 								</tr>
@@ -192,15 +192,15 @@ $(function(){
 										<th scope="row">반영일자</th>
 										<td colspan="7">
 											<label class="input w120 col"><i class="icon-append fa fa-calendar"></i>
-												<input type="text" id="reflctYmd" name="reflctYmd" value="${result.REFLCT_YMD}" class="date inputcal tt reflct" data-title="반영일자">
+												<input type="text" id="reflctYmd" name="reflctYmd" value="<c:out value='${result.REFLCT_YMD}'/>" class="date inputcal tt reflct" data-title="반영일자">
 											</label>
 											
 											<label class="input w40 col mr5">
-												<input type="text" class="onlyNum hh reflct" id="reflctHH" name="reflctHH" value="${result.REFLCT_HH}" class="part_time" maxlength="2" data-title="반영시간(시)">
+												<input type="text" class="onlyNum hh reflct" id="reflctHH" name="reflctHH" value="<c:out value='${result.REFLCT_HH}'/>" class="part_time" maxlength="2" data-title="반영시간(시)">
 											</label>
 											<label class="label col">:</label>
 											<label class="input w40 col ml5 mr5"> 
-												<input type="text" class="onlyNum mm reflct" id="reflctMM" name="reflctMM"   value="${result.REFLCT_MM}" class="part_time" maxlength="2" data-title="반영시간(분)">
+												<input type="text" class="onlyNum mm reflct" id="reflctMM" name="reflctMM"   value="<c:out value='${result.REFLCT_MM}'/>" class="part_time" maxlength="2" data-title="반영시간(분)">
 											</label>
 										</td>
 									</tr>

@@ -8,9 +8,9 @@ $(function(){
 	CKEDITOR.replace('examWransNoteList',{height : 200});
 	
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-            updateKey : "${common.baseType[1].key() }",
-            deleteKey : "${common.baseType[2].key() }",
+			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
             lUrl : "/ncts/mngr/edcOperMngr/mngrFrmatnEvlList.do",
             fUrl : "/ncts/mngr/edcOperMngr/mngrFrmatnEvlForm.do",
             dUrl : "/ncts/mngr/edcOperMngr/mngrDeleteFrmatnEvl.do",
@@ -189,7 +189,7 @@ $(function(){
                           '<select id="examTypeCdList'+formCount+'" name="examTypeCdList" class="form-control w100" style="text-align-last:center;">'+
                           '<option value="">선택</option>'+
                           '<c:forEach var="codeMap" items="${codeMap }" varStatus="idx">'+
-                          '<option value="${codeMap.CODE}"}>${codeMap.CODE_NM }</option>'+
+                          '<option value="<c:out value='${codeMap.CODE}'/>"><c:out value="${codeMap.CODE_NM }"/></option>'+
                           '</c:forEach>'+
                           '</select>'+
                           '</td>'+
@@ -397,7 +397,7 @@ $(function(){
 		<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-				<input type="hidden" id="searchKeyword1" name="searchKeyword1" class="form-control" value='<c:out value="${param.searchKeyword1}"/>'>
+				<input type="hidden" id="searchKeyword1" name="searchKeyword1" class="form-control" value="<c:out value='${param.searchKeyword1}'/>">
 				<div class="fL wp50">
 					<ul class="searchAreaBox">
 					    <li class="smart-form ml5"><label class="label">강의명</label></li>
@@ -405,7 +405,7 @@ $(function(){
                             <select id="sGubun" name="sGubun" class="form-control" style="text-align-last:center;">
                                 <option value="">선택</option>
                                     <c:forEach var="lecIdList" items="${lecIdList }" varStatus="idx">
-                                        <option value="${lecIdList.LECTURE_ID}" ${result.LECTURE_ID eq lecIdList.LECTURE_ID ? 'selected="selected"':'' }>${lecIdList.LECTURE_NM }</option>
+                                        <option value="<c:out value='${lecIdList.LECTURE_ID}'/>" <c:out value="${result.LECTURE_ID eq lecIdList.LECTURE_ID ? 'selected=selected':'' }"/>><c:out value="${lecIdList.LECTURE_NM }"/></option>
                                     </c:forEach>
                             </select>
                         </li>
@@ -431,10 +431,10 @@ $(function(){
 				<article class="col-md-12 col-lg-12">
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 						<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-						<input type="hidden" id="lectureId" name="lectureId" value="${result.LECTURE_ID}">
+						<input type="hidden" id="lectureId" name="lectureId" value="<c:out value='${result.LECTURE_ID}'/>">
 						<input type="hidden" id="itemNmList" name="itemNmList" value="">
 						<input type="hidden" id="itemNoList" name="itemNoList" value="">
-						<input type="hidden" id="examSqno" name="examSqno" value="${result.EXAM_SQNO}">
+						<input type="hidden" id="examSqno" name="examSqno" value="<c:out value='${result.EXAM_SQNO}'/>">
 						<table class="table table-bordered tb_type03">
 							<colgroup>
 								<col width="10%">
@@ -448,12 +448,12 @@ $(function(){
 								<tr>
                                     <th scope="row">형성평가번호</th>
                                     <td><label class="input w15 col">
-                                            <input type="text" id="examNoList" name="examNoList" value="${result.EXAM_NO}">
+                                            <input type="text" id="examNoList" name="examNoList" value="<c:out value='${result.EXAM_NO}'/>">
                                         </label>
                                     </td>
                                     <th scope="row">형성평가명</th>
                                     <td><label class="input w500 col">
-                                            <input type="text" id="examNmList" name="examNmList" value="${result.EXAM_NM}">
+                                            <input type="text" id="examNmList" name="examNmList" value="<c:out value='${result.EXAM_NM}'/>">
                                         </label>
                                     </td>
                                     <th scope="row">항목유형</th>
@@ -461,7 +461,7 @@ $(function(){
                                         <select id="examTypeCdList" name="examTypeCdList" class="form-control w100" style="text-align-last:center;">
                                             <option value="">선택</option>
                                                 <c:forEach var="codeMap" items="${codeMap }" varStatus="idx">
-                                                    <option value="${codeMap.CODE}" ${result.EXAM_TYPE_CD eq codeMap.CODE ? 'selected="selected"':'' }>${codeMap.CODE_NM }</option>
+                                                    <option value="<c:out value='${codeMap.CODE}'/>" <c:out value="${result.EXAM_TYPE_CD eq codeMap.CODE ? 'selected=selected':'' }"/>><c:out value="${codeMap.CODE_NM }"/></option>
                                                 </c:forEach>
                                         </select>
                                     </td>
@@ -469,7 +469,7 @@ $(function(){
 								<tr>
 									<th scope="row">형성평가<br/>오답설명 </th>
 									<td colspan="5" class="board_contents">
-										<textarea id="examWransNoteList" name="examWransNoteList" class="part_long board_contents" style="width: 100%; min-width: 100%;">${result.EXAM_WRANS_NOTE}</textarea>
+										<textarea id="examWransNoteList" name="examWransNoteList" class="part_long board_contents" style="width: 100%; min-width: 100%;"><c:out value="${result.EXAM_WRANS_NOTE}"/></textarea>
 									</td>
 								</tr>
 							</tbody>

@@ -2,7 +2,9 @@ package egovframework.com.security;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -19,7 +21,10 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.Sha256Crypto;
+import egovframework.com.ipcheck;
 import egovframework.com.security.vo.CustomUser;
+import egovframework.com.sessionManager.SessionManager;
+import egovframework.com.vo.UserSessionVO;
 import egovframework.ncts.cmm.login.service.EgovNctsLoginService;
 
 public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
@@ -61,7 +66,49 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
 				session.invalidate();
 			}
 			
+			String userId = user.getUserId();
+			String ip = ipcheck.getClientIP(req);
+			// 1. 기존 세션 조회
+			List<UserSessionVO> activeSessions = egovNctsLoginService.selectActiveSessions(userId);
 			
+			String duplicationMsg = "";
+			String newSessionId = session.getId();
+			
+			if(activeSessions != null && !activeSessions.isEmpty()) {
+				
+				for(UserSessionVO vo : activeSessions) {
+					
+					if(!vo.getLoginIp().equals(ip)) {
+						duplicationMsg = "기존 로그인은 자동 차단됩니다.";
+						
+						// 2. 기존 세션 강제 종료
+						for (UserSessionVO s : activeSessions) {
+							HttpSession oldSession = SessionManager.getSession(s.getSessionId());
+							if (oldSession != null) {
+								try {
+									oldSession.invalidate();
+								} catch (IllegalStateException ignore) {}
+							}
+							
+							egovNctsLoginService.deleteUserSession(userId);
+						}
+						
+						// 3. 새 세션 저장
+						vo = new UserSessionVO(userId, newSessionId, ip, new Date());
+						egovNctsLoginService.insertUserSession(vo);
+						session.setAttribute("USER_ID", userId);	
+						
+					}
+				}
+			}else {
+				
+				UserSessionVO vo = new UserSessionVO(userId, newSessionId, ip, new Date());
+				egovNctsLoginService.insertUserSession(vo);
+				session.setAttribute("USER_ID", userId);	
+				
+			}
+			
+			map.put("duplicationMsg", duplicationMsg);
 			
 							
 			map.put("result", "success");

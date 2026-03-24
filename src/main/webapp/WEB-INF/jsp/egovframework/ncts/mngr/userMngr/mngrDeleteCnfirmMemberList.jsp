@@ -3,9 +3,9 @@
 <script type="text/javascript">
 	$(function(){
 	    var baseInfo = {
-	            insertKey : "${common.baseType[0].key() }",
-	            updateKey : "${common.baseType[1].key() }",
-	            deleteKey : "${common.baseType[2].key() }",
+	            insertKey : '<c:out value="${common.baseType[0].key() }"/>',
+	            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
+	            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
 	            lUrl : "/ncts/mngr/userMngr/mngrDeleteCnfirmMemberList.do",
 	            dUrl : "/ncts/mngr/userMngr/deleteMngrDeleteCnfirmMember.do",
 	            pop01 : "/ncts/mngr/userMngr/mngrFileConfirmListPopup.do"
@@ -193,7 +193,7 @@
                             <select id="sGubun" name="sGubun" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH03 }" varStatus="idx">
-                                    <option value="${list.CODE }" ${param.sGubun eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
+                                    <option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
                                 </c:forEach>
                             </select>
                         </li>
@@ -204,8 +204,8 @@
                             <select id="sGubun1" name="sGubun1" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH23 }" varStatus="idx">
-                                    <option value="${list.CODE }" ${param.sGubun1 eq list.CODE ? 'selected="selected"':'' }>
-	                                    ${list.CODE_NM}
+                                    <option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun1 eq list.CODE ? 'selected=selected':'' }"/>>
+	                                   <c:out value=" ${list.CODE_NM}"/>
                                     </option>
                                 </c:forEach>
                             </select>
@@ -218,8 +218,8 @@
                             <select id="sGubun2" name="sGubun2" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH24 }" varStatus="idx">
-                                    <option value="${list.CODE }" ${param.sGubun2 eq list.CODE ? 'selected="selected"':'' }>
-	                                    ${list.CODE_NM}
+                                    <option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun2 eq list.CODE ? 'selected=selected':'' }"/>>
+	                                    <c:out value="${list.CODE_NM}"/>
                                     </option>
                                 </c:forEach>                                
                             </select>
@@ -270,15 +270,15 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value="${list.USER_NO}">
+										<input type="checkbox" class="index" value='<c:out value="${list.USER_NO}"/>'>
 										
 									</td>
 									<%-- <td>${!empty list.DIST_MANAGE_NM ? list.DIST_MANAGE_NM : '전체'  }</td> --%>
-									<td>${list.USER_ID}</td>
-									<td>${list.USER_EMAIL}</td>
-									<td>${list.USER_NM}</td>
-									<td>${list.USER_HP_NO}</td>
-									<td>${list.DETAIL_GRADE_CD_NM}</td>
+									<td><c:out value="${list.USER_ID}"/></td>
+									<td><c:out value="${list.USER_EMAIL}"/></td>
+									<td><c:out value="${list.USER_NM}"/></td>
+									<td><c:out value="${list.USER_HP_NO}"/></td>
+									<td><c:out value="${list.DETAIL_GRADE_CD_NM}"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

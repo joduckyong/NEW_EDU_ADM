@@ -44,7 +44,6 @@ public class CustomMacAddress extends Applet{
 	    try {
 	    	addr = InetAddress.getLocalHost();
 
-	        System.out.println(addr.getHostAddress());
 	        NetworkInterface dir = NetworkInterface.getByInetAddress(addr);
 	        byte[] dirMac = dir.getHardwareAddress();
 

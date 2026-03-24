@@ -174,7 +174,6 @@ public class FileUtil
 		catch(IOException e)
 		{
 			returnStr = "";
-			e.printStackTrace();
 		}
 		return returnStr;
 	}
@@ -191,7 +190,6 @@ public class FileUtil
 			output.print(data.toString());
 			output.close();
 		} catch(IOException e) {
-			System.out.println(e.getMessage());
 			return false;
 		}
 		return true;
@@ -335,7 +333,7 @@ public class FileUtil
 			}
 			
 		}catch(IOException e){
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		returnMap.put("list", list);
 		returnMap.put("upload_size",upload_size);

@@ -2,9 +2,9 @@
 <script type="text/javascript">
 $(function(){
 	var baseInfo = {
-			insertKey : "${common.baseType[0].key() }",
-			updateKey : "${common.baseType[1].key() }",
-			deleteKey : "${common.baseType[2].key() }",
+			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+			updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+			deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
 			lUrl : "/ncts/cmm/sys/ipauth/ipAuthList.do",
 			fUrl : "/ncts/cmm/sys/ipauth/ipAuthForm.do",
 			dUrl : "/ncts/cmm/sys/ipauth/authipProcess.do"
@@ -132,7 +132,7 @@ $(function(){
 						</li>
 						<li>
 							<label class="select col w180">
-								<input type="text" id="searchKeyword1" name="searchKeyword1" value="${param.searchKeyword1}" class="form-control">
+								<input type="text" id="searchKeyword1" name="searchKeyword1" value="<c:out value='${param.searchKeyword1}'/>" class="form-control">
 							</label>
 						</li>
 						<li class="smart-form ml5">
@@ -140,7 +140,7 @@ $(function(){
 						</li>
 						<li>
 							<label class="select col w120">
-								<input type="text" id="searchKeyword2" name="searchKeyword2" value="${param.searchKeyword2}" class="form-control">
+								<input type="text" id="searchKeyword2" name="searchKeyword2" value="<c:out value='${param.searchKeyword2}'/>" class="form-control">
 							</label>
 						</li>
 						<li class="ml10">
@@ -227,17 +227,17 @@ $(function(){
 							</c:if>
 							<c:forEach var="list" items="${rslist }" varStatus="idx">
 								<tr>
-									<td class="invisible"><input type="checkbox" class="index" value="${list.IP_ADRESS }"></td>
-									<td>${list.IP_ADRESS }</td>
-									<td>${list.IP_USE_AGENCY }</td>
-									<td>${list.IP_USE_REASON }</td>
-									<td>${list.USE_YN }</td>
-									<td>${list.CRE_USER }</td>
-									<td>${list.CRE_DATE }</td>
-									<td>${list.UPD_USER }</td>
-									<td>${list.UPD_DATE }</td>
+									<td class="invisible"><input type="checkbox" class="index" value="<c:out value='${list.IP_ADRESS }'/>"></td>
+									<td><c:out value="${list.IP_ADRESS }"/></td>
+									<td><c:out value="${list.IP_USE_AGENCY }"/></td>
+									<td><c:out value="${list.IP_USE_REASON }"/></td>
+									<td><c:out value="${list.USE_YN }"/></td>
+									<td><c:out value="${list.CRE_USER }"/></td>
+									<td><c:out value="${list.CRE_DATE }"/></td>
+									<td><c:out value="${list.UPD_USER }"/></td>
+									<td><c:out value="${list.UPD_DATE }"/></td>
 									<td>
-										<button class="delBtn btn btn-danger ml2" type="button" id="delBtn" data-ip-adress="${list.IP_ADRESS }">
+										<button class="delBtn btn btn-danger ml2" type="button" id="delBtn" data-ip-adress="<c:out value='${list.IP_ADRESS }'/>">
 											<i class="fa fa-cut" title="삭제"></i> 삭제
 										</button>
 									</td>

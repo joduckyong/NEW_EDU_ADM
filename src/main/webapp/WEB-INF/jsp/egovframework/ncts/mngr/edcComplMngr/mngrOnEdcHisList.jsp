@@ -4,9 +4,9 @@
 	$(function(){
 		var excelPg = 0;
 	    var baseInfo = {
-	            insertKey : "${common.baseType[0].key() }",
-	            updateKey : "${common.baseType[1].key() }",
-	            deleteKey : "${common.baseType[2].key() }",
+	            insertKey : '<c:out value="${common.baseType[0].key()}"/>',
+	            updateKey : '<c:out value="${common.baseType[1].key()}"/>',
+	            deleteKey : '<c:out value="${common.baseType[2].key()}"/>',
 	            lUrl : "/ncts/mngr/edcComplMngr/mngrOnEdcHisList.do",
 	            dUrl : "/ncts/mngr/edcComplMngr/mngrDeleteOnEdc.do",
 	            excel : "/ncts/mngr/edcComplMngr/onEdcExcelDownload.do"
@@ -162,7 +162,7 @@
                             <select id="sGubun" name="sGubun" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.LECLIST }" varStatus="idx">
-                                    <option value="${list.LECTURE_ID}" ${param.sGubun eq list.LECTURE_ID ? 'selected="selected"':'' }>${list.LECTURE_NM }</option>
+                                    <option value='<c:out value="${list.LECTURE_ID}"/>' <c:out value="${param.sGubun eq list.LECTURE_ID ? 'selected=selected':'' }"/>><c:out value="${list.LECTURE_NM }"/></option>
                                 </c:forEach>
                             </select>
                         </li>
@@ -177,7 +177,7 @@
                             <select id="sGubun1" name="sGubun1" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH02 }" varStatus="idx">
-                                    <option value="${list.CODE }" ${param.sGubun1 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
+                                    <option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun1 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
                                 </c:forEach>
                             </select>
                         </li>
@@ -231,17 +231,17 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value="${list.USER_NO}">
-										<input type="hidden" name="searchLectureId" value="${list.LECTURE_ID}">
-										<input type="hidden" name="searchResultNo" value="${list.RESULT_NO}">
+										<input type="checkbox" class="index" value='<c:out value="${list.USER_NO}"/>'>
+										<input type="hidden" name="searchLectureId" value='<c:out value="${list.LECTURE_ID}"/>'>
+										<input type="hidden" name="searchResultNo" value='<c:out value="${list.RESULT_NO}"/>'>
 									</td>
-									<td>${list.USER_NM}</td>
-									<td>${list.LECTURE_NM  }</td>
-									<td>${list.MOVIE_VIEW_ST  }</td>
-									<td>${list.FIRST_ROUND_RESULT_CD}</td>
-									<td>${list.SECOND_ROUND_RESULT_CD }</td>
-									<td>${list.PASS_CD }</td>
-									<td>${list.LECTURE_ST_DT }</td>
+									<td><c:out value="${list.USER_NM}"/></td>
+									<td><c:out value="${list.LECTURE_NM  }"/></td>
+									<td><c:out value="${list.MOVIE_VIEW_ST  }"/></td>
+									<td><c:out value="${list.FIRST_ROUND_RESULT_CD}"/></td>
+									<td><c:out value="${list.SECOND_ROUND_RESULT_CD }"/></td>
+									<td><c:out value="${list.PASS_CD }"/></td>
+									<td><c:out value="${list.LECTURE_ST_DT }"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

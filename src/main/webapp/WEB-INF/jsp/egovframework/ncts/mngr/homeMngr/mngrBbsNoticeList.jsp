@@ -4,9 +4,9 @@
 	$(function(){
 		var excelPg = 0;
 	    var baseInfo = {
-	            insertKey : "${common.baseType[0].key() }",
-	            updateKey : "${common.baseType[1].key() }",
-	            deleteKey : "${common.baseType[2].key() }",
+	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
+	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
 	            lUrl : "/ncts/mngr/homeMngr/mngrBbsNoticeList.do",
 	            fUrl : "/ncts/mngr/homeMngr/mngrBbsNoticeForm.do",
 	            dUrl : "/ncts/mngr/homeMngr/mngrDeleteBbsNotice.do",
@@ -182,7 +182,7 @@
 									<option value="">전체</option>
 									<c:forEach var="center" items="${centerList }" varStatus="idx">
 										<c:if test="${center.DEPT_CD eq '10000000' or center.DEPT_CD eq '30000000' or center.DEPT_CD eq '50000000' or center.DEPT_CD eq '60000000' or center.DEPT_CD eq '70000000'}">
-											<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq param.centerCd ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
+											<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq param.centerCd ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
 										</c:if>
 									</c:forEach>
 								</select> <i></i>
@@ -261,12 +261,12 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value="${list.BBS_NO}">
+										<input type="checkbox" class="index" value="<c:out value='${list.BBS_NO}'/>">
 									</td>
-									<td>${list.LAST_USER_NM}</td>
-									<td>${list.TITLE}</td>
-									<td>${list.CENTER_NM}</td>
-									<td>${list.FRST_REGIST_PNTTM}</td>
+									<td><c:out value="${list.LAST_USER_NM}"/></td>
+									<td><c:out value="${list.TITLE}"/></td>
+									<td><c:out value="${list.CENTER_NM}"/></td>
+									<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
 									<%-- <td>${list.START_TIME}</td>
 									<td>${list.END_TIME}</td>
 									<td>${list.ACTIVITY_CONTENT}</td> --%>
