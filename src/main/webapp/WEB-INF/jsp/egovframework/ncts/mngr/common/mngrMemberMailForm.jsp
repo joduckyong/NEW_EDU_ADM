@@ -328,7 +328,7 @@ $(function(){
 								</tr>
 								<tr>
 									<th scope="row">첨부파일 </th>
-									<td colspan="6"><c:out value="${not empty result ? result.fileView : markup }"/></td>
+									<td colspan="6">${not empty result ? result.fileView : markup }</td>
 								</tr>
 							</tbody>
 						</table>

@@ -171,7 +171,7 @@ $(function(){
 								<tr>
                                     <th scope="row">썸네일 이미지 </th>
                                     <td colspan="3">
-										<c:out value="${markup }"/>
+										<c:out value="${markup}" escapeXml="false"/>
                                     </td>
                                 </tr>
 								<tr>

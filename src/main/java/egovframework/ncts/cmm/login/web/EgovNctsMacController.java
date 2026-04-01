@@ -1,5 +1,6 @@
 package egovframework.ncts.cmm.login.web;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.net.InetAddress;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,105 +62,229 @@ public class EgovNctsMacController {
 		return result;
 	}	
 	
+//	@RequestMapping(value = "/macCheck.do")
+//	public @ResponseBody HashMap<String, Object> macCheck(HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes, Authentication auth) throws Exception {
+//		HashMap<String, Object> result = new HashMap<>();
+//		String pcMac = "";
+//		HashMap<String, Object> param = new HashMap<>();
+//		// TCP Socket
+//		CustomUser user = (CustomUser) customizeUserDetailService.loadUserByUsername(request.getParameter("userId"));
+//		
+//		if(null == user.getMacPort() || "".equals(user.getMacPort())) {
+//			result.put("errorMsg", "포트 설정 후 시도해주시기를 바랍니다.");
+//			return result;
+//		}
+//		int port = Integer.parseInt(user.getMacPort());		
+//		param.put("macPort", port);
+//		param.put("serverIp", InetAddress.getLocalHost().getHostAddress());
+//		
+//		ServerSocket server = new ServerSocket();
+//		try {
+//			server.bind(new InetSocketAddress(port));
+//			server.setSoTimeout(30000);
+//			param.put("macServerAt", "Y");
+//			egovNctsMacService.updateMacServerPortAt(param);
+//			log.debug("create Server Port : " + port);
+//		
+//		} catch(SocketException e) {
+//			log.debug(e.getMessage());
+//			result.put("errorMsg", "현재 로그인 시도중입니다. <br>잠시 후 다시 시도해주시기를 바랍니다.");
+//			return result;
+//		}
+//		
+//		Socket client = new Socket();
+//		while (true) {
+//			try {
+//				client = server.accept(); 
+//				client.setSoTimeout(30000); // 30 seconds timeout
+//				
+//				if (client.isConnected()) {
+//					log.debug("@@ Client connected from " + client.getInetAddress());
+//					
+//					// Getting input and output streams from the socket
+//					InputStream in = client.getInputStream();
+//				    
+//					// Receiving data from the client
+//					byte[] buffer = new byte[256];
+//					int bytesReceived = in.read(buffer);
+//					pcMac = new String(buffer, 0, bytesReceived);
+//					log.debug("Received Mac-Addr from client: " + pcMac);
+//					
+//					client.close();
+//					server.close();
+//					log.debug("Client connection closed.");
+//					param.put("macServerAt", "N");
+//					egovNctsMacService.updateMacServerPortAt(param);
+//					//사용자의 맥주소 조회
+//					List<HashMap<String, Object>> userMacList = customizeUserDetailService.selectUserMacAddress(request.getParameter("userId"));
+//					for(HashMap<String, Object> tmp : userMacList){
+//						if(pcMac.equals(tmp.get("MAC_ADDR_W")) || pcMac.equals(tmp.get("MAC_ADDR_C"))) {
+//							//CustomUser user = (CustomUser) customizeUserDetailService.loadUserByUsername(request.getParameter("userId"));
+//							Authentication authentication  = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+//							SecurityContext securityContext = SecurityContextHolder.getContext();
+//							securityContext.setAuthentication(authentication);
+//							
+//							user.setFailrCnt("0");
+//							egovNctsLoginService.updateFailrCnt(user);
+//							
+//							HttpSession session = request.getSession(true);
+//							session.setMaxInactiveInterval(TIME);
+//							session.setAttribute("SPRING_SECURITY_CONTEXT",securityContext);   // 세션에 spring security context 넣음
+//							session.setAttribute("userinfo", authentication.getPrincipal());							
+//							
+//							result.put("success", "success");
+//							result.put("targetUrl", "/ncts/egovNctsMain.do");
+//						}
+//					}
+//					return result;
+//				}
+//			} catch(SocketTimeoutException e) {
+//				param.put("macServerAt", "N");
+//				egovNctsMacService.updateMacServerPortAt(param);
+//				result.put("errorMsg", "30초가 지나 종료되었습니다. <br>다시 시도해주시기를 바랍니다.");
+//				log.debug("ServerSocket Timeout @@ " + e.getMessage());
+//				break;
+//			} catch (InterruptedIOException e) {
+//				param.put("macServerAt", "N");
+//				egovNctsMacService.updateMacServerPortAt(param);
+//				result.put("errorMsg", "30초가 지나 종료되었습니다. <br>다시 시도해주시기를 바랍니다.");
+//				log.debug("Socket Timeout @@ " + e.getMessage());
+//				break;
+//			} catch (Exception e) { 
+//				param.put("macServerAt", "N");
+//				egovNctsMacService.updateMacServerPortAt(param);
+//				result.put("errorMsg", "다시 시도해주시기를 바랍니다.");
+//				log.debug("Exception @@ " + e.getMessage());
+//				break;
+//			} finally {
+//				if(null != client) client.close();
+//				if(null != server) server.close();
+//			}
+//			
+//		}	
+//		return result;
+//	}
+	
 	@RequestMapping(value = "/macCheck.do")
-	public @ResponseBody HashMap<String, Object> macCheck(HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes, Authentication auth) throws Exception {
-		HashMap<String, Object> result = new HashMap<>();
-		String pcMac = "";
-		HashMap<String, Object> param = new HashMap<>();
-		// TCP Socket
-		CustomUser user = (CustomUser) customizeUserDetailService.loadUserByUsername(request.getParameter("userId"));
-		
-		if(null == user.getMacPort() || "".equals(user.getMacPort())) {
-			result.put("errorMsg", "포트 설정 후 시도해주시기를 바랍니다.");
-			return result;
-		}
-		int port = Integer.parseInt(user.getMacPort());		
-		param.put("macPort", port);
-		param.put("serverIp", InetAddress.getLocalHost().getHostAddress());
-		
-		ServerSocket server = new ServerSocket();
-		try {
-			server.bind(new InetSocketAddress(port));
-			server.setSoTimeout(30000);
-			param.put("macServerAt", "Y");
-			egovNctsMacService.updateMacServerPortAt(param);
-			log.debug("create Server Port : " + port);
-		} catch(SocketException e) {
-			log.debug(e.getMessage());
-			result.put("errorMsg", "현재 로그인 시도중입니다. <br>잠시 후 다시 시도해주시기를 바랍니다.");
-			return result;
-		}
-		
-		Socket client = new Socket();
-		while (true) {
-			try {
-				client = server.accept(); 
-				client.setSoTimeout(30000); // 30 seconds timeout
-				
-				if (client.isConnected()) {
-					log.debug("@@ Client connected from " + client.getInetAddress());
-					
-					// Getting input and output streams from the socket
-					InputStream in = client.getInputStream();
-				    
-					// Receiving data from the client
-					byte[] buffer = new byte[256];
-					int bytesReceived = in.read(buffer);
-					pcMac = new String(buffer, 0, bytesReceived);
-					log.debug("Received Mac-Addr from client: " + pcMac);
-					
-					client.close();
-					server.close();
-					log.debug("Client connection closed.");
-					param.put("macServerAt", "N");
-					egovNctsMacService.updateMacServerPortAt(param);
-					//사용자의 맥주소 조회
-					List<HashMap<String, Object>> userMacList = customizeUserDetailService.selectUserMacAddress(request.getParameter("userId"));
-					for(HashMap<String, Object> tmp : userMacList){
-						if(pcMac.equals(tmp.get("MAC_ADDR_W")) || pcMac.equals(tmp.get("MAC_ADDR_C"))) {
-							//CustomUser user = (CustomUser) customizeUserDetailService.loadUserByUsername(request.getParameter("userId"));
-							Authentication authentication  = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
-							SecurityContext securityContext = SecurityContextHolder.getContext();
-							securityContext.setAuthentication(authentication);
-							
-							user.setFailrCnt("0");
-							egovNctsLoginService.updateFailrCnt(user);
-							
-							HttpSession session = request.getSession(true);
-							session.setMaxInactiveInterval(TIME);
-							session.setAttribute("SPRING_SECURITY_CONTEXT",securityContext);   // 세션에 spring security context 넣음
-							session.setAttribute("userinfo", authentication.getPrincipal());							
-							
-							result.put("success", "success");
-							result.put("targetUrl", "/ncts/egovNctsMain.do");
-						}
-					}
-					return result;
-				}
-			} catch(SocketTimeoutException e) {
-				param.put("macServerAt", "N");
-				egovNctsMacService.updateMacServerPortAt(param);
-				result.put("errorMsg", "30초가 지나 종료되었습니다. <br>다시 시도해주시기를 바랍니다.");
-				log.debug("ServerSocket Timeout @@ " + e.getMessage());
-				break;
-			} catch (InterruptedIOException e) {
-				param.put("macServerAt", "N");
-				egovNctsMacService.updateMacServerPortAt(param);
-				result.put("errorMsg", "30초가 지나 종료되었습니다. <br>다시 시도해주시기를 바랍니다.");
-				log.debug("Socket Timeout @@ " + e.getMessage());
-				break;
-			} catch (Exception e) { 
-				param.put("macServerAt", "N");
-				egovNctsMacService.updateMacServerPortAt(param);
-				result.put("errorMsg", "다시 시도해주시기를 바랍니다.");
-				log.debug("Exception @@ " + e.getMessage());
-				break;
-			} finally {
-				if(null != client) client.close();
-				if(null != server) server.close();
-			}
-			
-		}	
-		return result;
-	}
+	public @ResponseBody HashMap<String, Object> macCheck(
+	        HttpServletRequest request, HttpServletResponse response,
+	        RedirectAttributes redirectAttributes, Authentication auth) throws Exception {
+
+	    HashMap<String, Object> result = new HashMap<>();
+	    HashMap<String, Object> param = new HashMap<>();
+
+	    // 1. userId 파라미터 사전 검증
+	    String userId = request.getParameter("userId");
+	    if (StringUtils.isBlank(userId)) {
+	        result.put("errorMsg", "유효하지 않은 요청입니다.");
+	        return result;
+	    }
+
+	    CustomUser user = (CustomUser) customizeUserDetailService.loadUserByUsername(userId);
+	    if (user == null) {
+	        result.put("errorMsg", "사용자 정보를 찾을 수 없습니다.");
+	        return result;
+	    }
+
+	    if (StringUtils.isBlank(user.getMacPort())) {
+	        result.put("errorMsg", "포트 설정 후 시도해주시기를 바랍니다.");
+	        return result;
+	    }
+
+	    int port = Integer.parseInt(user.getMacPort());
+	    param.put("macPort", port);
+	    param.put("serverIp", InetAddress.getLocalHost().getHostAddress());
+
+	    // 2. ServerSocket을 try-with-resources로 선언 → 자동 close() 보장
+	    try (ServerSocket server = new ServerSocket()) {
+
+	        try {
+	            server.bind(new InetSocketAddress(port));
+	        } catch (SocketException e) {
+	            log.debug(e.getMessage());
+	            result.put("errorMsg", "현재 로그인 시도중입니다. <br>잠시 후 다시 시도해주시기를 바랍니다.");
+	            return result;
+	        }
+
+	        server.setSoTimeout(30000);
+	        param.put("macServerAt", "Y");
+	        egovNctsMacService.updateMacServerPortAt(param);
+	        log.debug("create Server Port : " + port);
+
+	        // 3. Socket, InputStream 모두 try-with-resources로 선언
+	        try (Socket client = server.accept();
+	             InputStream in = client.getInputStream()) {
+
+	            client.setSoTimeout(30000);
+	            log.debug("@@ Client connected from " + client.getInetAddress());
+
+	            byte[] buffer = new byte[256];
+	            int bytesReceived = in.read(buffer);
+	            if (bytesReceived <= 0) {
+	                result.put("errorMsg", "데이터 수신에 실패했습니다.");
+	                return result;
+	            }
+
+	            String pcMac = new String(buffer, 0, bytesReceived).trim();
+	            log.debug("Received Mac-Addr from client: " + pcMac);
+
+	            param.put("macServerAt", "N");
+	            egovNctsMacService.updateMacServerPortAt(param);
+
+	            // 4. MAC 인증: 불일치 시 명시적 실패 처리
+	            boolean macMatched = false;
+	            List<HashMap<String, Object>> userMacList =
+	                customizeUserDetailService.selectUserMacAddress(userId);
+
+	            for (HashMap<String, Object> tmp : userMacList) {
+	                if (pcMac.equals(tmp.get("MAC_ADDR_W")) || pcMac.equals(tmp.get("MAC_ADDR_C"))) {
+	                    macMatched = true;
+	                    break;
+	                }
+	            }
+
+	            if (!macMatched) {
+	                // 5. MAC 불일치 → 인증 실패 명시, 세션 생성 금지
+	                result.put("errorMsg", "등록되지 않은 MAC 주소입니다.");
+	                return result;
+	            }
+
+	            // 6. MAC 일치 → 세션 및 Security Context 설정
+	            Authentication authentication = new UsernamePasswordAuthenticationToken(
+	                user, user.getPassword(), user.getAuthorities());
+	            SecurityContext securityContext = SecurityContextHolder.getContext();
+	            securityContext.setAuthentication(authentication);
+
+	            user.setFailrCnt("0");
+	            egovNctsLoginService.updateFailrCnt(user);
+
+	            HttpSession session = request.getSession(true);
+	            session.setMaxInactiveInterval(TIME);
+	            session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+	            session.setAttribute("userinfo", authentication.getPrincipal());
+
+	            result.put("success", "success");
+	            result.put("targetUrl", "/ncts/egovNctsMain.do");
+
+	        } catch (SocketTimeoutException e) {
+	            param.put("macServerAt", "N");
+	            egovNctsMacService.updateMacServerPortAt(param);
+	            result.put("errorMsg", "30초가 지나 종료되었습니다. <br>다시 시도해주시기를 바랍니다.");
+	            log.debug("Socket Timeout @@ " + e.getMessage());
+	        } catch (InterruptedIOException e) {
+	            param.put("macServerAt", "N");
+	            egovNctsMacService.updateMacServerPortAt(param);
+	            result.put("errorMsg", "30초가 지나 종료되었습니다. <br>다시 시도해주시기를 바랍니다.");
+	            log.debug("Socket Timeout @@ " + e.getMessage());
+	        } catch (Exception e) {
+	            param.put("macServerAt", "N");
+	            egovNctsMacService.updateMacServerPortAt(param);
+	            result.put("errorMsg", "다시 시도해주시기를 바랍니다.");
+	            log.debug("Exception @@ " + e.getMessage());
+	        }
+
+	    } // ServerSocket 자동 close()
+
+	    return result;
+	}	
 }

@@ -1,6 +1,7 @@
 package egovframework.ncts.mngr.common.service.impl;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,30 @@ public class EgovNctsMngrCommonImpl implements EgovNctsMngrCommonService {
     /** log */
     private static final Logger LOGGER = LoggerFactory.getLogger(EgovNctsMngrCommonImpl.class);
 	final static  String FILE_SEPARATOR = System.getProperty("file.separator");
-	public static final String RELATIVE_PATH_PREFIX = EgovProperties.class.getResource("").getPath().substring(0, EgovProperties.class.getResource("").getPath().lastIndexOf("com"));
+//	public static final String RELATIVE_PATH_PREFIX = EgovProperties.class.getResource("").getPath().substring(0, EgovProperties.class.getResource("").getPath().lastIndexOf("com"));
+	public static final String RELATIVE_PATH_PREFIX;
+
+	static {
+	    // 1. getResource("") 단 1회 호출, null 검증
+	    URL resource = EgovProperties.class.getResource("");
+	    if (resource == null) {
+	        throw new IllegalStateException(
+	            "[EgovProperties] 클래스 리소스 경로를 확인할 수 없습니다. " +
+	            "클래스 로더 환경을 점검하세요.");
+	    }
+
+	    String path = resource.getPath();
+
+	    // 2. "com" 세그먼트 존재 여부 검증 → lastIndexOf가 -1이면 substring 오류 방지
+	    int comIdx = path.lastIndexOf("com");
+	    if (comIdx < 0) {
+	        throw new IllegalStateException(
+	            "[EgovProperties] 경로에서 'com' 세그먼트를 찾을 수 없습니다. " +
+	            "패키지 구조를 확인하세요. 경로: " + path);
+	    }
+
+	    RELATIVE_PATH_PREFIX = path.substring(0, comIdx);
+	}		
 	public static final String CREDENTIALS_PROPERTIES_FILE = RELATIVE_PATH_PREFIX + "egovProps" + FILE_SEPARATOR + "credentials.properties";
 	public static final String X_NCP_LANG = "ko-KR";
 	

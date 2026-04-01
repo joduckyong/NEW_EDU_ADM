@@ -523,7 +523,7 @@ $(function(){
 	                                    	</td>
 	                                    	<th>첨부파일</th>
                                    	 		<td>
-												<c:out value="${markup }"/>
+												<c:out value="${markup}" escapeXml="false"/>
 						            		</td>	
 	                                    </c:when>
 	                                    <c:otherwise>

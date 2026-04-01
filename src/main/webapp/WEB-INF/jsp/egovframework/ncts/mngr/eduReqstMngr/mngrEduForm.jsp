@@ -721,7 +721,7 @@ $(function(){
 								<tr>
 									<th scope="row">첨부파일 </th>
 									<td colspan="7">
-										<c:out value="${markup }"/>
+										<c:out value="${markup}" escapeXml="false"/>
 									</td>
 								</tr>
 								<tr>

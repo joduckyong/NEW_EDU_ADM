@@ -1,5 +1,6 @@
 package egovframework.ncts.cmm.sys.auth.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -115,7 +116,9 @@ public class EgovNctsSysAuthController {
 		}catch(ErrorExcetion e){
 			LOGGER.debug(e.getMessage());
 			result.put("msg", e.getMessage());
-			
+		 } catch (IOException e) {
+			 LOGGER.debug(e.getMessage());
+				result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 		}catch (Exception e) {		
 			LOGGER.debug(e.getMessage());
 			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -47,7 +48,31 @@ public class EgovProperties {
 
 	//public static final String RELATIVE_PATH_PREFIX = EgovProperties.class.getResource("").getPath()	+ FILE_SEPARATOR+ ".." + FILE_SEPARATOR  + ".." + FILE_SEPARATOR;
 
-	public static final String RELATIVE_PATH_PREFIX = EgovProperties.class.getResource("").getPath().substring(0, EgovProperties.class.getResource("").getPath().lastIndexOf("com"));
+//	public static final String RELATIVE_PATH_PREFIX = EgovProperties.class.getResource("").getPath().substring(0, EgovProperties.class.getResource("").getPath().lastIndexOf("com"));
+	
+	public static final String RELATIVE_PATH_PREFIX;
+
+	static {
+	    // 1. getResource("") 단 1회 호출, null 검증
+	    URL resource = EgovProperties.class.getResource("");
+	    if (resource == null) {
+	        throw new IllegalStateException(
+	            "[EgovProperties] 클래스 리소스 경로를 확인할 수 없습니다. " +
+	            "클래스 로더 환경을 점검하세요.");
+	    }
+
+	    String path = resource.getPath();
+
+	    // 2. "com" 세그먼트 존재 여부 검증 → lastIndexOf가 -1이면 substring 오류 방지
+	    int comIdx = path.lastIndexOf("com");
+	    if (comIdx < 0) {
+	        throw new IllegalStateException(
+	            "[EgovProperties] 경로에서 'com' 세그먼트를 찾을 수 없습니다. " +
+	            "패키지 구조를 확인하세요. 경로: " + path);
+	    }
+
+	    RELATIVE_PATH_PREFIX = path.substring(0, comIdx);
+	}	
 
 	public static final String GLOBALS_PROPERTIES_FILE = RELATIVE_PATH_PREFIX + "egovProps" + FILE_SEPARATOR + "globals.properties";
 
@@ -56,30 +81,64 @@ public class EgovProperties {
 	 * @param keyName String
 	 * @return String
 	 */
+//	public static String getPathProperty(String keyName) {
+//		String value = "";
+//		
+//		LOGGER.debug("getPathProperty : {} = {}", GLOBALS_PROPERTIES_FILE, keyName);
+//		
+//		FileInputStream fis = null;
+//		try {
+//			Properties props = new Properties();
+//			
+//			fis = new FileInputStream(EgovWebUtil.filePathBlackList(GLOBALS_PROPERTIES_FILE));
+//			props.load(new BufferedInputStream(fis));
+//			
+//			value = props.getProperty(keyName).trim();
+//			value = RELATIVE_PATH_PREFIX + "egovProps" + System.getProperty("file.separator") + value;
+//		} catch (FileNotFoundException fne) {
+//			LOGGER.debug("Property file not found.", fne);
+//			throw new RuntimeException("Property file not found", fne);
+//		} catch (IOException ioe) {
+//			LOGGER.debug("Property file IO exception", ioe);
+//			throw new RuntimeException("Property file IO exception", ioe);
+//		} finally {
+//			EgovResourceCloseHelper.close(fis);
+//		}
+//		
+//		return value;
+//	}
 	public static String getPathProperty(String keyName) {
 		String value = "";
-		
+
 		LOGGER.debug("getPathProperty : {} = {}", GLOBALS_PROPERTIES_FILE, keyName);
-		
-		FileInputStream fis = null;
-		try {
-			Properties props = new Properties();
-			
-			fis = new FileInputStream(EgovWebUtil.filePathBlackList(GLOBALS_PROPERTIES_FILE));
-			props.load(new BufferedInputStream(fis));
-			
-			value = props.getProperty(keyName).trim();
-			value = RELATIVE_PATH_PREFIX + "egovProps" + System.getProperty("file.separator") + value;
+
+		// 1. BufferedInputStream을 try-with-resources로 직접 선언
+//		    → 정상/예외 모두에서 bis.close() 자동 호출 (내부 fis도 함께 닫힘)
+//		    → 별도 fis 변수 및 finally 블록 불필요
+		Properties props = new Properties();
+
+		try (BufferedInputStream bis = new BufferedInputStream(
+		        new FileInputStream(EgovWebUtil.filePathBlackList(GLOBALS_PROPERTIES_FILE)))) {
+
+		    props.load(bis);
+
 		} catch (FileNotFoundException fne) {
-			LOGGER.debug("Property file not found.", fne);
-			throw new RuntimeException("Property file not found", fne);
+		    LOGGER.debug("Property file not found.", fne);
+		    throw new RuntimeException("Property file not found", fne);
 		} catch (IOException ioe) {
-			LOGGER.debug("Property file IO exception", ioe);
-			throw new RuntimeException("Property file IO exception", ioe);
-		} finally {
-			EgovResourceCloseHelper.close(fis);
+		    LOGGER.debug("Property file IO exception", ioe);
+		    throw new RuntimeException("Property file IO exception", ioe);
 		}
-		
+
+		// 2. getProperty() null 반환 시 .trim() NPE 방지
+		String raw = props.getProperty(keyName);
+		if (raw == null) {
+		    throw new RuntimeException("Property key not found: " + keyName);
+		}
+
+		value = raw.trim();
+		value = RELATIVE_PATH_PREFIX + "egovProps" + System.getProperty("file.separator") + value;
+
 		return value;
 	}
 

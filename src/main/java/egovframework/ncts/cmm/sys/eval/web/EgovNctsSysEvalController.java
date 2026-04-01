@@ -1,5 +1,6 @@
 package egovframework.ncts.cmm.sys.eval.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,7 +55,8 @@ public class EgovNctsSysEvalController {
 		try {
 			
 			result.put("success", "success");
-		}catch (Exception e) {
+		
+		} catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("success", "error");
 		}
@@ -71,6 +73,9 @@ public class EgovNctsSysEvalController {
 			result.put("evalList", evalList);
 			
 			result.put("success", "success");
+		 } catch (IOException e) {
+			 LOGGER.debug(e.getMessage());
+				result.put("success", "error");
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("success", "error");

@@ -1,5 +1,6 @@
 package egovframework.ncts.main.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -125,10 +126,17 @@ public class EgovNctsMainController {
         	
             result.put("success", "success");
             result.put("msg", "다음 로그인부터 적용됩니다.");
+        } catch (IOException e) {
+        	 result.put("success", "error");
+             System.out.println(e.getStackTrace());
+//             e.printStackTrace();
+             if("00".equals(e.getMessage())) result.put("msg", "항목을 모두 입력하시기 바랍니다.");
+             else if("01".equals(e.getMessage())) result.put("msg", "현재 비밀번호가 일치하지 않습니다.");
+             else if("02".equals(e.getMessage())) result.put("msg", "새 암호화 암호확인이 일치하지 않습니다.");
         }catch (Exception e) {
             result.put("success", "error");
             System.out.println(e.getStackTrace());
-            e.printStackTrace();
+//            e.printStackTrace();
             if("00".equals(e.getMessage())) result.put("msg", "항목을 모두 입력하시기 바랍니다.");
             else if("01".equals(e.getMessage())) result.put("msg", "현재 비밀번호가 일치하지 않습니다.");
             else if("02".equals(e.getMessage())) result.put("msg", "새 암호화 암호확인이 일치하지 않습니다.");
@@ -156,10 +164,17 @@ public class EgovNctsMainController {
         	
             result.put("success", "success");
             result.put("msg", "다음 로그인부터 적용됩니다.");
+        } catch (IOException e) {
+        	 result.put("success", "error");
+             System.out.println(e.getStackTrace());
+//             e.printStackTrace();
+             if("00".equals(e.getMessage())) result.put("msg", "항목을 모두 입력하시기 바랍니다.");
+             else if("01".equals(e.getMessage())) result.put("msg", "현재 비밀번호가 일치하지 않습니다.");
+             else if("02".equals(e.getMessage())) result.put("msg", "새 암호화 암호확인이 일치하지 않습니다.");
         }catch (Exception e) {
             result.put("success", "error");
             System.out.println(e.getStackTrace());
-            e.printStackTrace();
+//            e.printStackTrace();
             if("00".equals(e.getMessage())) result.put("msg", "항목을 모두 입력하시기 바랍니다.");
             else if("01".equals(e.getMessage())) result.put("msg", "현재 비밀번호가 일치하지 않습니다.");
             else if("02".equals(e.getMessage())) result.put("msg", "새 암호화 암호확인이 일치하지 않습니다.");

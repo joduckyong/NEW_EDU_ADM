@@ -30,7 +30,11 @@ public interface EgovNctsMngrMemberService {
     
     HashMap<String, Object> selectIdEmailChk(MngrMemberVO param)throws Exception;
 
+	
     void isueCertProc(MngrMemberVO param)throws Exception;
+    
+    void updateMngrMemberPwUnLock(MngrMemberVO param) throws Exception;
+    
     void fileConfirmProcess(MngrMemberVO param)throws Exception;
     List<HashMap<String, Object>> selectFileConfirmList(PageInfoVO pageVO)throws Exception;
 

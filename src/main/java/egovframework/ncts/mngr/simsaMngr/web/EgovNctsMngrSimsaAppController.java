@@ -78,6 +78,9 @@ public class EgovNctsMngrSimsaAppController {
 		try {
 			result.put("simsaNumList", egovNctsSimsaService.selectSimsaNumList());
 			result.put("success", "success");
+		} catch (IOException e) {
+			LOGGER.debug(e.getMessage());
+			result.put("success", "error");
 		} catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("success", "error");

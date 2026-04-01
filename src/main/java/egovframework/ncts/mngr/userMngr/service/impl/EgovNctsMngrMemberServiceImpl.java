@@ -13,9 +13,13 @@ import org.springframework.stereotype.Service;
 
 import com.nbp.ncp.nes.ApiResponse;
 import com.nbp.ncp.nes.model.EmailSendResponse;
+import com.penta.scpdb.ScpDbAgent;
+import com.penta.scpdb.ScpDbAgentException;
 
 import egovframework.com.AESCrypt;
 import egovframework.com.Sha256Crypto;
+import egovframework.com.TextUtil;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.file.FileViewMarkupBuilder;
 import egovframework.com.vo.PageInfoVO;
 import egovframework.com.vo.ProcType;
@@ -26,6 +30,8 @@ import egovframework.ncts.mngr.eduReqstMngr.vo.MngrEduProgressVO;
 import egovframework.ncts.mngr.userMngr.mapper.EgovNctsMngrMemberMapper;
 import egovframework.ncts.mngr.userMngr.service.EgovNctsMngrMemberService;
 import egovframework.ncts.mngr.userMngr.vo.MngrMemberVO;
+import java.security.SecureRandom;
+import java.security.NoSuchAlgorithmException;
 
 @Service
 public class EgovNctsMngrMemberServiceImpl implements EgovNctsMngrMemberService{
@@ -42,17 +48,81 @@ public class EgovNctsMngrMemberServiceImpl implements EgovNctsMngrMemberService{
     @Autowired
     private EgovNctsMngrCommonService egovNctsMngrCommonService;	
     
+//    String iniFilePath = "/penta/scpdb_agent.ini";
+    //String iniFilePath = "C:\\scp\\scpdb_agent.ini";
+    private final String iniFilePath = EgovProperties.getProperty("Globals.iniFilePath");
+    
     @Override
     public List<HashMap<String, Object>> selectMngrMemberList(PageInfoVO pageVO) throws Exception {
+    	ScpDbAgent agt = new ScpDbAgent();
+    	
+    	if (pageVO.getSearchKeyword2() != null && !"".equals(pageVO.getSearchKeyword2()) ) {
+	    	String searchKeyword2 = agt.ScpEncB64(iniFilePath, "KEY1", pageVO.getSearchKeyword2());
+	    	pageVO.setSearchKeyword2(searchKeyword2);
+    	}   
+    	if (pageVO.getSearchKeyword3() != null && !"".equals(pageVO.getSearchKeyword3()) ) {
+    		String searchKeyword3 = agt.ScpEncB64(iniFilePath, "KEY1", pageVO.getSearchKeyword3().replace("-", ""));
+    		pageVO.setSearchKeyword3(searchKeyword3);
+    	} 
+    	
         int cnt = egovNctsMngrMemberMapper.selectMngrMemberCnt(pageVO);
         pageVO.setTotalRecordCount(cnt);
         pageVO.setRecordCountPerPage(10);
-        return egovNctsMngrMemberMapper.selectMngrMemberList(pageVO);
+        
+	    List<HashMap<String, Object>> list = egovNctsMngrMemberMapper.selectMngrMemberList(pageVO);
+
+	    // 결과값 변환 처리 
+	    for (HashMap<String, Object> tmp : list) {
+		   	try {
+				if (tmp.get("USER_HP_NO") != null && !"".equals(tmp.get("USER_HP_NO"))) {
+					String tel = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_HP_NO").toString(),"UTF-8");
+					tmp.put("USER_HP_NO", TextUtil.formatTel(tel));
+				}				
+				if (tmp.get("USER_EMAIL") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL")))) {
+					tmp.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL").toString(),"UTF-8"));
+				}
+				if (tmp.get("USER_BIRTH_YMD") != null && !"".equals(String.valueOf(tmp.get("USER_BIRTH_YMD")))) {
+					String birthday = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_BIRTH_YMD").toString(),"UTF-8");
+					String formattedDate = birthday.substring(0,4) + "." + birthday.substring(4,6) + "." + birthday.substring(6,8);
+					tmp.put("USER_BIRTH_YMD", formattedDate);
+				}
+			}
+			catch (ScpDbAgentException e) {
+				LOGGER.info(e.getMessage());
+			}
+			catch (Exception e) {
+				LOGGER.info(e.getMessage());
+			}  			
+	    }
+	    
+	    return list;        
     }
     
     @Override
     public HashMap<String, Object> selectMngrMemberDetail(MngrMemberVO param) throws Exception {
+    	ScpDbAgent agt = new ScpDbAgent();
         HashMap<String, Object> result = egovNctsMngrMemberMapper.selectMngrMemberDetail(param);
+        try {
+	        if (result.get("USER_HP_NO") != null && !"".equals(String.valueOf(result.get("USER_HP_NO")))) {
+	        	String tel = agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_HP_NO").toString(),"UTF-8");
+	        	result.put("USER_HP_NO", TextUtil.formatTel(tel));
+	        }
+	        if (result.get("USER_EMAIL") != null && !"".equals(String.valueOf(result.get("USER_EMAIL")))) {
+	        	result.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_EMAIL").toString(),"UTF-8"));
+	        }
+	        if (result.get("USER_BIRTH_YMD") != null && !"".equals(String.valueOf(result.get("USER_BIRTH_YMD")))) {
+	        	String birthday = agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_BIRTH_YMD").toString(),"UTF-8");
+	        	String formattedDate = birthday.substring(0,4) + "." + birthday.substring(4,6) + "." + birthday.substring(6,8);
+	        	result.put("USER_BIRTH_YMD", formattedDate);
+	        }
+    	}
+    	catch (ScpDbAgentException e) {
+    		LOGGER.info(e.getMessage());
+    	}
+    	catch (Exception e) {
+    		LOGGER.info(e.getMessage());
+    	}  
+        
         String fileView = FileViewMarkupBuilder.newInstance()
                 .atchFileId(StringUtils.defaultIfEmpty((String) result.get("ATCH_FILE_ID"), ""))
                 .wrapMarkup("p")
@@ -77,10 +147,24 @@ public class EgovNctsMngrMemberServiceImpl implements EgovNctsMngrMemberService{
     
     @Override
     public void mngrProc(MngrMemberVO param) throws Exception {
+    	ScpDbAgent agt = new ScpDbAgent();
         ProcType procType = ProcType.findByProcType(param.getProcType());
         
         try{
             if(ProcType.UPDATE.equals(procType)) {
+            	
+            	if (param.getUserEmail() != null && !"".equals(param.getUserEmail()) ) {
+        	    	String userEmail = agt.ScpEncB64(iniFilePath, "KEY1", param.getUserEmail());
+        	    	param.setUserEmail(userEmail);
+            	}   
+            	if (param.getUserBirthYmd() != null && !"".equals(param.getUserBirthYmd()) ) {
+            		String userBirthYmd = agt.ScpEncB64(iniFilePath, "KEY1", param.getUserBirthYmd());
+            		param.setUserBirthYmd(userBirthYmd);
+            	}   
+            	if (param.getUserHpNo() != null && !"".equals(param.getUserHpNo()) ) {
+            		String userHpNo = agt.ScpEncB64(iniFilePath, "KEY1", param.getUserHpNo().replaceAll("-", ""));
+            		param.setUserHpNo(userHpNo);
+            	}   
                 egovNctsMngrMemberMapper.mngrUpdateProc(param);
                 
                 if(!(null == param.getCertCdList() || "".equals(param.getCertCdList()))){
@@ -119,6 +203,12 @@ public class EgovNctsMngrMemberServiceImpl implements EgovNctsMngrMemberService{
                 	}
                 }
             } else if(ProcType.INSERT.equals(procType)) {
+            	String userEmail = agt.ScpEncB64(iniFilePath, "KEY1",param.getUserEmail().trim());
+            	String userBirthYmd = agt.ScpEncB64(iniFilePath, "KEY1",param.getUserBirthYmd());
+            	String userHpNo = agt.ScpEncB64(iniFilePath, "KEY1",param.getUserHpNo().replaceAll("-", ""));
+            	param.setUserEmail(userEmail);
+            	param.setUserBirthYmd(userBirthYmd);
+            	param.setUserHpNo(userHpNo);
                 egovNctsMngrMemberMapper.mngrInsertProc(param);
             }
             
@@ -169,13 +259,47 @@ public class EgovNctsMngrMemberServiceImpl implements EgovNctsMngrMemberService{
     }
     
     public HashMap<String, Object> selectCommonExcel(PageInfoVO pageVO)throws Exception{
+    	ScpDbAgent agt = new ScpDbAgent();
         HashMap<String, Object> rs = new HashMap<>();
         HashMap<String, Object> paramMap = new HashMap<>();
         String fileName = "";
         String templateFile = "";
         
+    	if (pageVO.getSearchKeyword2() != null && !"".equals(pageVO.getSearchKeyword2())) {
+	    	String searchKeyword2 = agt.ScpEncB64(iniFilePath, "KEY1", pageVO.getSearchKeyword2());
+	    	pageVO.setSearchKeyword2(searchKeyword2);
+    	}   
+    	
+    	if (pageVO.getSearchKeyword3() != null && !"".equals(pageVO.getSearchKeyword3())) {
+	    	String searchKeyword3 = agt.ScpEncB64(iniFilePath, "KEY1", pageVO.getSearchKeyword3().replaceAll("-", ""));
+	    	pageVO.setSearchKeyword3(searchKeyword3);
+    	}   
+    	
         List<HashMap<String, Object>> rsTp = egovNctsMngrMemberMapper.selectCommonExcel(pageVO);
 
+        for (HashMap<String, Object> result : rsTp) {
+        	try {
+		        if (result.get("USER_HP_NO") != null && !"".equals(String.valueOf(result.get("USER_HP_NO")))) {
+		        	String tel = agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_HP_NO").toString(),"UTF-8");
+		        	result.put("USER_HP_NO", TextUtil.formatTel(tel));
+		        }
+		        if (result.get("USER_EMAIL") != null && !"".equals(String.valueOf(result.get("USER_EMAIL")))) {
+		        	result.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_EMAIL").toString(),"UTF-8"));
+		        }
+		        if (result.get("USER_BIRTH_YMD") != null && !"".equals(String.valueOf(result.get("USER_BIRTH_YMD")))) {
+		        	String birthday = agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_BIRTH_YMD").toString(),"UTF-8");
+		        	String formattedDate = birthday.substring(0,4) + "." + birthday.substring(4,6) + "." + birthday.substring(6,8);
+		        	result.put("USER_BIRTH_YMD", formattedDate);
+		        }
+	    	}
+	    	catch (ScpDbAgentException e) {
+	    		LOGGER.info(e.getMessage());
+	    	}
+	    	catch (Exception e) {
+	    		LOGGER.info(e.getMessage());
+	    	}    
+        }
+        
         paramMap.put("rsList",rsTp);
         fileName = pageVO.getExcelFileNm();
         templateFile = pageVO.getExcelPageNm();
@@ -193,22 +317,60 @@ public class EgovNctsMngrMemberServiceImpl implements EgovNctsMngrMemberService{
         return AESCrypt.decrypt((String)object);
     }
     
-    public String randomKey() throws Exception {
-    	StringBuffer sbf = new StringBuffer();
-    	Random random = new Random();
-    	for(int i=0; i < 8; i++){
-    		int choiceChar = random.nextInt(3);
-    		
-    		if(choiceChar == 0){
-    			sbf.append((char)((int)(random.nextInt(26)) + 97));
-    		}else if(choiceChar == 1){
-    			sbf.append((char)((int)(random.nextInt(26)) + 65));
-    		}else if(choiceChar == 2){
-    			sbf.append((int)(random.nextInt(10)));
-    		}
-    	}
-    	return sbf.toString();
-    }
+//    public String randomKey() throws Exception {
+//    	StringBuffer sbf = new StringBuffer();
+//    	Random random = new Random();
+//    	for(int i=0; i < 8; i++){
+//    		int choiceChar = random.nextInt(3);
+//    		
+//    		if(choiceChar == 0){
+//    			sbf.append((char)((int)(random.nextInt(26)) + 97));
+//    		}else if(choiceChar == 1){
+//    			sbf.append((char)((int)(random.nextInt(26)) + 65));
+//    		}else if(choiceChar == 2){
+//    			sbf.append((int)(random.nextInt(10)));
+//    		}
+//    	}
+//    	return sbf.toString();
+//    }
+    
+	public String randomKey() throws Exception {
+	    StringBuffer sbf = new StringBuffer();
+	    
+	    // ✅ SecureRandom으로 교체 (SHA1PRNG 알고리즘 사용)
+	    SecureRandom random;
+	    try {
+	        random = SecureRandom.getInstance("SHA1PRNG");
+	    } catch (NoSuchAlgorithmException e) {
+	        random = new SecureRandom(); // fallback
+	    }
+
+	    for (int i = 0; i < 8; i++) {
+	        int choiceChar = random.nextInt(3);
+
+	        if (choiceChar == 0) {
+	            // 소문자: 'a'(97) ~ 'z'(122)
+	            int val = random.nextInt(26) + 97;
+	            if (val >= 97 && val <= 122) {
+	                sbf.append((char) val);
+	            }
+	        } else if (choiceChar == 1) {
+	            // 대문자: 'A'(65) ~ 'Z'(90)
+	            int val = random.nextInt(26) + 65;
+	            if (val >= 65 && val <= 90) {
+	                sbf.append((char) val);
+	            }
+	        } else {
+	            // 숫자: 0 ~ 9
+	            int val = random.nextInt(10);
+	            if (val >= 0 && val <= 9) {
+	                sbf.append(val);
+	            }
+	        }
+	    }
+	    return sbf.toString();
+	}
+	
     
     public void updatePwProc(ApiResponse<EmailSendResponse> result, MngrMemberVO param, String randomKey) throws Exception {
     	String requestId = result.getBody().getRequestId();
@@ -307,6 +469,13 @@ public class EgovNctsMngrMemberServiceImpl implements EgovNctsMngrMemberService{
 
 	@Override
 	public HashMap<String, Object> selectIdEmailChk(MngrMemberVO param) throws Exception {
+		
+		ScpDbAgent agt = new ScpDbAgent();
+    	if (param.getUserEmail() != null && !"".equals(param.getUserEmail())) {
+	    	String userEmail = agt.ScpEncB64(iniFilePath, "KEY1", param.getUserEmail());
+	    	param.setUserEmail(userEmail);
+    	}   
+    	
 		return egovNctsMngrMemberMapper.selectIdEmailChk(param);
 	}
 	@Override
@@ -337,9 +506,18 @@ public class EgovNctsMngrMemberServiceImpl implements EgovNctsMngrMemberService{
 	    }
 	}
 
+	
 	@Override
 	public void fileConfirmProcess(MngrMemberVO param) throws Exception {
 		egovNctsMngrMemberMapper.insertFileConfirmAt(param);
+	}
+	
+	@Override
+	public void updateMngrMemberPwUnLock(MngrMemberVO param) throws Exception {
+		ProcType procType = ProcType.findByProcType(param.getProcType());
+		if(ProcType.UPDATE.equals(procType)){
+			egovNctsMngrMemberMapper.updateMngrMemberPwUnLock(param);
+		}
 	}
 
 	@Override

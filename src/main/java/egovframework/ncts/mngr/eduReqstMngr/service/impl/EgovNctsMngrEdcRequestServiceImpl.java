@@ -13,8 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.penta.scpdb.ScpDbAgent;
+import com.penta.scpdb.ScpDbAgentException;
+
 import egovframework.com.SessionUtil;
+import egovframework.com.TextUtil;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.exception.ErrorExcetion;
 import egovframework.com.file.FileViewMarkupBuilder;
 import egovframework.com.file.mapper.FileMngeMapper;
@@ -53,20 +58,38 @@ public class EgovNctsMngrEdcRequestServiceImpl implements EgovNctsMngrEdcRequest
 	@Autowired
 	private EgovNctsMngrCommonService egovNctsMngrCommonService;
 
+//    String iniFilePath = "/penta/scpdb_agent.ini";
+    //String iniFilePath = "C:\\scp\\scpdb_agent.ini";
+    private final String iniFilePath = EgovProperties.getProperty("Globals.iniFilePath");
+    
 	@Override
     public List<HashMap<String, Object>> selectMngrEdcRequestList(PageInfoVO pageVO)throws Exception {
+		ScpDbAgent agt = new ScpDbAgent();
         int cnt = egovNctsMngrEdcRequsetMapper.selectMngrEdcRequstCnt(pageVO);
         pageVO.setTotalRecordCount(cnt);
         List<HashMap<String, Object>> rslist = egovNctsMngrEdcRequsetMapper.selectMngrEdcRequestList(pageVO);
         for(HashMap<String, Object> tmp : rslist){
-	        String fileView = FileViewMarkupBuilder.newInstance()
-					.atchFileId(StringUtils.defaultIfEmpty((String) tmp.get("ATCH_FILE_ID"), ""))
-					.wrapMarkup("p")
-					.isIcon(true)
-					.isSize(true)
-					.build()
-					.toString();
-	        tmp.put("fileView", fileView);
+        	try {
+	            if (tmp.get("REQST_HP_NO") != null && !"".equals(String.valueOf(tmp.get("REQST_HP_NO")))) {
+	            	String reqstHpNo = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("REQST_HP_NO").toString(),"UTF-8");
+	            	tmp.put("REQST_HP_NO", TextUtil.formatTel(reqstHpNo));
+	            }
+	            
+		        String fileView = FileViewMarkupBuilder.newInstance()
+						.atchFileId(StringUtils.defaultIfEmpty((String) tmp.get("ATCH_FILE_ID"), ""))
+						.wrapMarkup("p")
+						.isIcon(true)
+						.isSize(true)
+						.build()
+						.toString();
+		        tmp.put("fileView", fileView);
+		    	}
+	    	catch (ScpDbAgentException e) {
+	    		LOGGER.info(e.getMessage());
+	    	}
+	    	catch (Exception e) {
+	    		LOGGER.info(e.getMessage());
+	    	}  
         }
         
         return rslist;
@@ -75,7 +98,32 @@ public class EgovNctsMngrEdcRequestServiceImpl implements EgovNctsMngrEdcRequest
     @Override
     public HashMap<String, Object> selectMngrEdcReqstDetail(MngrEdcRequestVO param)throws Exception {
     	String yn = "N";
+    	
+    	ScpDbAgent agt = new ScpDbAgent();
         HashMap<String, Object> result = egovNctsMngrEdcRequsetMapper.selectMngrEdcReqstDetail(param);
+        
+        try {
+	        if (result.get("REQST_PHONE_NO") != null && !"".equals(String.valueOf(result.get("REQST_PHONE_NO")))) {
+	        	String reqstPhoneNo = agt.ScpDecB64(iniFilePath, "KEY1",result.get("REQST_PHONE_NO").toString(),"UTF-8");
+	        	result.put("REQST_PHONE_NO", TextUtil.formatTel(reqstPhoneNo));
+	        }
+	        if (result.get("REQST_HP_NO") != null && !"".equals(String.valueOf(result.get("REQST_HP_NO")))) {
+	        	String reqstHpNo = agt.ScpDecB64(iniFilePath, "KEY1",result.get("REQST_HP_NO").toString(),"UTF-8");
+	        	result.put("REQST_HP_NO", TextUtil.formatTel(reqstHpNo));
+	        }
+	        if (result.get("REQST_EMAIL") != null && !"".equals(String.valueOf(result.get("REQST_EMAIL")))) {
+	        	String reqstEmail = agt.ScpDecB64(iniFilePath, "KEY1",result.get("REQST_EMAIL").toString(),"UTF-8");
+	        	result.put("REQST_EMAIL", reqstEmail);
+	        }
+	      
+    	}
+    	catch (ScpDbAgentException e) {
+    		LOGGER.info(e.getMessage());
+    	}
+    	catch (Exception e) {
+    		LOGGER.info(e.getMessage());
+    	} 
+        
         int cnt = egovNctsMngrEdcRequsetMapper.selectInstrctrReportCnt(param);
         if(cnt >= 1) yn = "Y";
         
@@ -99,6 +147,16 @@ public class EgovNctsMngrEdcRequestServiceImpl implements EgovNctsMngrEdcRequest
         		if(!param.getOriCenterCd().equals(param.getCenterCd())) egovNctsMngrEdcRequsetMapper.insertReqstCenterRecord(param);
         	}
         	
+        	ScpDbAgent agt = new ScpDbAgent();
+            
+        	String reqstPhoneNo = agt.ScpEncB64(iniFilePath, "KEY1",param.getReqstPhoneNo().replaceAll("-", ""));
+        	String reqstHpNo = agt.ScpEncB64(iniFilePath, "KEY1",param.getReqstHpNo().replaceAll("-", ""));
+        	String reqstEmail = agt.ScpEncB64(iniFilePath, "KEY1",param.getReqstEmail());
+        	
+        	param.setReqstPhoneNo(reqstPhoneNo);
+        	param.setReqstHpNo(reqstHpNo);
+        	param.setReqstEmail(reqstEmail);
+        	
             egovNctsMngrEdcRequsetMapper.updateEdcRequset(param);
         } else if(ProcType.DELETE.equals(procType)){
             egovNctsMngrEdcRequsetMapper.delEdcRequset(param);
@@ -108,13 +166,39 @@ public class EgovNctsMngrEdcRequestServiceImpl implements EgovNctsMngrEdcRequest
     }
     
     public HashMap<String, Object> selectCommonExcel(MngrEdcRequestVO vo)throws Exception{
+    	ScpDbAgent agt = new ScpDbAgent();
         HashMap<String, Object> rs = new HashMap<>();
         HashMap<String, Object> paramMap = new HashMap<>();
         String fileName = "";
         String templateFile = "";
-        
-        List<HashMap<String, Object>> rsTp = egovNctsMngrEdcRequsetMapper.selectCommonExcel(vo);
 
+        List<HashMap<String, Object>> rsTp = egovNctsMngrEdcRequsetMapper.selectCommonExcel(vo);
+        for (HashMap<String, Object> tmp : rsTp) {
+
+        	try {
+	            if (tmp.get("REQST_PHONE_NO") != null && !"".equals(String.valueOf(tmp.get("REQST_PHONE_NO")))) {
+	            	String reqstPhoneNo = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("REQST_PHONE_NO").toString(),"UTF-8");
+	            	tmp.put("REQST_PHONE_NO", TextUtil.formatTel(reqstPhoneNo));
+	            }
+	            
+	            if (tmp.get("REQST_HP_NO") != null && !"".equals(String.valueOf(tmp.get("REQST_HP_NO")))) {
+	            	String reqstHpNo = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("REQST_HP_NO").toString(),"UTF-8");
+	            	tmp.put("REQST_HP_NO", TextUtil.formatTel(reqstHpNo));
+	            }
+	
+	            if (tmp.get("REQST_EMAIL") != null && !"".equals(String.valueOf(tmp.get("REQST_EMAIL")))) {
+	            	tmp.put("REQST_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("REQST_EMAIL").toString(),"UTF-8"));
+	            }
+	    	}
+	    	catch (ScpDbAgentException e) {
+	    		LOGGER.info(e.getMessage());
+	    	}
+	    	catch (Exception e) {
+	    		LOGGER.info(e.getMessage());
+	    	}   
+            
+        }
+        
         paramMap.put("rsList",rsTp);
         fileName = "mngrEdcRequestList";
         templateFile = "mngrEdcRequestList.xlsx";
@@ -128,9 +212,29 @@ public class EgovNctsMngrEdcRequestServiceImpl implements EgovNctsMngrEdcRequest
 
     @Override
     public List<HashMap<String, Object>> selectMngrEdcInstrctrAsignList(PageInfoVO pageVO) throws Exception {
+    	ScpDbAgent agt = new ScpDbAgent();
     	int cnt = egovNctsMngrEdcRequsetMapper.selectMngrEdcInstrctrAsignTotCnt(pageVO);
     	pageVO.setTotalRecordCount(cnt);
     	List<HashMap<String, Object>> rslist = egovNctsMngrEdcRequsetMapper.selectMngrEdcInstrctrAsignList(pageVO);
+        for (HashMap<String, Object> tmp : rslist) {
+
+        	try {
+	            if (tmp.get("USER_HP_NO") != null && !"".equals(String.valueOf(tmp.get("USER_HP_NO")))) {
+	            	String userHpNo = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_HP_NO").toString(),"UTF-8");
+	            	tmp.put("USER_HP_NO", TextUtil.formatTel(userHpNo));
+	            }
+	
+	            if (tmp.get("USER_EMAIL") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL")))) {
+	            	tmp.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL").toString(),"UTF-8"));
+	            }
+	    	}
+	    	catch (ScpDbAgentException e) {
+	    		LOGGER.info(e.getMessage());
+	    	}
+	    	catch (Exception e) {
+	    		LOGGER.info(e.getMessage());
+	    	}  
+        }    	
     	return rslist;
     }
     
@@ -162,17 +266,48 @@ public class EgovNctsMngrEdcRequestServiceImpl implements EgovNctsMngrEdcRequest
 
 	@Override
 	public List<HashMap<String, Object>> selectMngrEduReqstApplicantList(MngrEdcRequestVO param) throws Exception{
+		ScpDbAgent agt = new ScpDbAgent();
 		List<HashMap<String, Object>> rslist = egovNctsMngrEdcRequsetMapper.selectMngrEduReqstApplicantList(param);
+	    for (HashMap<String, Object> tmp : rslist) {
+	    	try {
+	            if (tmp.get("USER_HP") != null && !"".equals(String.valueOf(tmp.get("USER_HP")))) {
+	            	String userHp = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_HP").toString(),"UTF-8");
+	            	tmp.put("USER_HP", TextUtil.formatTel(userHp));
+	            }
+	            if (tmp.get("USER_EMAIL") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL")))) {
+	            	tmp.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL").toString(),"UTF-8"));
+	            }
+	    	}
+	    	catch (ScpDbAgentException e) {
+	    		LOGGER.info(e.getMessage());
+	    	}
+	    	catch (Exception e) {
+	    		LOGGER.info(e.getMessage());
+	    	}  
+	    }
+		
 		return rslist;
 	}
 
 	@Override
 	public void MngrEduReqstApplicantProcess(MngrEduRequstApplicantVO param) throws Exception {
+		ScpDbAgent agt = new ScpDbAgent();
 		ProcType procType = ProcType.findByProcType(param.getProcType());
 		
 		if(ProcType.UPDATE.equals(procType)) {
+			
+			if (param.getUserHp() != null && !"".equals(param.getUserHp())) {
+				String userHp = agt.ScpEncB64(iniFilePath, "KEY1",param.getUserHp().replaceAll("-", ""));
+				param.setUserHp(userHp);
+			}
+			if (param.getUserEmail() != null && !"".equals(param.getUserEmail())) {
+				String userEmail = agt.ScpEncB64(iniFilePath, "KEY1",param.getUserEmail());
+				param.setUserEmail(userEmail);
+			}
+			
 			egovNctsMngrEdcRequsetMapper.updateMngrEduReqstApplicant(param);
 		} else {
+			
 			List<MngrEduRequstApplicantVO> applicantList = param.getApplicantList();
 			
 			if(null != applicantList) {
@@ -191,6 +326,16 @@ public class EgovNctsMngrEdcRequestServiceImpl implements EgovNctsMngrEdcRequest
 						int instrctrDetailCd = Integer.parseInt(applicantDetail.get("INSTRCTR_DETAIL_GRADE_CD").toString());
 						if((4 == courses && 99 == instrctrDetailCd) || (1 != courses && 4 != courses && 7 != courses && detailCd < courses)) list.setApplStat("I");
 						
+						if (list.getUserHp() != null && !"".equals(list.getUserHp())) {
+							String userHp = agt.ScpEncB64(iniFilePath, "KEY1",list.getUserHp().replaceAll("-", ""));
+							list.setUserHp(userHp);
+						}
+						if (list.getUserEmail() != null && !"".equals(list.getUserEmail())) {
+							String userEmail = agt.ScpEncB64(iniFilePath, "KEY1",list.getUserEmail());
+							list.setUserEmail(userEmail);
+						}
+						
+						
 						if(!"I".equals(list.getApplStat())) egovNctsMngrEdcRequsetMapper.insertMngrEduReqstApplicant(list);
 					} else if(ProcType.DELETE.equals(procType)) {
 						if(!(null == list.getAppliSeq() || "".equals(list.getAppliSeq()))) egovNctsMngrEdcRequsetMapper.deleteMngrEduReqstApplicant(list);
@@ -204,16 +349,54 @@ public class EgovNctsMngrEdcRequestServiceImpl implements EgovNctsMngrEdcRequest
 
 	@Override
 	public HashMap<String, Object> mngrEdcRequsetApplicantDownload(PageInfoVO pageVO) throws Exception {
+		ScpDbAgent agt = new ScpDbAgent();
 		HashMap<String, Object> rs = new HashMap<>();
         HashMap<String, Object> paramMap = new HashMap<>();
         String fileName = "";
         String templateFile = "";
         
         List<HashMap<String, Object>> rsTp = egovNctsMngrEdcRequsetMapper.mngrEdcRequsetApplicantDownload(pageVO);
+        for (HashMap<String, Object> tmp : rsTp) {
+        	try {
+	            if (tmp.get("USER_HP_NO") != null && !"".equals(String.valueOf(tmp.get("USER_HP_NO")))) {
+	            	String userHpNo = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_HP_NO").toString(),"UTF-8");
+	            	tmp.put("USER_HP_NO", TextUtil.formatTel(userHpNo));
+	            }
+	            if (tmp.get("EMAIL") != null && !"".equals(String.valueOf(tmp.get("EMAIL")))) {
+	            	tmp.put("EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("EMAIL").toString(),"UTF-8"));
+	            }
+	    	}
+	    	catch (ScpDbAgentException e) {
+	    		LOGGER.info(e.getMessage());
+	    	}
+	    	catch (Exception e) {
+	    		LOGGER.info(e.getMessage());
+	    	}   
+        }        
         MngrEdcRequestVO vo = new MngrEdcRequestVO();
         vo.setReqstSeq(pageVO.getEduSeq());
         vo.setEduDivision(pageVO.getEduDivision());
         HashMap<String, Object> re = egovNctsMngrEdcRequsetMapper.selectMngrEdcReqstDetail(vo);
+        try {
+	        if (re.get("REQST_PHONE_NO") != null && !"".equals(String.valueOf(re.get("REQST_PHONE_NO")))) {
+	        	String reqstPhoneNo = agt.ScpDecB64(iniFilePath, "KEY1",re.get("REQST_PHONE_NO").toString(),"UTF-8");
+	        	re.put("REQST_PHONE_NO", TextUtil.formatTel(reqstPhoneNo));
+	        }
+	        if (re.get("REQST_HP_NO") != null && !"".equals(String.valueOf(re.get("REQST_HP_NO")))) {
+	        	String reqstHpNo = agt.ScpDecB64(iniFilePath, "KEY1",re.get("REQST_HP_NO").toString(),"UTF-8");
+	        	re.put("REQST_HP_NO", TextUtil.formatTel(reqstHpNo));
+	        }
+	        if (re.get("REQST_EMAIL") != null && !"".equals(String.valueOf(re.get("REQST_EMAIL")))) {
+	        	String reqstEmail = agt.ScpDecB64(iniFilePath, "KEY1",re.get("REQST_EMAIL").toString(),"UTF-8");
+	        	re.put("REQST_EMAIL", reqstEmail);
+	        } 
+    	}
+    	catch (ScpDbAgentException e) {
+    		LOGGER.info(e.getMessage());
+    	}
+    	catch (Exception e) {
+    		LOGGER.info(e.getMessage());
+    	}  
         paramMap.put("rsList",rsTp);
         paramMap.put("re",re);
         fileName = pageVO.getExcelFileNm();

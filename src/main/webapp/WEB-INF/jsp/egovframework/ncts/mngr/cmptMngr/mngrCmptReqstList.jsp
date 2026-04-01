@@ -423,7 +423,7 @@ $(function(){
                                     </td>
                                     <td>
                                     	<c:if test="${list.ANSWER_CONFIRM_AT eq 'Y'}">
-	                                    	<button class="btn btn-warning" type="button" style="padding: 7px 10px;">확인요청</button>
+	                                    	<!-- button class="btn btn-warning" type="button" style="padding: 7px 10px;">확인요청</button-->
                                     	</c:if>
                                     </td>
 								</tr>

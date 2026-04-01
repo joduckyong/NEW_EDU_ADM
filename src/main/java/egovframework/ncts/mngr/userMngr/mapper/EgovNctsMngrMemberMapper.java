@@ -65,8 +65,12 @@ public interface EgovNctsMngrMemberMapper {
 
 	int selectIsue(MngrMemberVO param)throws Exception;
 
+	
 	void insertFileConfirmAt(MngrMemberVO param)throws Exception;
 	List<HashMap<String, Object>> selectFileConfirmList(PageInfoVO pageVO)throws Exception;
+	
+	void updateMngrMemberPwUnLock(MngrMemberVO param)throws Exception;
+	
 	int selectFileConfirmListTotCnt(PageInfoVO pageVO)throws Exception;
 
 	void updateMngrMemberPackageAuthAt(MngrMemberVO param)throws Exception;

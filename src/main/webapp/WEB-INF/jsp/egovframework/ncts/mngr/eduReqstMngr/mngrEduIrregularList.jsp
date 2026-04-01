@@ -350,6 +350,7 @@ $(function(){
 									<td><c:out value="${rlist.EDU_YEAR}"/></td> <!-- 년도 -->
 									<td><c:out value="${rlist.JAN}"/></td> <!-- 1 -->
 									<td><c:out value="${rlist.FEB}"/></td> <!-- 3 -->
+									<td><c:out value="${rlist.MAR}"/></td> <!-- 3 -->
 									<td><c:out value="${rlist.APR}"/></td> <!-- 4 -->
 									<td><c:out value="${rlist.MAY}"/></td> <!-- 5 -->
 									<td><c:out value="${rlist.JUN}"/></td> <!-- 6 -->

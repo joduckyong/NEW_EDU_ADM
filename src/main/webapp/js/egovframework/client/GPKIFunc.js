@@ -925,10 +925,10 @@ function embeddedEnterEvent(event)
 	
 }
 
+/*
 function loadJavascript(URL,callback,event,charet) { 
 	    
     var xmlhttp = null; 
-     
     if(window.XMLHttpRequest) { 
         
         xmlhttp = new XMLHttpRequest(); 
@@ -940,8 +940,6 @@ function loadJavascript(URL,callback,event,charet) {
       URL = (charet!=null && typeof(charet)!='undefined' &&charet.length!=0)?URL+'_'+charet:URL;
     	
     xmlhttp.open('GET', URL,false); 
-
-   
     xmlhttp.onreadystatechange = function() { 
     	
         if(xmlhttp.readyState==4 && xmlhttp.status == 200 && (xmlhttp.statusText=='200' || xmlhttp.statusText=='OK')) { 
@@ -954,21 +952,64 @@ function loadJavascript(URL,callback,event,charet) {
     var userAgent = navigator.userAgent;
     if(userAgent.indexOf('Firefox')>-1 && userAgent.indexOf('3.6.')>-1){
     	if(xmlhttp.readyState==4 && xmlhttp.status == 200 && (xmlhttp.statusText=='200' || xmlhttp.statusText=='OK')) { 
-            // responseText ?? ???? ????    
             eval(xmlhttp.responseText);               
-            //responseText = xmlhttp.responseText;            
         }
     }
     
     if(event!=null && typeof(event)!='undefined')
     	return callback(event);
     else
-    	return callback();
-    
-  
+    	return callback();    
 
-    // ?????? xmlhttp ??u?? responseText ???? ??? 
-    //return ; 
+}
+*/
+
+var ALLOWED_URL_ORIGINS = [location.origin];
+
+function loadJavascript(url, callback, event, charset) {
+
+    // 1. URL 유효성 및 허용 출처 검증
+    if (!url || typeof url !== 'string') {
+        console.error('loadJavascript: 유효하지 않은 URL입니다.');
+        return;
+    }
+    try {
+        var parsed = new URL(url, location.origin);
+        var allowed = ALLOWED_URL_ORIGINS.some(function(o) { return parsed.origin === o; });
+        if (!allowed) {
+            console.error('loadJavascript: 허용되지 않은 URL 출처입니다.', parsed.origin);
+            return;
+        }
+    } catch (e) {
+        console.error('loadJavascript: URL 파싱 오류', e);
+        return;
+    }
+
+    // 2. charset 접미사 처리
+    var finalUrl = (charset != null && typeof charset !== 'undefined' && charset.length !== 0)
+        ? url + '_' + charset : url;
+
+    // 3. eval() 제거 → <script> 태그 삽입으로 안전하게 실행
+    var script = document.createElement('script');
+    script.type  = 'text/javascript';
+    script.async = true;   // 동기 XHR(false) 완전 대체
+    script.src   = finalUrl;
+
+    // 4. 성공/실패 콜백
+    script.onload = function() {
+        if (typeof callback === 'function') {
+            return (event != null) ? callback(event) : callback();
+        }
+    };
+    script.onerror = function() {
+        console.error('loadJavascript: 스크립트 로드 실패', finalUrl);
+        if (typeof callback === 'function') {
+            callback(null, new Error('스크립트 로드 실패: ' + finalUrl));
+        }
+    };
+
+    // 5. IE ActiveXObject / FF 3.6 분기 전면 제거
+    document.head.appendChild(script);
 }
 
 var gfNextFunc;

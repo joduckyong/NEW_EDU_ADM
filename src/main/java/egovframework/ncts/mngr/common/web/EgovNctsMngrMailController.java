@@ -111,6 +111,10 @@ public class EgovNctsMngrMailController {
 			
 			result.put("success", "success");
 			result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
+		 } catch (IOException e) {
+		 LOGGER.debug(e.getMessage());
+			if(e.getMessage().equals("02")) result.put("msg", "수신자가 없습니다.");
+			else result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			if(e.getMessage().equals("02")) result.put("msg", "수신자가 없습니다.");
@@ -232,6 +236,9 @@ public class EgovNctsMngrMailController {
 			HashMap<String, Object> rs =egovNctsMngrMailService.selectMngrMailRequestDetail(param);
 			result.put("rs", rs);
 			result.put("success", "success");
+		} catch (IOException e) {
+			LOGGER.debug(e.getMessage());
+			result.put("success", "error");
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("success", "error");
@@ -259,6 +266,9 @@ public class EgovNctsMngrMailController {
     		
     		result.put("success", "success");
     		result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
+    	} catch (IOException e) {
+    		LOGGER.debug(e.getMessage());
+    		result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
     	}catch (Exception e) {
     		LOGGER.debug(e.getMessage());
     		result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
@@ -277,6 +287,9 @@ public class EgovNctsMngrMailController {
     		
     		result.put("success", "success");
     		result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
+    	} catch (IOException e) {
+    		LOGGER.debug(e.getMessage());
+    		result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
     	}catch (Exception e) {
     		LOGGER.debug(e.getMessage());
     		result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));

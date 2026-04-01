@@ -300,6 +300,25 @@ public class EgovNctsMngrMemberController {
     	return result;
     }
     
+    @RequestMapping(value = "/updateMngrMemberPwUnLock.do")
+    public @ResponseBody HashMap<String, Object> updateMngrMemberPwUnLock(HttpServletRequest request,ModelMap model, @ModelAttribute("common") MngrMemberVO param) throws Exception{
+    	HashMap<String, Object> result = new HashMap<>();
+    	try {
+    		egovNctsMngrMemberService.updateMngrMemberPwUnLock(param);
+    		
+    		result.put("success", "success");
+    		result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
+    	}catch (IOException e) {
+    		LOGGER.debug(e.getMessage());
+    		result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
+    	}catch (Exception e) {
+    		LOGGER.debug(e.getMessage());
+    		result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
+    	}
+    	
+    	return result;
+    }
+    
     @RequestMapping(value = "/updateMngrMemberPackageAuthAt.do")
     public @ResponseBody HashMap<String, Object> updateMngrMemberPackageAuthAt(HttpServletRequest request,ModelMap model, @ModelAttribute("common") MngrMemberVO param) throws Exception{
     	HashMap<String, Object> result = new HashMap<>();

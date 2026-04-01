@@ -97,6 +97,9 @@ public class EgovNctsMngrSimsaController {
 			result.put("de", list);
 			result.put("success", "success");
 
+		} catch (IOException e) {
+			LOGGER.debug(e.getMessage());
+			result.put("success", "error");
 		} catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("success", "error");
@@ -212,6 +215,10 @@ public class EgovNctsMngrSimsaController {
 				
 			
 			
+		 } catch (IOException e) {
+			 LOGGER.debug(e.getMessage());
+				result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
+				dd.add(result);
 		} catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
@@ -236,6 +243,9 @@ public class EgovNctsMngrSimsaController {
 			result.put("rs", rs);
 			result.put("success", "success");
 
+		} catch (IOException e) {
+			LOGGER.debug(e.getMessage());
+			result.put("success", "error");
 		} catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("success", "error");

@@ -160,6 +160,10 @@ public class EgovNctsInstrctActController {
             System.out.println("111111111111111111111111111111111111111111111111111111111111");
             System.out.println(param.getProcType());
             result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
+        } catch (IOException e) {
+          LOGGER.debug(e.getMessage());
+            System.out.println("22222222222222222222222222222222222222222222222222222222222");
+            result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
         }catch (Exception e) {
             LOGGER.debug(e.getMessage());
             System.out.println("22222222222222222222222222222222222222222222222222222222222");

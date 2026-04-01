@@ -398,7 +398,7 @@ $(function(){
 								<tr>
 									<th scope="row">참고사항 </th>
 									<td colspan="8">
-										<c:out value="${markup }"/>
+										<c:out value="${markup}" escapeXml="false"/>
 										<textarea cols="30" rows="10" name="referMatterMemo" wrap=on style="width: 100%; height: 100px; border: 1px solid #d2d2d2;"><c:out value="${result.REFER_MATTER_MEMO }"/></textarea>
 									</td>
 								</tr>

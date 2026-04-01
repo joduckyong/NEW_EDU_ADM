@@ -305,7 +305,7 @@ $(function(){
 								<tr>
                                     <th scope="row">대표이미지 </th>
                                     <td colspan="5">
-										<c:out value="${markup }"/>
+										<c:out value="${markup}" escapeXml="false"/>
                                        	<img src="/utl/web/imageSrc.do?path=mngr/<c:out value='${result.STRE_FILE_NM }'/>" width="240" height="135" class="viewImg" style="display:'<c:out value="${not empty result.ATCH_FILE_ID ? 'block':'none'}"/>'">
                                     </td>
                                 </tr>

@@ -118,8 +118,8 @@ $(function(){
 				<article class="col-md-12 col-lg-12">
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 						<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-						<input type="hidden" id="bbsNo" name="bbsNo" value='<c:out value='"${result.BBS_NO}">'/>
-						<input type="hidden" name="atchFileId" value='<c:out value="${result.ATCH_FILE_ID}">'/>
+						<input type="hidden" id="bbsNo" name="bbsNo" value="<c:out value='${result.BBS_NO}'/>" />
+						<input type="hidden" name="atchFileId" value="<c:out value='${result.ATCH_FILE_ID}'/>" />
 						<input type="hidden" name="centerCd" value="<sec:authentication property="principal.centerId"/>" >
 						
 						<table class="table table-bordered tb_type03">
@@ -136,7 +136,7 @@ $(function(){
                                             <c:forEach var="list" items="${result.DMH13 }" varStatus="idx">
                                                 <c:if test="${list.CODE eq '00' or list.CODE eq '04' or list.CODE eq '05' or list.CODE eq '06' or list.CODE eq '07'}">
 	                                                <label class="radio">
-	                                                    <input type="radio" value='<c:out value="${list.CODE }"/>' name="bbsTypeCd" <c:out value="${result.BBS_TYPE_CD eq list.CODE ? 'checked=checked' :'' }"/>><i></i><c:out value="${list.CODE_NM }"/>
+	                                                    <input type="radio" value="<c:out value='${list.CODE }'/>" name="bbsTypeCd" <c:out value="${result.BBS_TYPE_CD eq list.CODE ? 'checked=checked' :'' }"/>><i></i><c:out value="${list.CODE_NM }"/>
 	                                                </label>
                                                 </c:if>
                                             </c:forEach>
@@ -186,7 +186,7 @@ $(function(){
 								<tr>
                                     <th scope="row">첨부파일 </th>
                                     <td colspan="3">
-	                                <c:out value="${markup }"/>
+	                                <c:out value="${markup}" escapeXml="false"/>
                                     </td>
                                 </tr>
 							</tbody>
