@@ -3,9 +3,9 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-			updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-			deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+			insertKey : "${common.baseType[0].key() }",
+			updateKey : "${common.baseType[1].key() }",
+			deleteKey : "${common.baseType[2].key() }",
 			lUrl : "/ncts/mngr/eduReqstMngr/mngrEduInstrctrAppliListPopup.do",
 			fUrl : "/ncts/mngr/eduReqstMngr/mngrEduInstrctrAppliListPopup.do",
 	}
@@ -191,7 +191,7 @@ $(function(){
 								<ul class="nav nav-tabs" style="min-width:100%;">
 									<c:forEach var="code" items="${lectureIds }" varStatus="idx">
 										<c:if test="${code.VIDEO_AT ne 'Y' }">
-											<li class="<c:out value='${(param.certCd eq code.LECTURE_ID) or (empty param.certCd and idx.first) ? "active":""}'/>"><a href="javascript:void(0);" data-cert-cd="<c:out value='${code.LECTURE_ID }'/>"><c:out value="${code.LECTURE_ID }"/></a></li>
+											<li class="${(param.certCd eq code.LECTURE_ID) or (empty param.certCd and idx.first) ? 'active':''}"><a href="javascript:void(0);" data-cert-cd="${code.LECTURE_ID }">${code.LECTURE_ID }</a></li>
 										</c:if>
 									</c:forEach>
 								</ul>
@@ -232,28 +232,28 @@ $(function(){
 								<c:forEach var="list" items="${list }" varStatus="idx"> 
 									<tr>
 										<td class="invisible">
-											<input type="hidden" name="userNo" value="<c:out value='${list.USER_NO }'/>">
-											<input type="hidden" name="userNm" value="<c:out value='${list.USER_NM }'/>">
-											<input type="hidden" name="detailGradeCd" value="<c:out value='${list.DETAIL_GRADE_CD }'/>">
+											<input type="hidden" name="userNo" value="${list.USER_NO }">
+											<input type="hidden" name="userNm" value="${list.USER_NM }">
+											<input type="hidden" name="detailGradeCd" value="${list.DETAIL_GRADE_CD }">
 										</td>
-										<td><c:out value="${list.USER_ID}"/></td>
-										<td><c:out value="${list.USER_EMAIL}"/></td>
-										<td><c:out value="${list.USER_NM}"/></td>
-										<td><c:out value="${list.USER_HP_NO}"/></td>
-										<td><c:out value="${list.GRADE_CD_NM}"/></td>
-										<td><c:out value="${list.DETAIL_GRADE_CD_NM}"/></td>
-										<td><c:out value="${list.INSTRCTR_DETAIL_GRADE_CD_NM}"/></td>
+										<td>${list.USER_ID}</td>
+										<td>${list.USER_EMAIL}</td>
+										<td>${list.USER_NM}</td>
+										<td>${list.USER_HP_NO}</td>
+										<td>${list.GRADE_CD_NM}</td>
+										<td>${list.DETAIL_GRADE_CD_NM}</td>
+										<td>${list.INSTRCTR_DETAIL_GRADE_CD_NM}</td>
 										<td>
 											<c:choose>
 												<%-- 글 update --%>
 												<c:when test="${not empty (empty param.eduSeq ? param.reqstSeq : param.eduSeq) }">
 													<c:if test="${list.DCSN_YN eq 'S' }">
-														<button class="btn btn-primary ml2 approveBtn" type="button" data-yn="<c:out value='${list.DCSN_YN }'/>" style="background: #ff7804; border-color:#ff7804;">
+														<button class="btn btn-primary ml2 approveBtn" type="button" data-yn="${list.DCSN_YN }" style="background: #ff7804; border-color:#ff7804;">
 															<i class="fa fa-edit" title="승인"></i>승인
 														</button>													
 													</c:if>
 													<c:if test="${list.DCSN_YN eq '' or list.DCSN_YN eq 'F' or empty list.DCSN_YN}">
-														<button class="btn btn-primary ml2 approveBtn" type="button" data-yn="<c:out value='${list.DCSN_YN }'/>">
+														<button class="btn btn-primary ml2 approveBtn" type="button" data-yn="${list.DCSN_YN }">
 															<i class="fa fa-edit" title="배정"></i>배정
 														</button>
 													</c:if>
@@ -283,7 +283,7 @@ $(function(){
 															배정됨
 														</c:when>
 														<c:otherwise>
-															마감<c:out value="${list.INSTRCTR_DIVISION }"/>"{param.instrctrDivision }"/><br><c:out value="${list.CERT_CD }"/><br><c:out value="${param.certCd }"/>
+															마감${list.INSTRCTR_DIVISION }<br>${param.instrctrDivision }<br>${list.CERT_CD }<br>${param.certCd }
 														</c:otherwise>
 													</c:choose>
 												</c:otherwise>												
@@ -299,7 +299,7 @@ $(function(){
 													</c:if>
 													<c:if test="${list.INSTRCTR_DIVISION eq param.instrctrDivision and list.CERT_CD eq (empty param.certCd?'':param.certCd) }">
 														<c:if test="${list.DCSN_YN eq 'Y' }">
-															<button class="btn btn-danger ml2 rejecteBtn" type="button" data-yn="<c:out value='${list.DCSN_YN }'/>">
+															<button class="btn btn-danger ml2 rejecteBtn" type="button" data-yn="${list.DCSN_YN }">
 																<i class="fa fa-edit" title="반려"></i> 반려
 															</button>
 														</c:if>
@@ -311,7 +311,7 @@ $(function(){
 												<%-- insert --%>
 												<c:otherwise>
 													<c:if test="${list.INSTRCTR_DIVISION eq param.instrctrDivision and list.CERT_CD eq (empty param.certCd?'':param.certCd) }">
-														<button class="btn btn-danger ml2 rejecteBtn" type="button" data-yn="<c:out value='${list.DCSN_YN }'/>">
+														<button class="btn btn-danger ml2 rejecteBtn" type="button" data-yn="${list.DCSN_YN }">
 															<i class="fa fa-edit" title="반려E"></i> 반려
 														</button>													
 													</c:if>

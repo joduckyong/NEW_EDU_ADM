@@ -25,7 +25,6 @@ public interface EgovNctsInstrctrMngrMapper {
 	int selectInstrctrStatusListTotCnt(PageInfoVO pageVO)throws Exception;
 	List<HashMap<String, Object>> selectInstrctrStatusList(PageInfoVO pageVO) throws Exception;
 	void insertInstrctrStatus(MngrInstrctrMngrVO param) throws Exception;
-	void deleteInstrctrStatus(MngrInstrctrMngrVO param) throws Exception;
 
 	List<HashMap<String, Object>> selectInstrctrMaxDtList(PageInfoVO pVO) throws Exception;
 	List<HashMap<String, Object>> selectInstrctrActDtList(PageInfoVO pVO) throws Exception;

@@ -11,7 +11,7 @@ $(function(){
 	
 	$.saveProc = function(groupId){
 		document.iForm.groupId.value = groupId;
-		document.iForm.procType.value = "<c:out value='${common.baseType[1].key() }'/>";
+		document.iForm.procType.value = "${common.baseType[1].key() }";
 		var $target=$("#iForm [name='userList.userId']:checked");
 		if($target.length==0){
 			alert("맵핑할 사용자를 선택해주세요.");
@@ -102,7 +102,7 @@ $(function(){
 		$(this).on("click", function(){
 			if(confirm("삭제하시겠습니까?")){
 				var $this = $(this);
-				document.dForm.procType.value = "<c:out value='${common.baseType[2].key() }'/>";
+				document.dForm.procType.value = "${common.baseType[2].key() }";
 				document.dForm.userId.value = $this.closest("tr").find("input[name*='userId']").val();
 				document.dForm.groupId.value = $this.closest("tr").find("input[name='authGroupId']").val();
 				
@@ -168,7 +168,7 @@ $(function(){
 								<select name="searchKeyword1" class="form-control">
 									<option value="">선택</option>
 									<c:forEach var="center" items="${centerList }" varStatus="idx">
-										<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq paginationInfo.searchKeyword1 ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
+										<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq paginationInfo.searchKeyword1 ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
 									</c:forEach>
 								</select> <i></i>
 							</li>
@@ -233,17 +233,17 @@ $(function(){
 										<td>
 											<label class="checkbox checkboxCenter">
 												<c:if test="${list.AUTH_GRP_NO ne 30}">
-													<input type="checkbox" name="userList.userId" value="<c:out value='${list.USER_ID}'/>"><i></i>
+													<input type="checkbox" name="userList.userId" value="${list.USER_ID}"><i></i>
 												</c:if>
 											</label>
 										</td>
-										<td><c:out value="${list.USER_ID }"/></td>
-										<td><c:out value="${list.USER_NM }"/></td>
-										<td><c:out value="${list.CENTER_NM }"/></td>
+										<td>${list.USER_ID }</td>
+										<td>${list.USER_NM }</td>
+										<td>${list.CENTER_NM }</td>
 										<td>
 											<a class="authDetail">
-												<input type="hidden" name="authGroupId" value="<c:out value='${list.AUTH_GRP_NO }'/>">
-												<c:out value="${list.GROUP_NM }"/>
+												<input type="hidden" name="authGroupId" value="${list.AUTH_GRP_NO }">
+												${list.GROUP_NM }
 											</a>
 										</td>
 										<td>
@@ -252,7 +252,7 @@ $(function(){
 													<a class="deleteAuth">삭제</a>
 												</c:when>
 												<c:when test="${not empty list.DELETE_DATE }">
-													<c:out value="${list.DELETE_DATE }"/>
+													${list.DELETE_DATE }
 												</c:when>
 											</c:choose>
 										</td>

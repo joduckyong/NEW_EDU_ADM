@@ -1,6 +1,5 @@
 package egovframework.ncts.cmm.sys.excelDown.web;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,9 +78,6 @@ public class EgovNctsSysExcelDownController {
 		try {
 			egovNctsSysExcelDownService.insertExcelResn(param);
 			result.put("success", "success");
-		 } catch (IOException e) {
-			 LOGGER.debug(e.getMessage());
-				result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
@@ -100,9 +96,6 @@ public class EgovNctsSysExcelDownController {
 
 	     result.put("success", "success");
 	     result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
-	    } catch (IOException e) {
-	    	LOGGER.debug(e.getMessage());
-		     result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 	    }catch (Exception e) {
 	     LOGGER.debug(e.getMessage());
 	     result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
@@ -118,9 +111,6 @@ public class EgovNctsSysExcelDownController {
 			egovNctsSysExcelDownService.deleteExcelDown(param);
 			 result.put("success", "success");
              result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
-		} catch (IOException e) {
-			  LOGGER.debug(e.getMessage());
-              result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 		} catch (Exception e) {
 			  LOGGER.debug(e.getMessage());
               result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));

@@ -33,8 +33,6 @@ public class CustomUser implements UserDetails {
 	private String macUseableAt;
 	private String macPort;
 	private String wideArea;
-	private String ioStat;
-	private String ip;
 	
 	private List<Role> authorities;
 	
@@ -302,20 +300,5 @@ public class CustomUser implements UserDetails {
 		this.wideArea = wideArea;
 	}
 	
-	public String getIoStat() {
-		return ioStat;
-	}
-
-	public void setIoStat(String ioStat) {
-		this.ioStat = ioStat;
-	}
-
-	public String getIp() {
-		return ip;
-	}
-
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
 	
 }

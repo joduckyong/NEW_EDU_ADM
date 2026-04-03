@@ -14,112 +14,63 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import egovframework.ncts.cmm.login.web.EgovNctsLoginController;
-
 public class FileUtil
 {
-	private static final Logger log = LoggerFactory.getLogger(FileUtil.class);
     private ArrayList result = new ArrayList();
 
     /**
      * path내의 모든 파일을 조회한다
      * a.txt*128kb --> b.txt*12kb
      */
-//    public boolean readDirectory(String path)
-//    {
-//        boolean isSuccess = true;
-//        String tmp;
-//
-//        try {
-//            File dir = new File(path);
-//            File[] list = dir.listFiles();
-//
-//            
-//            for (int i=0; i<list.length; i++)
-//            {
-//                if (list[i].isHidden())
-//                    continue;
-//
-//                tmp = new String();
-//
-//                if (list[i].isDirectory())
-//                {
-//                    tmp = "Folder*";
-//                    tmp += list[i].getName() + "*" + toKiloBytes(list[i].length());
-//                    result.add(tmp);
-//                }
-//            }
-//
-//           
-//            for (int i=0; i<list.length; i++)
-//            {
-//                if (list[i].isHidden())
-//                    continue;
-//
-//                tmp = new String();
-//
-//                if (!list[i].isDirectory())
-//                {
-//                    tmp = "File*";
-//                    tmp += list[i].getName() + "*" + toKiloBytes(list[i].length());
-//                    result.add(tmp);
-//                }
-//            }
-//        } catch (Exception e) {
-//            isSuccess = false;
-//        }
-//
-//        return isSuccess;
-//    }
-    
-    public boolean readDirectory(String path) {
+    public boolean readDirectory(String path)
+    {
+        boolean isSuccess = true;
+        String tmp;
 
-        // 1. path 사전 검증
-        if (path == null || path.trim().isEmpty()) {
-        	log.warn("readDirectory: path가 null 또는 빈 값입니다.");
-            return false;
-        }
+        try {
+            File dir = new File(path);
+            File[] list = dir.listFiles();
 
-        // 2. 경로 조작 방어: 정규화 후 허용 경로 내인지 확인
-        File dir = new File(path).toPath().normalize().toFile();
-        if (!dir.exists() || !dir.isDirectory()) {
-        	log.warn("readDirectory: 유효하지 않은 디렉터리 경로입니다. path={}", path);
-            return false;
-        }
+            
+            for (int i=0; i<list.length; i++)
+            {
+                if (list[i].isHidden())
+                    continue;
 
-        // 3. listFiles() null 검증 → 접근 권한 없거나 IO 오류 시 null 반환
-        File[] list = dir.listFiles();
-        if (list == null) {
-        	log.warn("readDirectory: 디렉터리 목록 조회 실패 (권한 문제 가능). path={}", path);
-            return false;
-        }
+                tmp = new String();
 
-        // 4. 단일 순회로 폴더/파일 분리 수집 (2회 순회 제거)
-        List<String> folders = new ArrayList<>();
-        List<String> files   = new ArrayList<>();
-
-        for (File entry : list) {                          // 향상된 for문 사용
-            if (entry.isHidden()) continue;
-
-            if (entry.isDirectory()) {
-                // 5. new String() → 문자열 연결로 단순화
-                folders.add("Folder*" + entry.getName() + "*" + toKiloBytes(entry.length()));
-            } else {
-                files.add("File*" + entry.getName() + "*" + toKiloBytes(entry.length()));
+                if (list[i].isDirectory())
+                {
+                    tmp = "Folder*";
+                    tmp += list[i].getName() + "*" + toKiloBytes(list[i].length());
+                    result.add(tmp);
+                }
             }
+
+           
+            for (int i=0; i<list.length; i++)
+            {
+                if (list[i].isHidden())
+                    continue;
+
+                tmp = new String();
+
+                if (!list[i].isDirectory())
+                {
+                    tmp = "File*";
+                    tmp += list[i].getName() + "*" + toKiloBytes(list[i].length());
+                    result.add(tmp);
+                }
+            }
+        } catch (Exception e) {
+            isSuccess = false;
         }
 
-        // 폴더 먼저, 파일 나중 순서 유지
-        result.addAll(folders);
-        result.addAll(files);
-
-        return true;
-    }      
+        return isSuccess;
+    }
 
     public ArrayList getDirectoryInfo()
     {
@@ -160,59 +111,32 @@ public class FileUtil
 		}
 	};
 
-//	public boolean copyFile(String sourceFilePath, String targetFilePath)
-//	{
-//		File f1 = new File(sourceFilePath);
-//		boolean flag=true;
-//		try
-//		{
-//			if(f1.exists())
-//			{
-//				FileInputStream fin = new FileInputStream(sourceFilePath);
-//				FileOutputStream fout = new FileOutputStream(targetFilePath);
-//				byte buffer[] = new byte[1024];
-//				int j;
-//				while((j = fin.read(buffer)) >= 0)
-//				fout.write(buffer, 0, j);
-//				fout.close();
-//				fin.close();
-//			}
-//			else
-//			flag=false;
-//		}
-//		catch(IOException e)
-//		{
-//			System.out.println(e.toString());
-//		}
-//		return flag;
-//	};   
-	
-	public boolean copyFile(String sourceFilePath, String targetFilePath) {
-
-	    File sourceFile = new File(sourceFilePath);
-	    File targetFile = new File(targetFilePath);
-
-	    if (!sourceFile.exists()) {
-	        return false;
-	    }
-
-	    // try-with-resources: 예외 발생 여부와 무관하게 fin/fout 자동 close()
-	    try (FileInputStream  fin  = new FileInputStream(sourceFile);
-	         FileOutputStream fout = new FileOutputStream(targetFile)) {
-
-	        // NIO 채널 복사: OS 레벨 전송으로 성능 향상, 수동 버퍼 불필요
-	        fin.getChannel().transferTo(0, sourceFile.length(), fout.getChannel());
-	        return true;
-
-	    } catch (IOException e) {
-	        // 복사 실패 시 불완전하게 생성된 타겟 파일 정리
-	        if (targetFile.exists()) {
-	            targetFile.delete();
-	        }
-	        log.error("파일 복사 실패: {} -> {}", sourceFilePath, targetFilePath, e);
-	        return false;
-	    }
-	}	
+	public boolean copyFile(String sourceFilePath, String targetFilePath)
+	{
+		File f1 = new File(sourceFilePath);
+		boolean flag=true;
+		try
+		{
+			if(f1.exists())
+			{
+				FileInputStream fin = new FileInputStream(sourceFilePath);
+				FileOutputStream fout = new FileOutputStream(targetFilePath);
+				byte buffer[] = new byte[1024];
+				int j;
+				while((j = fin.read(buffer)) >= 0)
+				fout.write(buffer, 0, j);
+				fout.close();
+				fin.close();
+			}
+			else
+			flag=false;
+		}
+		catch(IOException e)
+		{
+			System.out.println(e.toString());
+		}
+		return flag;
+	};    
 	
 	public String copyFile(String sourceFilePath, String targetFilePath, String targetFileName)
 	{
@@ -250,6 +174,7 @@ public class FileUtil
 		catch(IOException e)
 		{
 			returnStr = "";
+			e.printStackTrace();
 		}
 		return returnStr;
 	}
@@ -266,6 +191,7 @@ public class FileUtil
 			output.print(data.toString());
 			output.close();
 		} catch(IOException e) {
+			System.out.println(e.getMessage());
 			return false;
 		}
 		return true;
@@ -409,7 +335,7 @@ public class FileUtil
 			}
 			
 		}catch(IOException e){
-//			e.printStackTrace();
+			e.printStackTrace();
 		}
 		returnMap.put("list", list);
 		returnMap.put("upload_size",upload_size);

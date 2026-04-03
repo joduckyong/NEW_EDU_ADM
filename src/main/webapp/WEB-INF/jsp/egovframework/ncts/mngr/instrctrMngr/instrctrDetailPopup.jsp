@@ -3,9 +3,9 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+			insertKey : "${common.baseType[0].key() }",
+			updateKey : "${common.baseType[1].key() }",
+			deleteKey : "${common.baseType[2].key() }",
 			lUrl : "/ncts/mngr/instrctrMngr/instrctrDetailPopup.do",
 	}
 	
@@ -47,9 +47,9 @@ $(function(){
 	<section id="widget-grid" class="">
 		<!-- Search 영역 시작 -->
         <form name="sForm" id="sForm" method="post">
-        	<input type="hidden" name="instrctrNo" id="instrctrNo" value='<c:out value="${param.instrctrNo }"/>'>
-        	<input type="hidden" name="searchCondition1" id="searchCondition1" value='<c:out value="${param.searchCondition1 }"/>'>
-        	<input type="hidden" name="searchCondition2" id="searchCondition2" value='<c:out value="${param.searchCondition2 }"/>'>
+        	<input type="hidden" name="instrctrNo" id="instrctrNo" value="${param.instrctrNo }">
+        	<input type="hidden" name="searchCondition1" id="searchCondition1" value="${param.searchCondition1 }">
+        	<input type="hidden" name="searchCondition2" id="searchCondition2" value="${param.searchCondition2 }">
 			<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
 		</form>
 		<!-- Search 영역 끝 -->	
@@ -58,14 +58,14 @@ $(function(){
 			<div class="row">
 				<article class="col-md-12 col-lg-12">
 					<div class="tab-content">
-						<div class="jarviswidget-sortable active" id='<c:out value="${not empty param.searchCondition2 ? 'instrctrList2' : 'instrctrList' }"/>'>
+						<div class="jarviswidget-sortable active" id="${not empty param.searchCondition2 ? 'instrctrList2' : 'instrctrList' }">
 							<ul class="nav nav-tabs" style="min-width:100%;">
-								<li class='<c:out value="${empty param.searchCondition1 or param.searchCondition1 eq  ''  ? 'active' : ''}"/>'><a href="javascript:void(0);" data-val="">전체</a></li>
-								<li class='<c:out value="${param.searchCondition1 eq 'PFAT' ? 'active' : ''}"/>'><a href="javascript:void(0);" data-val="PFAT">PFA</a></li>
-								<li class='<c:out value="${param.searchCondition1 eq 'PMPT' ? 'active' : ''}"/>'><a href="javascript:void(0);" data-val="PMPT">PM+</a></li>
-								<li class='<c:out value="${param.searchCondition1 eq 'SPRT' ? 'active' : ''}"/>'><a href="javascript:void(0);" data-val="SPRT">SPR</a></li>
-								<li class='<c:out value="${param.searchCondition1 eq 'MPGT' ? 'active' : ''}"/>'><a href="javascript:void(0);" data-val="MPGT">MPG</a></li>
-								<li class='<c:out value="${param.searchCondition1 eq 'ETC' ? 'active' : ''}"/>'><a href="javascript:void(0);" data-val="ETC">기타</a></li>
+								<li class="${empty param.searchCondition1 or param.searchCondition1 eq  '' 	  ? 'active' : ''}"><a href="javascript:void(0);" data-val="">전체</a></li>
+								<li class="${param.searchCondition1 eq 'PFAT' ? 'active' : ''}"><a href="javascript:void(0);" data-val="PFAT">PFA</a></li>
+								<li class="${param.searchCondition1 eq 'PMPT' ? 'active' : ''}"><a href="javascript:void(0);" data-val="PMPT">PM+</a></li>
+								<li class="${param.searchCondition1 eq 'SPRT' ? 'active' : ''}"><a href="javascript:void(0);" data-val="SPRT">SPR</a></li>
+								<li class="${param.searchCondition1 eq 'MPGT' ? 'active' : ''}"><a href="javascript:void(0);" data-val="MPGT">MPG</a></li>
+								<li class="${param.searchCondition1 eq 'ETC' ? 'active' : ''}"><a href="javascript:void(0);" data-val="ETC">기타</a></li>
 							</ul>
 						</div>
 					</div>					
@@ -80,12 +80,12 @@ $(function(){
 								<c:set var="instrctrICnt" value="${instrctrICnt+1 }" />
 							</c:if>
 							<c:if test="${list.INSTRCTR_NO_S eq param.instrctrNo }">
-								<c:set var="instrctrSCnt" value="${instrctrSCnt+1 }" />
+								<c:set var="instrctrSCnt" value="${instrctrSCnt+1 }" /> 
 							</c:if>
 						</c:forEach>
 						
 						<span class="fL mt5 mb5" style="font-size:17px; font-weight: bold;">
-							<c:out value="${user.INSTRCTR_DETAIL_GRADE_CD_NM }"/> : <c:out value="${user.USER_NM }"/>(<c:out value="${user.USER_ID }"/>)
+							${user.INSTRCTR_DETAIL_GRADE_CD_NM } : ${user.USER_NM }(${user.USER_ID })
 							<c:if test="${param.searchCondition1 eq 'PFAT' }">
 								<c:set var="instrctrCertGradeAt" value="Y" />
 								<c:set var="instrctrCertGradeCd" value="${user.PFAT_GRADE_CD }" />
@@ -106,11 +106,11 @@ $(function(){
 								-
 		                		<c:if test="${instrctrCertGradeCd eq '99'}">해당없음</c:if>
 			                	<c:forEach var="list" items="${codeMap.DMH24 }" varStatus="idx">
-			                		<c:if test="${list.CODE eq instrctrCertGradeCd }"><c:out value="${list.CODE_DC}"/></c:if>
+			                		<c:if test="${list.CODE eq instrctrCertGradeCd }">${list.CODE_DC}</c:if>
 			               	 	</c:forEach>  							
 							</c:if>
 						</span>
-						<span class="fR mt15">총<c:out value="${fn:length(list)}"/>회(위촉강사 <c:out value="${instrctrICnt }"/>회 / 준강사 <c:out value="${instrctrSCnt }"/>회)</span>
+						<span class="fR mt15">총 ${fn:length(list)}회(위촉강사 ${instrctrICnt }회 / 준강사 ${instrctrSCnt }회)</span>
 						<table class="table table-bordered tb_type01 listtable">
 							<colgroup>
 								<col width="8%">
@@ -142,17 +142,17 @@ $(function(){
 								<c:forEach var="list" items="${list }" varStatus="idx">
 									<tr>
 										<td class="invisible">
-											<input type="checkbox" class="index" value='<c:out value="${list.SEQ}">'/>
-											<input type="hidden" name="eduDivision" value='<c:out value="${list.EDU_DIVISION}">'/>
+											<input type="checkbox" class="index" value="${list.SEQ}">
+											<input type="hidden" name="eduDivision" value="${list.EDU_DIVISION}">
 										</td>
-										<td><c:out value="${list.EDU_DIVISION_NM}"/></td>
-										<td><c:out value="${list.EDU_DIVISION gt '03' ? list.EDU_DIVISION_NM : list.EDU_PROCESS_TXT}"/></td>
-										<td><c:out value="${list.EDUCATION_TXT}"/></td>
-										<td><c:out value="${list.START_YMD}"/> ~ <c:out value="${fn:substring(list.END_YMD, 8, 10)}"/></td>
-										<td><c:out value="${list.CENTER_NM }"/></td>
-										<td><c:out value="${list.INSTT }"/></td>
-										<td><c:out value="${list.INSTRCTR_NM_I}"/><c:if test="${not empty list.INSTRCTR_CERT_I }">(<c:out value="${list.INSTRCTR_CERT_I }"/>)</c:if></td>
-										<td><c:out value="${list.INSTRCTR_NM_S}"/><c:if test="${not empty list.INSTRCTR_CERT_S }">(<c:out value="${list.INSTRCTR_CERT_S }"/>)</c:if></td>
+										<td>${list.EDU_DIVISION_NM}</td>
+										<td>${list.EDU_DIVISION gt '03' ? list.EDU_DIVISION_NM : list.EDU_PROCESS_TXT}</td>
+										<td>${list.EDUCATION_TXT}</td>
+										<td>${list.START_YMD} ~ ${fn:substring(list.END_YMD, 8, 10)}</td>
+										<td>${list.CENTER_NM }</td>
+										<td>${list.INSTT }</td>
+										<td>${list.INSTRCTR_NM_I}<c:if test="${not empty list.INSTRCTR_CERT_I }">(${list.INSTRCTR_CERT_I })</c:if></td>
+										<td>${list.INSTRCTR_NM_S}<c:if test="${not empty list.INSTRCTR_CERT_S }">(${list.INSTRCTR_CERT_S })</c:if></td>
 										<c:set var="p_seq" value="${list.SEQ }"/>
 										<c:set var="p_edu_division" value="${list.EDU_DIVISION }"/>
 									</tr>

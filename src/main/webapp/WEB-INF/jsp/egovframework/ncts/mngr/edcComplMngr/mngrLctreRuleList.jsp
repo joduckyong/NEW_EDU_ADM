@@ -2,9 +2,9 @@
 <script type="text/javascript">
 	$(function(){
 	    var baseInfo = {
-	            insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-	            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-	            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+	            insertKey : "${common.baseType[0].key() }",
+	            updateKey : "${common.baseType[1].key() }",
+	            deleteKey : "${common.baseType[2].key() }",
 	            lUrl : "/ncts/mngr/edcComplMngr/mngrLctreRuleList.do",
 	            fUrl : "/ncts/mngr/edcComplMngr/mngrLctreRuleForm.do",
 	            dUrl : "/ncts/mngr/edcComplMngr/mngrDeleteRuleLctre.do",
@@ -118,7 +118,7 @@
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap }" varStatus="idx">
                                 	<c:if test="${idx.index ne 0 and idx.index lt 5}">
-                                    	<option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun1 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
+                                    	<option value="${list.CODE }" ${param.sGubun1 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -170,12 +170,12 @@
 							<c:forEach var="list" items="${list}" varStatus="idx">
 								<tr>
 									<td class="invisible">
-									   <input type="checkbox" name="ruleNO" class="index" value='<c:out value="${list.RULE_NO}"/>'>
+									   <input type="checkbox" name="ruleNO" class="index" value="${list.RULE_NO}">
 									</td>
-									<td><c:out value="${list.COURSES_NM}"/></td>
-									<td><c:out value="${list.LECTURE_ID}"/></td>
-									<td><c:out value="${list.LECTURE_NM}"/></td>
-									<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
+									<td>${list.COURSES_NM}</td>
+									<td>${list.LECTURE_ID}</td>
+									<td>${list.LECTURE_NM}</td>
+									<td>${list.FRST_REGIST_PNTTM}</td>
 								</tr>
 							</c:forEach>
 						</tbody>

@@ -6,9 +6,9 @@
 $(function(){
 	// ckEditor Height 설정
 	var baseInfo = {
-			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+			insertKey : "${common.baseType[0].key() }",
+            updateKey : "${common.baseType[1].key() }",
+            deleteKey : "${common.baseType[2].key() }",
             lUrl : "/ncts/mngr/userMngr/mngrMemberList.do",
             fUrl : "/ncts/mngr/userMngr/mngrMemberForm.do",
             dUrl : "/ncts/mngr/userMngr/mngrDeleteMember.do"
@@ -253,7 +253,7 @@ $(function(){
 				"userId" : idVal,
 				"userEmail" : emailVal,
 				"userNo" : $("input[name='userNo']").val(),
-				"<c:out value='${_csrf.parameterName}'/>" : "<c:out value='${_csrf.token}'/>"
+				"${_csrf.parameterName}" : "${_csrf.token}"
 			},
 			dataType: "json",
 			async : false,
@@ -315,16 +315,16 @@ $(function(){
 		<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-          		<input type="hidden" name="userNo" id="userNo"  value="<c:out value='${result.USER_NO }'/>">
-          		<input type="hidden" name="userEmail" value="<c:out value='${result.USER_EMAIL }'/>">
-          		<input type="hidden" name="userNm" value="<c:out value='${result.USER_NM }'/>">
-				<input type="hidden" id="searchKeyword1" name="searchKeyword1" value="<c:out value='${param.searchKeyword1}'/>"/>
-				<input type="hidden" id="searchKeyword2" name="searchKeyword2" value="<c:out value='${param.searchKeyword2}'/>"/>
-				<input type="hidden" id="searchKeyword3" name="searchKeyword3" value="<c:out value='${param.searchKeyword3}'/>"/>
-				<input type="hidden" id="searchKeyword4" name="searchKeyword4" value="<c:out value='${param.searchKeyword4}'/>"/>
-				<input type="hidden" id="sGubun" name="sGubun" value="<c:out value='${param.sGubun}'/>"/>
-				<input type="hidden" id="sGubun1" name="sGubun1" value="<c:out value='${param.sGubun1}'/>"/>
-				<input type="hidden" id="sGubun4" name="sGubun4" value="<c:out value='${param.sGubun4}'/>"/>
+          		<input type="hidden" name="userNo" id="userNo"  value="${result.USER_NO }">
+          		<input type="hidden" name="userEmail" value="${result.USER_EMAIL }">
+          		<input type="hidden" name="userNm" value="${result.USER_NM }">
+				<input type="hidden" id="searchKeyword1" name="searchKeyword1" value="${param.searchKeyword1}"/>
+				<input type="hidden" id="searchKeyword2" name="searchKeyword2" value="${param.searchKeyword2}"/>
+				<input type="hidden" id="searchKeyword3" name="searchKeyword3" value="${param.searchKeyword3}"/>
+				<input type="hidden" id="searchKeyword4" name="searchKeyword4" value="${param.searchKeyword4}"/>
+				<input type="hidden" id="sGubun" name="sGubun" value="${param.sGubun}"/>
+				<input type="hidden" id="sGubun1" name="sGubun1" value="${param.sGubun1}"/>
+				<input type="hidden" id="sGubun4" name="sGubun4" value="${param.sGubun4}"/>
 				<div class="fL wp50">
 					<ul class="searchAreaBox">
 					</ul>
@@ -343,7 +343,7 @@ $(function(){
 		
 		<form method="post" name="nForm" id="nForm">
 			<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-			<input type="hidden" name="userNo" value="<c:out value='${result.USER_NO }'/>" >
+			<input type="hidden" name="userNo" value="${result.USER_NO }" >
 <%-- 			<div id="notePopup" class="popup-con-d" style="display:none">
 				<div class="close_box fClr" style="text-align:left;">
 				</div>
@@ -391,8 +391,8 @@ $(function(){
 				<article class="col-md-12 col-lg-12">
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 					    <jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-						<input type="hidden" name="userNo" value="<c:out value='${result.USER_NO}'/>">
-						<input type="hidden" id="currentJobNm" name="currentJobNm" value="<c:out value='${result.CURRENT_JOB_NM}'/>"/>
+						<input type="hidden" name="userNo" value="${result.USER_NO}">
+						<input type="hidden" id="currentJobNm" name="currentJobNm" value="${result.CURRENT_JOB_NM}"/>
 						<input type="hidden" id="centerCd" name="centerCd" value="<sec:authentication property="principal.centerId"/>" >
 						<input type="hidden" name="certCdList">
 						<input type="hidden" name="certComplCdList">
@@ -420,7 +420,7 @@ $(function(){
 											</label> -->
 										</c:if>
 										<c:if test="${not empty result.USER_ID}">
-											<c:out value="${result.USER_ID}"/>
+											${result.USER_ID}
 										</c:if>
 									</td>
 								</tr>
@@ -428,7 +428,7 @@ $(function(){
 						            <th>이메일 </th>
 						            <td colspan="6">
 										<label class="input w250 col">
-											<input type="text" id="userEmail" name="userEmail" value="<c:out value='${result.USER_EMAIL}'/>">
+											<input type="text" id="userEmail" name="userEmail" value="${result.USER_EMAIL}">
 										</label>
 										<c:if test="${not empty result.USER_EMAIL}">
 											<input type="hidden" id="emailChk" name="emailChk" value="" data-title="이메일">
@@ -443,7 +443,7 @@ $(function(){
 											<select id="gradeCd" name="gradeCd">
 											    <option value="">선택</option>
 											    <c:forEach var="list" items="${codeMap.DMH03 }" varStatus="idx">
-                                                    <option value="<c:out value='${list.CODE }'/>" <c:out value="${result.GRADE_CD eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
+                                                    <option value="${list.CODE }" ${result.GRADE_CD eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
                                                 </c:forEach>
                                             </select> <i></i>
 										</label>
@@ -453,8 +453,8 @@ $(function(){
 						            	<label class="select w150 col">
                                             <select id="detailGradeCd" name="detailGradeCd">
                                                 <c:forEach var="list" items="${codeMap.DMH23 }" varStatus="idx">
-                                                    <option value="<c:out value='${list.CODE }'/>" <c:out value="${result.DETAIL_GRADE_CD eq list.CODE ? 'selected=selected':'' }"/>>
-	                                                    <c:out value="${list.CODE_NM }"/>
+                                                    <option value="${list.CODE }" ${result.DETAIL_GRADE_CD eq list.CODE ? 'selected="selected"':'' }>
+	                                                    ${list.CODE_NM }
                                                     </option>
                                                 </c:forEach>
                                             </select> <i></i>
@@ -466,8 +466,8 @@ $(function(){
                                             <select id="instrctrDetailGradeCd" name="instrctrDetailGradeCd">
                                                 <option value="99">선택</option>
                                                 <c:forEach var="list" items="${codeMap.DMH24 }" varStatus="idx">
-                                                    <option value="<c:out value='${list.CODE }'/>" <c:out value="${result.INSTRCTR_DETAIL_GRADE_CD eq list.CODE ? 'selected=selected':'' }"/>>
-															<c:out value="${list.CODE_NM }"/>
+                                                    <option value="${list.CODE }" ${result.INSTRCTR_DETAIL_GRADE_CD eq list.CODE ? 'selected="selected"':'' }>
+	                                                    ${list.CODE_NM }
                                                     </option>
                                                 </c:forEach>
                                             </select> <i></i>
@@ -483,13 +483,13 @@ $(function(){
                                     <th>이름</th>
                                     <td>
                                         <label class="input w250 col">
-                                            <input type="text" id="userNm" name="userNm" value="<c:out value='${result.USER_NM}'/>">
+                                            <input type="text" id="userNm" name="userNm" value="${result.USER_NM}">
                                         </label>
                                     </td>
                                     <th>생년월일</th>
                                     <td colspan = "3">
                                         <label class="input w250 col"> <i class="icon-append fa fa-calendar"></i>
-                                            <input type="text" class="date inputcal" id="userBirthYmd" name="userBirthYmd" value="<c:out value='${result.USER_BIRTH_YMD}'/>" <c:out value="${not empty result.USER_BIRTH_YMD ? 'readonly':''  }"/>/>
+                                            <input type="text" class="date inputcal" id="userBirthYmd" name="userBirthYmd" value="${result.USER_BIRTH_YMD}" ${not empty result.USER_BIRTH_YMD ? 'readonly':''  }/>
                                         </label>
                                     </td>
                                 </tr>
@@ -500,7 +500,7 @@ $(function(){
                                             <select id="activeAreaCd1" name="activeAreaCd1">
                                                 <option value="">선택</option>
                                                 <c:forEach var="list" items="${codeMap.DMH07 }" varStatus="idx">
-                                                    <option value="<c:out value='${list.CODE }'/>" <c:out value="${result.ACTIVE_AREA_CD1 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
+                                                    <option value="${list.CODE }" ${result.ACTIVE_AREA_CD1 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
                                                 </c:forEach>
                                             </select> <i></i>
                                         </label>
@@ -508,7 +508,7 @@ $(function(){
                                             <select id="activeAreaCd2" name="activeAreaCd2">
                                                 <option value="">선택</option>
                                                 <c:forEach var="list" items="${codeMap.DMH07 }" varStatus="idx">
-                                                    <option value="<c:out value='${list.CODE }'/>" <c:out value="${result.ACTIVE_AREA_CD2 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
+                                                    <option value="${list.CODE }" ${result.ACTIVE_AREA_CD2 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
                                                 </c:forEach>
                                             </select> <i></i>
                                         </label>
@@ -518,19 +518,19 @@ $(function(){
 	                              	     	<th>전화번호</th>
 	                                    	<td>
 	                                   	    	<label class="input w250 col">
-	                                    	        <input type="text" id="userHpNo" name="userHpNo" value="<c:out value='${result.USER_HP_NO }'/>" maxlength="13" >
+	                                    	        <input type="text" id="userHpNo" name="userHpNo" value="${result.USER_HP_NO }" maxlength="13" ${not empty result.USER_HP_NO ? 'readonly':''  }>
 	                                    	    </label>
 	                                    	</td>
 	                                    	<th>첨부파일</th>
                                    	 		<td>
-												<c:out value="${markup}" escapeXml="false"/>
+                                    			${markup }
 						            		</td>	
 	                                    </c:when>
 	                                    <c:otherwise>
 	                                    	<th>전화번호</th>
 	                                    	<td colspan = "3">
 	                                   	    	<label class="input w250 col">
-	                                    	        <input type="text" id="userHpNo" name="userHpNo" value="<c:out value='${result.USER_HP_NO }'/>" maxlength="13" >
+	                                    	        <input type="text" id="userHpNo" name="userHpNo" value="${result.USER_HP_NO }" maxlength="13" ${not empty result.USER_HP_NO ? 'readonly':''  }>
 	                                    	    </label>
 	                                    	</td>
 	                                    </c:otherwise>
@@ -635,3 +635,5 @@ $(function(){
 {{/if}}
 
 </script>
+
+

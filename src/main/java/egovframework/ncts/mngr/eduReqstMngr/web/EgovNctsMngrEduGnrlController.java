@@ -225,9 +225,6 @@ public class EgovNctsMngrEduGnrlController {
 	    	   result.put("rs", rs);
 	           result.put("success", "success");
 	           result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
-	      } catch (IOException e) {
-	         LOGGER.debug(e.getMessage());
-	           result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 	       }catch (Exception e) {
 	           LOGGER.debug(e.getMessage());
 	           result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));

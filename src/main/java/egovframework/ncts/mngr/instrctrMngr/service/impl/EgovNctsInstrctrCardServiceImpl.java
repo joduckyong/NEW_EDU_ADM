@@ -13,13 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import com.penta.scpdb.ScpDbAgent;
-import com.penta.scpdb.ScpDbAgentException;
-
 import egovframework.com.SessionUtil;
-import egovframework.com.TextUtil;
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.ems.service.EgovMultiPartEmail;
 import egovframework.com.exception.ErrorExcetion;
 import egovframework.com.file.FileViewMarkupBuilder;
@@ -50,77 +45,26 @@ public class EgovNctsInstrctrCardServiceImpl implements EgovNctsInstrctrCardServ
 	@Resource(name = "egovMessageSource")
 	EgovMessageSource egovMessageSource;
     
-//  String iniFilePath = "/penta/scpdb_agent.ini";
-  //String iniFilePath = "C:\\scp\\scpdb_agent.ini";
-  private final String iniFilePath = EgovProperties.getProperty("Globals.iniFilePath");
-
-    
     @Override
     public List<HashMap<String, Object>> selectInstrctrCardList(PageInfoVO pageVO) throws Exception {
-    	ScpDbAgent agt = new ScpDbAgent();
-    	
-    	if (pageVO.getSearchKeyword2() != null && !"".equals(pageVO.getSearchKeyword2())) {
-	    	String searchKeyword2 = agt.ScpEncB64(iniFilePath, "KEY1", pageVO.getSearchKeyword2());
-	    	pageVO.setSearchKeyword2(searchKeyword2);
-    	}       	
-    	if (pageVO.getSearchKeyword3() != null && !"".equals(pageVO.getSearchKeyword3())) {
-    		String searchKeyword3 = agt.ScpEncB64(iniFilePath, "KEY1", pageVO.getSearchKeyword3().replaceAll("-", ""));
-    		pageVO.setSearchKeyword3(searchKeyword3);
-    	}       	
         int cnt = egovNctsInstrctrCardMapper.selectInstrctrCardCnt(pageVO);
         pageVO.setTotalRecordCount(cnt);
         
-        List<HashMap<String, Object>> list = egovNctsInstrctrCardMapper.selectInstrctrCardList(pageVO);
-
-        // 결과값 변환 처리
-        for (HashMap<String, Object> tmp : list) {
-        	try {
-	            if (tmp.get("USER_HP_NO") != null && !"".equals(String.valueOf(tmp.get("USER_HP_NO")))) {
-	            	String userHpNo = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_HP_NO").toString(),"UTF-8");
-	            	tmp.put("USER_HP_NO", TextUtil.formatTel(userHpNo));
-	            }
-	            if (tmp.get("USER_EMAIL") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL")))) {
-	            	tmp.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL").toString(),"UTF-8"));
-	            }
-	    	}
-	    	catch (ScpDbAgentException e) {
-	    		LOGGER.info(e.getMessage());
-	    	}
-	    	catch (Exception e) {
-	    		LOGGER.info(e.getMessage());
-	    	}   
-        }
-
-        return list;        
+        return egovNctsInstrctrCardMapper.selectInstrctrCardList(pageVO);
     }
     
     @Override
     public HashMap<String, Object> selectInstrctrCardDetail(MngrInstrctrCardVO param) throws Exception {
-    	ScpDbAgent agt = new ScpDbAgent();    	
         HashMap<String, Object> result = egovNctsInstrctrCardMapper.selectInstrctrCardDetail(param);
-        try {
-	        if (result.get("USER_HP_NO") != null && !"".equals(String.valueOf(result.get("USER_HP_NO")))) {
-	        	String userHpNo = agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_HP_NO").toString(),"UTF-8");
-	        	result.put("USER_HP_NO", TextUtil.formatTel(userHpNo));
-	        }
-	        if (result.get("USER_EMAIL") != null && !"".equals(String.valueOf(result.get("USER_EMAIL")))) {
-	        	result.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_EMAIL").toString(),"UTF-8"));
-	        }
-	        String fileView = FileViewMarkupBuilder.newInstance()
-	                .atchFileId(StringUtils.defaultIfEmpty((String) result.get("ATCH_FILE_ID"), ""))
-	                .wrapMarkup("p")
-	                .isIcon(true)
-	                .isSize(true)
-	                .build()
-	                .toString();
-	        result.put("fileView", fileView);
-    	}
-    	catch (ScpDbAgentException e) {
-    		LOGGER.info(e.getMessage());
-    	}
-    	catch (Exception e) {
-    		LOGGER.info(e.getMessage());
-    	} 
+        
+        String fileView = FileViewMarkupBuilder.newInstance()
+                .atchFileId(StringUtils.defaultIfEmpty((String) result.get("ATCH_FILE_ID"), ""))
+                .wrapMarkup("p")
+                .isIcon(true)
+                .isSize(true)
+                .build()
+                .toString();
+        result.put("fileView", fileView);
         
         return result;
     }

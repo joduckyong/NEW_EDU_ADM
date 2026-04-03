@@ -3,9 +3,9 @@
 
 	$(function(){
 	    var baseInfo = {
-	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+	            insertKey : "${common.baseType[0].key() }",
+	            updateKey : "${common.baseType[1].key() }",
+	            deleteKey : "${common.baseType[2].key() }",
 	            lUrl : "/ncts/mngr/homeMngr/mngrPopupList.do",
 	            fUrl : "/ncts/mngr/homeMngr/mngrPopupForm.do",
 	            dUrl : "/ncts/mngr/homeMngr/mngrDeletePopup.do",
@@ -181,11 +181,11 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value="<c:out value='${list.POP_NO}'/>">
+										<input type="checkbox" class="index" value="${list.POP_NO}">
 									</td>
-									<td><c:out value="${list.LAST_USER_NM}"/></td>
-									<td><c:out value="${list.TITLE}"/></td>
-									<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
+									<td>${list.LAST_USER_NM}</td>
+									<td>${list.TITLE}</td>
+									<td>${list.FRST_REGIST_PNTTM}</td>
 								</tr>
 							</c:forEach>
 						</tbody>

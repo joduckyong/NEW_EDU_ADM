@@ -4,9 +4,9 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-			updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-			deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+			insertKey : "${common.baseType[0].key() }",
+			updateKey : "${common.baseType[1].key() }",
+			deleteKey : "${common.baseType[2].key() }",
 			lUrl : "/ncts/cmm/sys/code/codeList.do",
 			fUrl : "/ncts/cmm/sys/code/codeForm.do",
 			dUrl : "/ncts/cmm/sys/code/codeProcess.do"
@@ -121,13 +121,13 @@ $(function(){
 						    <label class="label">코드</label>
 						</li>
 						<li class="w150">
-							<input type="text" id="searchKeyword3" name="searchKeyword3" value="<c:out value='${param.searchKeyword3}'/>" class="form-control">
+							<input type="text" id="searchKeyword3" name="searchKeyword3" value="${param.searchKeyword3}" class="form-control">
 						</li>
 						<li class="smart-form">
 						    <label class="label">코드명</label>
 						</li>
 						<li class="w150">
-							<input type="text" id="searchKeyword1" name="searchKeyword1" value="<c:out value='${param.searchKeyword1}'/>" class="form-control">
+							<input type="text" id="searchKeyword1" name="searchKeyword1" value="${param.searchKeyword1}" class="form-control">
 						</li>
 						<li class="ml10">
 							<button class="btn btn-primary searchReset" type="button" id="searchBtn"><i class="fa fa-search"></i> 검색</button>
@@ -172,10 +172,10 @@ $(function(){
 							</c:if>
 							<c:forEach var="list" items="${rslist }" varStatus="idx">
 								<tr>
-									<td class="invisible"><input type="checkbox" class="index" value="<c:out value='${list.CODE_ID }'/>"></td>
-									<td class="codeIdTd"><c:out value="${list.CODE_ID }"/></td>
-									<td><c:out value="${list.CODE_ID_NM }"/></td>
-									<td><c:out value="${list.USE_YN }"/></td>
+									<td class="invisible"><input type="checkbox" class="index" value="${list.CODE_ID }"></td>
+									<td class="codeIdTd">${list.CODE_ID }</td>
+									<td>${list.CODE_ID_NM }</td>
+									<td>${list.USE_YN }</td>
 								</tr>
 							</c:forEach>
 						</tbody>

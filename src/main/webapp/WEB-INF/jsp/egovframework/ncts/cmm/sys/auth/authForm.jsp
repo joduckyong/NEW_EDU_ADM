@@ -2,8 +2,8 @@
 <script type="text/javascript">
 $(function(){
 	var baseInfo = {
-			lUrl : "<c:out value='${pageInfo.READ_AT eq "Y" ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }'/>",
-			fUrl : "<c:out value='${pageInfo.MENU_DETAIL_URL }'/>"
+			lUrl : "${pageInfo.READ_AT eq 'Y' ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }",
+			fUrl : "${pageInfo.MENU_DETAIL_URL }"
 	}	
 	
 	$.setValidation = function(){
@@ -137,7 +137,7 @@ $(function(){
 		<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-				<input type="hidden" name="searchKeyword1" value="<c:out value='${param.searchKeyword1}'/>" >
+				<input type="hidden" name="searchKeyword1" value="${param.searchKeyword1}" >
 				<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/button.jsp" flush="false">
 					<jsp:param value="form"     name="formType"/>
 					<jsp:param value="1,2"     name="buttonYn"/>
@@ -152,7 +152,7 @@ $(function(){
 		<div class="content">
 			<form name="iForm" id="iForm" method="post"  >
 				<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-				<input type="hidden" name="authGrpNo" value="<c:out value='${common.authGrpNo }'/>">
+				<input type="hidden" name="authGrpNo" value="${common.authGrpNo }">
 				<!-- row 메뉴조회 시작 -->
 				<div class="row">
 					<article class="col-md-12 col-lg-12">
@@ -174,7 +174,7 @@ $(function(){
 												<select id="centerCd" name="centerCd">
 													<option value="">선택</option>
 													<c:forEach var="center" items="${centerList }" varStatus="idx">
-														<option value="<c:out value='${center.DEPT_CD }'/>" <c:out value="${center.DEPT_CD eq result.CENTER_CD ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
+														<option value="${center.DEPT_CD }" ${center.DEPT_CD eq result.CENTER_CD ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
 													</c:forEach>
 												</select> <i></i>
 											</label>
@@ -187,7 +187,7 @@ $(function(){
 									<th scope="row">권한그룹명 </th>
 									<td>
 										<label class="input w250">
-											<input type="text" id="authGrpNm" name="authGrpNm" value="<c:out value='${result.AUTH_GRP_NM}'/>">
+											<input type="text" id="authGrpNm" name="authGrpNm" value="${result.AUTH_GRP_NM}">
 										</label>
 									</td>
 									<th scope="row">사용여부 </th>
@@ -195,7 +195,7 @@ $(function(){
 										<div class="inline-group">
 											<c:forEach var="list" items="${codeMap.SYS01 }" varStatus="idx">
 												<label class="radio">
-													<input type="radio" value="<c:out value='${list.CODE }'/>" name="useAt" <c:out value="${result.USE_AT eq list.CODE or idx.first ? 'checked=checked' :'' }"/>><i></i><c:out value="${list.CODE_NM }"/>
+													<input type="radio" value="${list.CODE }" name="useAt" ${result.USE_AT eq list.CODE or idx.first ? 'checked="checked"' :'' }><i></i>${list.CODE_NM }
 												</label>
 											</c:forEach>
 										</div>
@@ -273,38 +273,38 @@ $(function(){
 								<c:forEach var="list" items="${rslist }" varStatus="idx">
 									<tr>
 										<td>
-											<c:out value="${list.MENU_CD }"/>
-											<input type="hidden" name="authList[<c:out value='${idx.index }'/>].menuCd" value="<c:out value='${list.MENU_CD}'/>">
+											${list.MENU_CD }
+											<input type="hidden" name="authList[${idx.index }].menuCd" value="${list.MENU_CD}">
 										</td>
-										<td><c:out value="${list.MENU_NM }"/></td>
+										<td>${list.MENU_NM }</td>
 										<td>
 											<label class="checkbox checkboxCenter">
-												<input type="checkbox" name="authList[<c:out value='${idx.index }'/>].readAt" <c:out value="${list.READ_AT eq 'Y'? 'checked=checked':''}"/> class="readAt" value="Y"><i></i>
-											</label>
-										</td>
-										<td>
-											<label class="checkbox checkboxCenter">
-												<input type="checkbox" name="authList[<c:out value='${idx.index }'/>].insertAt" <c:out value="${list.INSERT_AT eq 'Y'? 'checked=checked':''}"/> class="insertAt" value="Y"><i></i>
+												<input type="checkbox" name="authList[${idx.index }].readAt" ${list.READ_AT eq 'Y'? 'checked="checked"':''} class="readAt" value="Y"><i></i>
 											</label>
 										</td>
 										<td>
 											<label class="checkbox checkboxCenter">
-												<input type="checkbox" name="authList[<c:out value='${idx.index }'/>].updateAt" <c:out value="${list.UPDATE_AT eq 'Y'? 'checked=checked':''}"/> class="updateAt" value="Y"><i></i>
+												<input type="checkbox" name="authList[${idx.index }].insertAt" ${list.INSERT_AT eq 'Y'? 'checked="checked"':''} class="insertAt" value="Y"><i></i>
 											</label>
 										</td>
 										<td>
 											<label class="checkbox checkboxCenter">
-												<input type="checkbox" name="authList[<c:out value='${idx.index }'/>].deleteAt" <c:out value="${list.DELETE_AT eq 'Y'? 'checked=checked':''}"/> class="deleteAt" value="Y"><i></i>
+												<input type="checkbox" name="authList[${idx.index }].updateAt" ${list.UPDATE_AT eq 'Y'? 'checked="checked"':''} class="updateAt" value="Y"><i></i>
 											</label>
 										</td>
 										<td>
-											<label class="checkbox checkboxCenter <c:out value="${list.EXCEL_DOWN_AUTH eq 'N'? 'invisible':'' }"/>">
-												<input type="checkbox" name="authList[<c:out value='${idx.index }'/>].excelAt" <c:out value="${list.EXCEL_AT eq 'Y'? 'checked=checked':''}"/> class="excelAt" value="Y"><i></i>
+											<label class="checkbox checkboxCenter">
+												<input type="checkbox" name="authList[${idx.index }].deleteAt" ${list.DELETE_AT eq 'Y'? 'checked="checked"':''} class="deleteAt" value="Y"><i></i>
 											</label>
 										</td>
 										<td>
-											<label class="checkbox checkboxCenter <c:out value="${list.REPORT_AUTH eq 'N'? 'invisible':'' }"/>">
-												<input type="checkbox" name="authList[<c:out value='${idx.index }'/>].reportAt" <c:out value="${list.REPORT_AT eq 'Y'? 'checked=checked':''}"/> class="reportAt" value="Y"><i></i>
+											<label class="checkbox checkboxCenter ${list.EXCEL_DOWN_AUTH eq 'N'? 'invisible':'' }">
+												<input type="checkbox" name="authList[${idx.index }].excelAt" ${list.EXCEL_AT eq 'Y'? 'checked="checked"':''} class="excelAt" value="Y"><i></i>
+											</label>
+										</td>
+										<td>
+											<label class="checkbox checkboxCenter ${list.REPORT_AUTH eq 'N'? 'invisible':'' }">
+												<input type="checkbox" name="authList[${idx.index }].reportAt" ${list.REPORT_AT eq 'Y'? 'checked="checked"':''} class="reportAt" value="Y"><i></i>
 											</label>
 										</td>
 										<td>

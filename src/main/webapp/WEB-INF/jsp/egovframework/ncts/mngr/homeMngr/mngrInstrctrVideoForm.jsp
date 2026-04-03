@@ -8,11 +8,11 @@ $(function(){
 	CKEDITOR.replace('contents',{height : 400});
 	
 	var baseInfo = {
-			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
-			lUrl : "<c:out value='${pageInfo.READ_AT eq "Y" ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }'/>",
-			fUrl : "<c:out value='${pageInfo.MENU_DETAIL_URL }'/>",
+			insertKey : "${common.baseType[0].key() }",
+            updateKey : "${common.baseType[1].key() }",
+            deleteKey : "${common.baseType[2].key() }",
+			lUrl : "${pageInfo.READ_AT eq 'Y' ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }",
+			fUrl : "${pageInfo.MENU_DETAIL_URL }",
             dUrl : "/ncts/mngr/homeMngr/mngrDeleteVideoNotice.do",
 	}	
 	
@@ -130,24 +130,24 @@ $(function(){
                                 <c:if test="${result.inUp eq 'U'}">
                                 <tr>
                                     <th scope="row">작성자</th>
-                                    <td colspan="3"><c:out value="${result.LAST_USER_NM }"/></td>
+                                    <td colspan="3">${result.LAST_USER_NM }</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">작성일</th>
-                                    <td colspan="3"><c:out value="${result.FRST_REGIST_PNTTM }"/></td>
+                                    <td colspan="3">${result.FRST_REGIST_PNTTM }</td>
                                 </tr>
                                 </c:if>
 								<tr>
 									<th scope="row">제목 </th>
 									<td>
 										<label class="input w500 col">
-											<input type="text" id="title" name="title" value="<c:out value='${result.TITLE}'/>">
+											<input type="text" id="title" name="title" value="${result.TITLE}">
 										</label>
 									</td>
 									<th scope="row">홈페이지 게시여부 </th>
 									<td>
 										<label class="checkbox checkboxCenter col ml10 mt5">
-											<input type="checkbox" id="homepageAt" name="homepageAt" value="Y" <c:out value="${result.HOMEPAGE_AT eq 'Y' ? 'checked=checked':''}"/>><i></i>
+											<input type="checkbox" id="homepageAt" name="homepageAt" value="Y" ${result.HOMEPAGE_AT eq 'Y' ? 'checked="checked"':''}><i></i>
 										</label>
 										<span class="col mt7 ml30 mr5">홈페이지 게시</span>										
 									</td>
@@ -155,21 +155,21 @@ $(function(){
 								<tr>
 									<th scope="row">내용 </th>
 									<td class="board_contents" colspan="3">
-										<textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;"><c:out value="${result.CONTENTS}"/></textarea>
+										<textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;">${result.CONTENTS}</textarea>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">URL </th>
 									<td colspan="3">
 										<label class="input w250">
-											<input type="text" id="youtubeId" name="youtubeId" value="<c:out value='${result.YOUTUBE_ID}'/>" placeholder="https://youtu.be/동영상ID">
+											<input type="text" id="youtubeId" name="youtubeId" value="${result.YOUTUBE_ID}" placeholder="https://youtu.be/동영상ID">
 										</label>
 									</td>
 								</tr>
 								<tr>
                                     <th scope="row">썸네일 이미지 </th>
                                     <td colspan="3">
-										<c:out value="${markup}" escapeXml="false"/>
+                                        ${markup }
                                     </td>
                                 </tr>
 							</tbody>

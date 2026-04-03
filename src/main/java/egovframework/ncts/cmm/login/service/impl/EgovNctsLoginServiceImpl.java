@@ -1,7 +1,5 @@
 package egovframework.ncts.cmm.login.service.impl;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.security.vo.CustomUser;
-import egovframework.com.vo.UserSessionVO;
 import egovframework.ncts.cmm.login.mapper.EgovNctsLoginMapper;
 import egovframework.ncts.cmm.login.service.EgovNctsLoginService;
 
@@ -37,23 +34,4 @@ public class EgovNctsLoginServiceImpl implements EgovNctsLoginService {
 		egovNctsLoginMapper.updateFailrCnt(user);
 	}
 	
-	@Override
-	public void insertUserSession(UserSessionVO param) throws Exception {
-		egovNctsLoginMapper.insertUserSession(param);
-	}
-	
-	@Override
-	public void deleteUserSession(String userId) throws Exception {
-		egovNctsLoginMapper.deleteUserSession(userId);
-	}
-	
-	@Override
-	public List<UserSessionVO> selectActiveSessions(String userId) throws Exception {
-		return egovNctsLoginMapper.selectActiveSessions(userId);
-	}
-	
-	@Override
-	public void insertVisit(CustomUser user) throws Exception {
-		egovNctsLoginMapper.insertVisit(user);
-	}	
 }

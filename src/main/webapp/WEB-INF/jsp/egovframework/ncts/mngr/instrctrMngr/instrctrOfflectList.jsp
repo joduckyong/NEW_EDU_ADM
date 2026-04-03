@@ -24,9 +24,9 @@
 		var excelPg = 0;
 		
 	    var baseInfo = {
-	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+	            insertKey : "${common.baseType[0].key() }",
+	            updateKey : "${common.baseType[1].key() }",
+	            deleteKey : "${common.baseType[2].key() }",
 	            lUrl : "/ncts/mngr/instrctrMngr/instrctrMngrList.do",
 	            fUrl : "/ncts/mngr/instrctrMngr/instrctrForm.do",
 	            dUrl : "/ncts/mngr/userMngr/mngrDeleteMember.do",
@@ -395,13 +395,13 @@
                 <input type="hidden" name="courses" id="courses" value="04">
                 <input type="hidden" name="fileConfirmAt" id="fileConfirmAt" value="">
                 <input type="hidden" name="sGubun3" id="sGubun3"  value="INSTRCTR">
-                <input type="hidden" name="searchCondition1" id="searchCondition1" value="<c:out value='${param.searchCondition1 }'/>">
-                <input type="hidden" name="searchCondition3" id="searchCondition3" value="<c:out value='${param.searchCondition3 }'/>">
-                <input type="hidden" name="recordCountPerPage" id="recordCountPerPage" value="<c:out value='${param.recordCountPerPage }'/>">
+                <input type="hidden" name="searchCondition1" id="searchCondition1" value="${param.searchCondition1 }">
+                <input type="hidden" name="searchCondition3" id="searchCondition3" value="${param.searchCondition3 }">
+                <input type="hidden" name="recordCountPerPage" id="recordCountPerPage" value="${param.recordCountPerPage }">
                 <input type="hidden" name="loginUserId" value="<sec:authentication property="principal.userId"/>" >
                 
-                <input type="hidden" name="orderSeq" value="<c:out value='${param.orderSeq }'/>">
-                <input type="hidden" name="orderVal" value="<c:out value='${param.orderVal }'/>">
+                <input type="hidden" name="orderSeq" value="${param.orderSeq }">
+                <input type="hidden" name="orderVal" value="${param.orderVal }">
                 
                 <div class="fL wp75">
                     <ul class="searchAreaBox" style="float:left;">
@@ -439,8 +439,8 @@
                             <select id="sGubun1" name="sGubun1" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH23 }" varStatus="idx">
-                                    <option value="<c:out value="${list.CODE }"/>" <c:out value="${param.sGubun1 eq list.CODE ? 'selected=selected':'' }"/>>
-	                                    <c:out value="${list.CODE_NM}"/>
+                                    <option value="${list.CODE }" ${param.sGubun1 eq list.CODE ? 'selected="selected"':'' }>
+	                                    ${list.CODE_NM}
                                     </option>
                                 </c:forEach>
                             </select>
@@ -453,8 +453,8 @@
                             <select id="sGubun5" name="sGubun5" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH24 }" varStatus="idx">
-                                    <option value="<c:out value="${list.CODE }"/>" <c:out value="${param.sGubun5 eq list.CODE ? 'selected=selected':'' }"/>>
-	                                    <c:out value="${list.CODE_NM}"/>
+                                    <option value="${list.CODE }" ${param.sGubun5 eq list.CODE ? 'selected="selected"':'' }>
+	                                    ${list.CODE_NM}
                                     </option>
                                 </c:forEach>                                
                             </select>
@@ -467,8 +467,8 @@
                         <li class="w80">
                             <select id="sGubun4" name="sGubun4" class="form-control">
                                 <option value="">선택</option>
-                                <option value="Y" <c:out value="${param.sGubun4 eq 'Y' ? 'selected=selected':'' }"/>>Y</option>
-                                <option value="N" <c:out value="${param.sGubun4 eq 'N' ? 'selected=selected':'' }"/>>N</option>
+                                <option value="Y" ${param.sGubun4 eq 'Y' ? 'selected="selected"':'' }>Y</option>
+                                <option value="N" ${param.sGubun4 eq 'N' ? 'selected="selected"':'' }>N</option>
                             </select>
                         </li>     
                         <li class="smart-form ml5">
@@ -490,8 +490,8 @@
                             <select id="sGubun6" name="sGubun6" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH07 }" varStatus="idx">
-                                    <option value="<c:out value="${list.CODE }"/>" <c:out value="${param.sGubun6 eq list.CODE ? 'selected=selected':'' }"/>>
-	                                    <c:out value="${list.CODE_NM}"/>
+                                    <option value="${list.CODE }" ${param.sGubun6 eq list.CODE ? 'selected="selected"':'' }>
+	                                    ${list.CODE_NM}
                                     </option>
                                 </c:forEach>                                
                             </select>
@@ -503,8 +503,8 @@
                             <select id="sGubun7" name="sGubun7" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH07 }" varStatus="idx">
-                                    <option value="<c:out value="${list.CODE }"/>" <c:out value="${param.sGubun7 eq list.CODE ? 'selected=selected':'' }"/>>
-	                                    <c:out value="${list.CODE_NM}"/>
+                                    <option value="${list.CODE }" ${param.sGubun7 eq list.CODE ? 'selected="selected"':'' }>
+	                                    ${list.CODE_NM}
                                     </option>
                                 </c:forEach>                                
                             </select>
@@ -552,22 +552,22 @@
 					<div class="tab-content">
 						<div class="jarviswidget-sortable active" id="instrctrList">
 							<ul class="fL nav nav-tabs">
-								<li class="<c:out value="${empty param.searchCondition1 or param.searchCondition1 eq  '' 	  ? 'active' : ''}"/>"><a href="javascript:void(0);" data-val="">전체</a></li>
-								<li class="<c:out value="${param.searchCondition1 eq 'PFAT' ? 'active' : ''}"/>"><a href="javascript:void(0);" data-val="PFAT" data-excel="PFA">PFA</a></li>
-								<li class="<c:out value="${param.searchCondition1 eq 'PMPT' ? 'active' : ''}"/>"><a href="javascript:void(0);" data-val="PMPT" data-excel="PMPLUS">PM+</a></li>
-								<li class="<c:out value="${param.searchCondition1 eq 'SPRT' ? 'active' : ''}"/>"><a href="javascript:void(0);" data-val="SPRT" data-excel="SPR">SPR</a></li>
-								<li class="<c:out value="${param.searchCondition1 eq 'MPGT' ? 'active' : ''}"/>"><a href="javascript:void(0);" data-val="MPGT" data-excel="MPG">MPG</a></li>
+								<li class="${empty param.searchCondition1 or param.searchCondition1 eq  '' 	  ? 'active' : ''}"><a href="javascript:void(0);" data-val="">전체</a></li>
+								<li class="${param.searchCondition1 eq 'PFAT' ? 'active' : ''}"><a href="javascript:void(0);" data-val="PFAT" data-excel="PFA">PFA</a></li>
+								<li class="${param.searchCondition1 eq 'PMPT' ? 'active' : ''}"><a href="javascript:void(0);" data-val="PMPT" data-excel="PMPLUS">PM+</a></li>
+								<li class="${param.searchCondition1 eq 'SPRT' ? 'active' : ''}"><a href="javascript:void(0);" data-val="SPRT" data-excel="SPR">SPR</a></li>
+								<li class="${param.searchCondition1 eq 'MPGT' ? 'active' : ''}"><a href="javascript:void(0);" data-val="MPGT" data-excel="MPG">MPG</a></li>
 								<li class="w80 mr5" style="float: right !important;">
 									<select name="recordCountPerPage" class="form-control">
-										<option value="20"   <c:out value="${param.recordCountPerPage eq '20' ?'selected=selected':''}"/>>20</option>
-										<option value="40"   <c:out value="${param.recordCountPerPage eq '40'?'selected=selected':'' }"/>>40</option>
-										<option value="80"   <c:out value="${param.recordCountPerPage eq '80'?'selected=selected':'' }"/>>80</option>
-										<option value="100"  <c:out value="${param.recordCountPerPage eq '100'?'selected=selected':'' }"/>>100</option>
-										<option value="120"  <c:out value="${param.recordCountPerPage eq '120'?'selected=selected':'' }"/>>120</option>
-										<option value="140"  <c:out value="${param.recordCountPerPage eq '140'?'selected=selected':'' }"/>>140</option>
-										<option value="160"  <c:out value="${param.recordCountPerPage eq '160'?'selected=selected':'' }"/>>160</option>
-										<option value="180"  <c:out value="${param.recordCountPerPage eq '180'?'selected=selected':'' }"/>>180</option>
-										<option value="200"  <c:out value="${param.recordCountPerPage eq '200'?'selected=selected':'' }"/>>200</option>
+										<option value="20"   ${param.recordCountPerPage eq '20' ?'selected="selected"':''}>20</option>
+										<option value="40"   ${param.recordCountPerPage eq '40'?'selected="selected"':'' }>40</option>
+										<option value="80"   ${param.recordCountPerPage eq '80'?'selected="selected"':'' }>80</option>
+										<option value="100"  ${param.recordCountPerPage eq '100'?'selected="selected"':'' }>100</option>
+										<option value="120"  ${param.recordCountPerPage eq '120'?'selected="selected"':'' }>120</option>
+										<option value="140"  ${param.recordCountPerPage eq '140'?'selected="selected"':'' }>140</option>
+										<option value="160"  ${param.recordCountPerPage eq '160'?'selected="selected"':'' }>160</option>
+										<option value="180"  ${param.recordCountPerPage eq '180'?'selected="selected"':'' }>180</option>
+										<option value="200"  ${param.recordCountPerPage eq '200'?'selected="selected"':'' }>200</option>
 									</select> <i></i> 
 								</li>								
 								<li class="w100 mr5" style="float: right !important;">
@@ -575,7 +575,7 @@
 										<option value="">선택</option>
 					                	<c:forEach var="list" items="${codeMap.DMH30 }" varStatus="idx">
 					                		<c:if test="${list.CODE ne '00' }">
-												<option value="<c:out value="${list.CODE}"/>" data-change-at="<c:out value="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}"/>" data-other="<c:out value="${list.CODE eq '99' ? 'Y' : ''}"/>" <c:out value="${param.searchCondition3 eq list.CODE ? 'selected':''}"/>><c:out value="${list.CODE_NM}"/></option>
+												<option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}" data-other="${list.CODE eq '99' ? 'Y' : ''}" ${param.searchCondition3 eq list.CODE ? 'selected':''}>${list.CODE_NM}</option>
 											</c:if>	
 					             	 	</c:forEach> 
 									</select> <i></i> 
@@ -608,34 +608,34 @@
 							<tr>
 								<th class="invisible"></th>
 								<th>연번</th>
-								<th>강사등급<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="1" data-order-val="<c:out value="${param.orderSeq eq 1 ? param.orderVal : 'ASC' }"/>"><i class="fa fa-align-justify"></i></button></th>
+								<th>강사등급<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="1" data-order-val="${param.orderSeq eq 1 ? param.orderVal : 'ASC' }"><i class="fa fa-align-justify"></i></button></th>
 								<th>성명</th>
 								<th>생년월일</th>
 								<th>아이디</th>
 								<th>이메일</th>
 								<th>연락처</th>
-								<th>현재직장<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="2" data-order-val="<c:out value="${param.orderSeq eq 2 ? param.orderVal : 'ASC' }"/>"><i class="fa fa-align-justify"></i></button></th>
-								<th>자격<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="3" data-order-val="<c:out value="${param.orderSeq eq 3 ? param.orderVal : 'ASC' }"/>"><i class="fa fa-align-justify"></i></button></th>
+								<th>현재직장<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="2" data-order-val="${param.orderSeq eq 2 ? param.orderVal : 'ASC' }"><i class="fa fa-align-justify"></i></button></th>
+								<th>자격<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="3" data-order-val="${param.orderSeq eq 3 ? param.orderVal : 'ASC' }"><i class="fa fa-align-justify"></i></button></th>
 								<th>심리지원<br>1순위</th>
 								<th>심리지원<br>2순위</th>
-								<th>강의횟수<button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="4" data-order-val="<c:out value="${param.orderSeq eq 4 ? param.orderVal : 'ASC' }"/>"><i class="fa fa-align-justify"></i></button></th>
-								<th>강사<br>보고서<br>(최종)<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="5" data-order-val="<c:out value="${param.orderSeq eq 5 ? param.orderVal : 'ASC' }"/>"><i class="fa fa-align-justify"></i></button></th>
+								<th>강의횟수<button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="4" data-order-val="${param.orderSeq eq 4 ? param.orderVal : 'ASC' }"><i class="fa fa-align-justify"></i></button></th>
+								<th>강사<br>보고서<br>(최종)<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="5" data-order-val="${param.orderSeq eq 5 ? param.orderVal : 'ASC' }"><i class="fa fa-align-justify"></i></button></th>
 								
-								<th>강사교육<br>이수일<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="7" data-order-val="<c:out value="${param.orderSeq eq 7 ? param.orderVal : 'ASC' }"/>"><i class="fa fa-align-justify"></i></button></th>
+								<th>강사교육<br>이수일<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="7" data-order-val="${param.orderSeq eq 7 ? param.orderVal : 'ASC' }"><i class="fa fa-align-justify"></i></button></th>
 					     	    <c:if test="${param.searchCondition1 eq 'PFAT'}">
-					     	    	<th>위촉날짜<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="9" data-order-val="<c:out value="${param.orderSeq eq 9 ? param.orderVal : 'ASC' }"/>"><i class="fa fa-align-justify"></i></button></th>
+					     	    	<th>위촉날짜<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="9" data-order-val="${param.orderSeq eq 9 ? param.orderVal : 'ASC' }"><i class="fa fa-align-justify"></i></button></th>
 								</c:if>
 								<c:if test="${param.searchCondition1 eq 'PMPT'}">
-					     	    	<th>위촉날짜<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="10" data-order-val="<c:out value="${param.orderSeq eq 10 ? param.orderVal : 'ASC' }"/>"><i class="fa fa-align-justify"></i></button></th>
+					     	    	<th>위촉날짜<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="10" data-order-val="${param.orderSeq eq 10 ? param.orderVal : 'ASC' }"><i class="fa fa-align-justify"></i></button></th>
 								</c:if>
 								<c:if test="${param.searchCondition1 eq 'SPRT'}">
-					     	    	<th>위촉날짜<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="11" data-order-val="<c:out value="${param.orderSeq eq 11 ? param.orderVal : 'ASC' }"/>"><i class="fa fa-align-justify"></i></button></th>
+					     	    	<th>위촉날짜<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="11" data-order-val="${param.orderSeq eq 11 ? param.orderVal : 'ASC' }"><i class="fa fa-align-justify"></i></button></th>
 								</c:if>
 								<c:if test="${param.searchCondition1 eq 'MPGT'}">
-					     	    	<th>위촉날짜<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="12" data-order-val="<c:out value="${param.orderSeq eq 12 ? param.orderVal : 'ASC' }"/>"><i class="fa fa-align-justify"></i></button></th>
+					     	    	<th>위촉날짜<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="12" data-order-val="${param.orderSeq eq 12 ? param.orderVal : 'ASC' }"><i class="fa fa-align-justify"></i></button></th>
 								</c:if>
-								<th>마지막<br>강의일<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="6" data-order-val="<c:out value="${param.orderSeq eq 6 ? param.orderVal : 'ASC' }"/>"><i class="fa fa-align-justify"></i></button></th>
-								<th>교육<br>재이수일<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="8" data-order-val="<c:out value="${param.orderSeq eq 8 ? param.orderVal : 'ASC' }"/>"><i class="fa fa-align-justify"></i></button></th>
+								<th>마지막<br>강의일<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="6" data-order-val="${param.orderSeq eq 6 ? param.orderVal : 'ASC' }"><i class="fa fa-align-justify"></i></button></th>
+								<th>교육<br>재이수일<br><button class="btn btn-default ml2 orderBtn" type="button" data-order-seq="8" data-order-val="${param.orderSeq eq 8 ? param.orderVal : 'ASC' }"><i class="fa fa-align-justify"></i></button></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -644,9 +644,6 @@
 							</c:if>
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<c:choose>
-									<c:when test="${list.INSTRCTR_ACT_CNT eq '2' }">
-										<tr style="background: #c2e2ef;">
-									</c:when>
 									<c:when test="${list.INSTRCTR_RESULT eq '01' }">
 										<tr style="background: #cce1f4;">
 									</c:when>
@@ -658,7 +655,7 @@
 									</c:when>
 								</c:choose>
 									<td class="invisible">
-										<input type="checkbox" class="index" value="<c:out value='${list.USER_NO}'/>">
+										<input type="checkbox" class="index" value="${list.USER_NO}">
 									</td>
 									<td>${(paginationInfo.currentPageNo - 1) * paginationInfo.recordCountPerPage + idx.index + 1}</td>
 									<td>
@@ -666,29 +663,29 @@
 											<select id="${fn:toLowerCase(param.searchCondition1)}GradeCd" name="${fn:toLowerCase(param.searchCondition1)}GradeCd" class="instrctrSelect">
 												<option value="">해당없음</option>
 							                	<c:forEach var="code" items="${codeMap.DMH24 }" varStatus="idx">
-							                    	<option value="<c:out value='${code.CODE }'/>" <c:out value="${code.CODE eq list.INSTRCTR_GRADE_CD ? 'selected':'' }"/>>
-								                    	<c:out value="${code.CODE_NM}"/>
+							                    	<option value="${code.CODE }" ${code.CODE eq list.INSTRCTR_GRADE_CD ? 'selected':'' }>
+								                    	${code.CODE_NM}
 							                        </option>
 							               	 	</c:forEach>  
 											</select>	 <i></i>				
 										</label>				
 									</td>
-									<td class="instrctrTab"><c:out value="${list.USER_NM}"/></td>
-									<td><c:out value="${list.USER_BIRTH_YMD}"/></td>
-									<td><c:out value="${list.USER_ID}"/></td>
-									<td><c:out value="${list.USER_EMAIL}"/></td>
-									<td><c:out value="${list.USER_HP_NO}"/></td>
-									<td><c:out value="${list.CURRENT_JOB_NM}"/></td>
-									<td><c:out value="${list.LICENSE_NM}"/></td>
-									<td><c:out value="${list.ACTIVE_AREA_CD1_NM}"/></td>
-									<td><c:out value="${list.ACTIVE_AREA_CD2_NM}"/></td>
-									<td><c:out value="${list.INSTRCTR_LCTRE_CNT}"/></td>
-									<td><c:out value="${list.INSTRCTR_ACT_CNT}"/></td>
-									<td><c:out value="${list.T_ISSUE_DT_F}"/></td>
+									<td class="instrctrTab">${list.USER_NM}</td>
+									<td>${list.USER_BIRTH_YMD}</td>
+									<td>${list.USER_ID}</td>
+									<td>${list.USER_EMAIL}</td>
+									<td>${list.USER_HP_NO}</td>
+									<td>${list.CURRENT_JOB_NM}</td>
+									<td>${list.LICENSE_NM}</td>
+									<td>${list.ACTIVE_AREA_CD1_NM}</td>
+									<td>${list.ACTIVE_AREA_CD2_NM}</td>
+									<td>${list.INSTRCTR_LCTRE_CNT}</td>
+									<td>${list.INSTRCTR_ACT_CNT}</td>
+									<td>${list.T_ISSUE_DT_F}</td>
 									<c:choose>
 										<c:when test="${param.searchCondition1 eq 'PFAT'}">
 											<c:if test="${list.PFAT_INSTRCTR_ENTRST_DE ne 'undefined'}">
-												<td><c:out value="${list.PFAT_INSTRCTR_ENTRST_DE}"/></td>
+												<td>${list.PFAT_INSTRCTR_ENTRST_DE}</td>
 											</c:if>
 											<c:if test="${list.PFAT_INSTRCTR_ENTRST_DE eq 'undefined' or list.PFAT_INSTRCTR_ENTRST_DE eq 'null'}">
 												<td></td>
@@ -696,7 +693,7 @@
 										</c:when>
 										<c:when test="${param.searchCondition1 eq 'PMPT'}">
 											<c:if test="${list.PMPT_INSTRCTR_ENTRST_DE ne 'undefined'}">
-												<td><c:out value="${list.PMPT_INSTRCTR_ENTRST_DE}"/></td>
+												<td>${list.PMPT_INSTRCTR_ENTRST_DE}</td>
 											</c:if>
 											<c:if test="${list.PMPT_INSTRCTR_ENTRST_DE eq 'undefined' or list.PMPT_INSTRCTR_ENTRST_DE eq 'null'}">
 												<td></td>
@@ -704,7 +701,7 @@
 										</c:when>
 										<c:when test="${param.searchCondition1 eq 'SPRT'}">
 											<c:if test="${list.SPRT_INSTRCTR_ENTRST_DE ne 'undefined'}">
-												<td><c:out value="${list.SPRT_INSTRCTR_ENTRST_DE}"/></td>
+												<td>${list.SPRT_INSTRCTR_ENTRST_DE}</td>
 											</c:if>
 											<c:if test="${list.SPRT_INSTRCTR_ENTRST_DE eq 'undefined' or list.SPRT_INSTRCTR_ENTRST_DE eq 'null'}">
 												<td></td>
@@ -712,15 +709,15 @@
 										</c:when>
 										<c:when test="${param.searchCondition1 eq 'MPGT'}">
 											<c:if test="${list.MPGT_INSTRCTR_ENTRST_DE ne 'undefined'}">
-												<td><c:out value="${list.MPGT_INSTRCTR_ENTRST_DE}"/></td>
+												<td>${list.MPGT_INSTRCTR_ENTRST_DE}</td>
 											</c:if>
 											<c:if test="${list.MPGT_INSTRCTR_ENTRST_DE eq 'undefined' or list.MPGT_INSTRCTR_ENTRST_DE eq 'null'}">
 												<td></td>
 											</c:if>
 										</c:when>
 									</c:choose>
-									<td><c:out value="${list.END_YMD}"/></td>
-									<td><c:out value="${list.E_ISSUE_DT_F}"/></td>
+									<td>${list.END_YMD}</td>
+									<td>${list.E_ISSUE_DT_F}</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -738,3 +735,4 @@
 <!-- END MAIN CONTENT -->
 
 <jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/downloadReasonPopup.jsp" flush="false" />
+

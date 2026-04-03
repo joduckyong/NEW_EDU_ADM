@@ -4,9 +4,9 @@
 <script type="text/javascript">
 $(function(){
 	var baseInfo = {
-			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+			insertKey : "${common.baseType[0].key() }",
+            updateKey : "${common.baseType[1].key() }",
+            deleteKey : "${common.baseType[2].key() }",
             lUrl : "/ncts/mngr/edcComplMngr/mngrEduPackageList.do",
             pop01 : "/ncts/mngr/common/stddLecListPopup.do"
 	}	
@@ -111,7 +111,7 @@ $(function(){
 				</jsp:include>
 				<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
                 <input type="hidden" name="lectureId" value='<c:out value="${result.LECTURE_ID}"/>'>
-                <input type="hidden" name="packageNo" value="<c:out value='${result.PACKAGE_NO }'/>">
+                <input type="hidden" name="packageNo" value="${result.PACKAGE_NO }">
                 <input type="hidden" name="pageType" value="PACKAGE">
 			</form>
 		</div>
@@ -136,7 +136,7 @@ $(function(){
 	                                <th scope="row">패키지명</th>
 	                                <td>
 	                                    <label class="input w500 col">
-	                                        <input type="text" id="packageNm" name="packageNm" value="<c:out value='${result.PACKAGE_NM}'/>">
+	                                        <input type="text" id="packageNm" name="packageNm" value="${result.PACKAGE_NM}">
 	                                    </label>
 	                                </td>
 	                            </tr>
@@ -147,7 +147,7 @@ $(function(){
 											<c:forEach var="list" items="${codeMap.DMH19 }" varStatus="idx">
 												<c:if test="${list.CODE ne '01' and list.CODE ne '02' and list.CODE ne '03'}">
 													<label class="radio">
-														<input type="radio" value="<c:out value='${list.CODE }'/>" name="packageGubun" <c:out value="${result.PACKAGE_GUBUN eq list.CODE ? 'checked=checked' :'' }"/> <c:out value="${result.PROC_YN eq 'N' ? 'disabled' : '' }"/>><i></i><c:out value="${list.CODE_NM }"/>
+														<input type="radio" value="${list.CODE }" name="packageGubun" ${result.PACKAGE_GUBUN eq list.CODE ? 'checked="checked"' :'' } ${result.PROC_YN eq 'N' ? 'disabled' : '' }><i></i>${list.CODE_NM }
 													</label>
 												</c:if>
 											</c:forEach>
@@ -160,7 +160,7 @@ $(function(){
                                         <div class="inline-group" id="divRadio">
                                             <c:forEach var="list" items="${codeMap.DMH29}" varStatus="status">
 					                            <label class="radio">
-					                                   <input type="radio" name="courses" value="<c:out value='${list.CODE}'/>" <c:out value="${result.COURSES eq list.CODE? 'checked=checked':''}"/> <c:out value="${result.PROC_YN eq 'N' ? 'disabled' : '' }"/>><i></i><c:out value="${list.CODE_NM}"/>
+					                                   <input type="radio" name="courses" value="${list.CODE}" ${result.COURSES eq list.CODE? 'checked="checked"':''} ${result.PROC_YN eq 'N' ? 'disabled' : '' }><i></i>${list.CODE_NM}
 					                            </label>
                                             </c:forEach>
                                         </div>
@@ -170,9 +170,9 @@ $(function(){
 	                                <th scope="row">선택된 강의</th>
 	                                <td>
 		                                <label class="input w500 col">
-		                                	<input type="text" id="tdId" name="tdId" value="<c:out value='${result.LECTURE_ID}'/>" readonly>
+		                                	<input type="text" id="tdId" name="tdId" value="${result.LECTURE_ID}" readonly>
 		                                </label>
-	                                	<button class="btn btn-primary ml10" type="button" id="offlectAddBtn" <c:out value="${result.PROC_YN eq 'N' ? 'disabled' : '' }"/>><i class="fa fa-edit" title="등록"></i> 등록</button>
+	                                	<button class="btn btn-primary ml10" type="button" id="offlectAddBtn" ${result.PROC_YN eq 'N' ? 'disabled' : '' }><i class="fa fa-edit" title="등록"></i> 등록</button>
 	                                </td>
 	                            </tr>
 								<tr>
@@ -181,7 +181,7 @@ $(function(){
 										<div class="inline-group">
 											<c:forEach var="list" items="${codeMap.SYS01 }" varStatus="idx">
 												<label class="radio">
-													<input type="radio" value="<c:out value='${list.CODE }'/>" name="useAt" <c:out value="${result.USE_AT eq list.CODE or idx.first ? 'checked=checked' :'' }"/>><i></i><c:out value="${list.CODE_NM }"/>
+													<input type="radio" value="${list.CODE }" name="useAt" ${result.USE_AT eq list.CODE or idx.first ? 'checked="checked"' :'' }><i></i>${list.CODE_NM }
 												</label>
 											</c:forEach>
 										</div>

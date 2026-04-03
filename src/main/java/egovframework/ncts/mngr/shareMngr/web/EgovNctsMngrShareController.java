@@ -87,10 +87,7 @@ public class EgovNctsMngrShareController {
 	            result.put("rs", rs);
 				result.put("success", "success");
 				
-			} catch (IOException e) {
-				 LOGGER.debug(e.getMessage());
-				   result.put("success", "error");
-			}catch (Exception e) {
+			  }catch (Exception e) {
 			   LOGGER.debug(e.getMessage());
 			   result.put("success", "error");
 			}

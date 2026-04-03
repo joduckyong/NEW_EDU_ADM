@@ -12,11 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.penta.scpdb.ScpDbAgent;
-import com.penta.scpdb.ScpDbAgentException;
-
-import egovframework.com.TextUtil;
-import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.file.FileViewMarkupBuilder;
 import egovframework.com.mapper.CommonCodeMapper;
 import egovframework.com.vo.PageInfoVO;
@@ -40,91 +35,31 @@ public class EgovNctsInstrctrMngrServiceImpl implements EgovNctsInstrctrMngrServ
 	@Autowired
 	private CommonCodeMapper commonCodeMapper;
     
-//  String iniFilePath = "/penta/scpdb_agent.ini";
-  //String iniFilePath = "C:\\scp\\scpdb_agent.ini";
-  private final String iniFilePath = EgovProperties.getProperty("Globals.iniFilePath");
     
     @Override
     public List<HashMap<String, Object>> selectInstrctrMngrList(PageInfoVO pageVO) throws Exception {
-    	
-    	ScpDbAgent agt = new ScpDbAgent();
-    	if (pageVO.getSearchKeyword2() != null && !"".equals(pageVO.getSearchKeyword2()) ) {
-	    	String searchKeyword2 = agt.ScpEncB64(iniFilePath, "KEY1", pageVO.getSearchKeyword2());
-	    	pageVO.setSearchKeyword2(searchKeyword2);
-    	}   
-    	if (pageVO.getSearchKeyword3() != null && !"".equals(pageVO.getSearchKeyword3()) ) {
-    		String searchKeyword3 = agt.ScpEncB64(iniFilePath, "KEY1", pageVO.getSearchKeyword3());
-    		pageVO.setSearchKeyword3(searchKeyword3);
-    	}   
         int cnt = egovNctsMngrMemberMapper.selectMngrMemberCnt(pageVO);
         pageVO.setTotalRecordCount(cnt);
         pageVO.setRecordCountPerPage(10);
     	List<HashMap<String, Object>> memberList = egovNctsMngrMemberMapper.selectMngrMemberList(pageVO);
-        for (HashMap<String, Object> tmp : memberList) {
-        	try {
-	            if (tmp.get("USER_HP_NO") != null && !"".equals(String.valueOf(tmp.get("USER_HP_NO")))) {
-	            	String userHpNo = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_HP_NO").toString(),"UTF-8");
-	            	tmp.put("USER_HP_NO", TextUtil.formatTel(userHpNo));
-	            }
-	            if (tmp.get("USER_EMAIL") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL")))) {
-	            	tmp.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL").toString(),"UTF-8"));
-	            }
-	            if (tmp.get("USER_BIRTH_YMD") != null && !"".equals(String.valueOf(tmp.get("USER_BIRTH_YMD")))) {
-	            	String birthday = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_BIRTH_YMD").toString(),"UTF-8");
-	            	String formattedDate = birthday.substring(0,4) + "." + birthday.substring(4,6) + "." + birthday.substring(6,8);
-	            	tmp.put("USER_BIRTH_YMD", formattedDate);
-	            }
-	    	}
-	    	catch (ScpDbAgentException e) {
-	    		LOGGER.info(e.getMessage());
-	    	}
-	    	catch (Exception e) {
-	    		LOGGER.info(e.getMessage());
-	    	}   
-    }
+    	
         return memberList;
     }
     
     @Override
     public HashMap<String, Object> selectMngrInstrctrDetail(MngrMemberVO param) throws Exception {
-    	ScpDbAgent agt = new ScpDbAgent();
         HashMap<String, Object> result = egovNctsMngrMemberMapper.selectMngrMemberDetail(param);
+        instrctrCertStatusSetting(result);
         
-    	try {
-    		
-            if (result.get("USER_HP_NO") != null && !"".equals(String.valueOf(result.get("USER_HP_NO")))) {
-            	String userHpNo = agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_HP_NO").toString(),"UTF-8");
-            	result.put("USER_HP_NO", TextUtil.formatTel(userHpNo));
-            }
-            if (result.get("USER_EMAIL") != null && !"".equals(String.valueOf(result.get("USER_EMAIL")))) {
-            	result.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_EMAIL").toString(),"UTF-8"));
-            }
-            if (result.get("USER_BIRTH_YMD") != null && !"".equals(String.valueOf(result.get("USER_BIRTH_YMD")))) {
-            	String birthday = agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_BIRTH_YMD").toString(),"UTF-8");
-            	String formattedDate = birthday.substring(0,4) + "." + birthday.substring(4,6) + "." + birthday.substring(6,8);
-            	result.put("USER_BIRTH_YMD", formattedDate);
-            }
-
-    	
-	        instrctrCertStatusSetting(result);
-	        
-	        String fileView = FileViewMarkupBuilder.newInstance()
-	                .atchFileId(StringUtils.defaultIfEmpty((String) result.get("ATCH_FILE_ID"), ""))
-	                .wrapMarkup("p")
-	                .isIcon(true)
-	                .isSize(true)
-	                .build()
-	                .toString(); 
-	        
-	        result.put("fileView", fileView);
+        String fileView = FileViewMarkupBuilder.newInstance()
+                .atchFileId(StringUtils.defaultIfEmpty((String) result.get("ATCH_FILE_ID"), ""))
+                .wrapMarkup("p")
+                .isIcon(true)
+                .isSize(true)
+                .build()
+                .toString(); 
         
-    	}
-    	catch (ScpDbAgentException e) {
-    		LOGGER.info(e.getMessage());
-    	}
-    	catch (Exception e) {
-    		LOGGER.info(e.getMessage());
-    	}         
+        result.put("fileView", fileView);
         return result;
     }    
     
@@ -188,76 +123,26 @@ public class EgovNctsInstrctrMngrServiceImpl implements EgovNctsInstrctrMngrServ
     
     @Override
     public HashMap<String, Object> selectInstrctrMngrDetail(MngrInstrctrMngrVO param) throws Exception {
-    	ScpDbAgent agt = new ScpDbAgent();
         HashMap<String, Object> result = egovNctsInstrctrMngrMapper.selectInstrctrMngrDetail(param);
-        try {
-	        if (result.get("USER_EMAIL") != null && !"".equals(String.valueOf(result.get("USER_EMAIL")))) {
-	        	result.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_EMAIL").toString(),"UTF-8"));
-	        }
-	        
-	        if (result.get("USER_BIRTH_YMD") != null && !"".equals(String.valueOf(result.get("USER_BIRTH_YMD")))) {
-	        	String birthday = agt.ScpDecB64(iniFilePath, "KEY1",result.get("USER_BIRTH_YMD").toString(),"UTF-8");
-	        	String formattedDate = birthday.substring(0,4) + "." + birthday.substring(4,6) + "." + birthday.substring(6,8);
-	        	result.put("USER_BIRTH_YMD", formattedDate);
-	        }  
-    	}
-    	catch (ScpDbAgentException e) {
-    		LOGGER.info(e.getMessage());
-    	}
-    	catch (Exception e) {
-    		LOGGER.info(e.getMessage());
-    	}    
-
         return result;
     }
       
     public void mngrProc(MngrInstrctrMngrVO param) throws Exception {
-    	ScpDbAgent agt = new ScpDbAgent();
         ProcType procType = ProcType.findByProcType(param.getProcType());
         
         if(ProcType.UPDATE.equals(procType)) {
-        	
-        	if (param.getUserEmail() != null && !"".equals(param.getUserEmail()) ) {
-    	    	String userEmail = agt.ScpEncB64(iniFilePath, "KEY1", param.getUserEmail());
-    	    	param.setUserEmail(userEmail);
-        	}   
-        	
             egovNctsInstrctrMngrMapper.mngrUpdateProc(param);
         }
     }
     
     public HashMap<String, Object> selectCommonExcel(PageInfoVO pageVO)throws Exception{
-    	ScpDbAgent agt = new ScpDbAgent();
         HashMap<String, Object> rs = new HashMap<>();
         HashMap<String, Object> paramMap = new HashMap<>();
         String fileName = "";
         String templateFile = "";
         
-    	if (pageVO.getSearchKeyword3() != null && !"".equals(pageVO.getSearchKeyword3()) ) {
-	    	String searchKeyword3 = agt.ScpEncB64(iniFilePath, "KEY1", pageVO.getSearchKeyword3().replaceAll("-", "").replaceAll(" ", ""));
-	    	pageVO.setSearchKeyword3(searchKeyword3);
-    	}   
         List<HashMap<String, Object>> rsTp = egovNctsInstrctrMngrMapper.selectCommonExcel(pageVO);
-        for (HashMap<String, Object> tmp : rsTp) {
-        	try {
-	            if (tmp.get("USER_EMAIL") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL")))) {
-	            	tmp.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL").toString(),"UTF-8"));
-	            }
-	            
-	            if (tmp.get("USER_BIRTH_YMD") != null && !"".equals(String.valueOf(tmp.get("USER_BIRTH_YMD")))) {
-	            	String birthday = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_BIRTH_YMD").toString(),"UTF-8");
-	            	String formattedDate = birthday.substring(0,4) + "." + birthday.substring(4,6) + "." + birthday.substring(6,8);
-	            	tmp.put("USER_BIRTH_YMD", formattedDate);
-	            }  
-	    	}
-	    	catch (ScpDbAgentException e) {
-	    		LOGGER.info(e.getMessage());
-	    	}
-	    	catch (Exception e) {
-	    		LOGGER.info(e.getMessage());
-	    	}  
-        }
-        
+
         paramMap.put("rsList",rsTp);
         fileName = pageVO.getExcelFileNm();
         templateFile = pageVO.getExcelPageNm();        
@@ -271,7 +156,6 @@ public class EgovNctsInstrctrMngrServiceImpl implements EgovNctsInstrctrMngrServ
 
 	@Override
 	public List<HashMap<String, Object>> selectInstrctrOfflectList(PageInfoVO pageVO) throws Exception {
-		ScpDbAgent agt = new ScpDbAgent();
         int cnt = egovNctsInstrctrMngrMapper.selectInstrctrOfflectListTotCnt(pageVO);
         if(10 == pageVO.getRecordCountPerPage()) pageVO.setRecordCountPerPage(20);
         pageVO.setTotalRecordCount(cnt);
@@ -282,28 +166,6 @@ public class EgovNctsInstrctrMngrServiceImpl implements EgovNctsInstrctrMngrServ
     	if(null != memberList && !memberList.isEmpty()) {
     		String result = "";
     		for(HashMap<String, Object> member : memberList) {
-    			try {
-	    	        if (member.get("USER_BIRTH_YMD") != null && !"".equals(String.valueOf(member.get("USER_BIRTH_YMD")))) {
-	                	String birthday = agt.ScpDecB64(iniFilePath, "KEY1",member.get("USER_BIRTH_YMD").toString(),"UTF-8");
-	                	String formattedDate = birthday.substring(0,4) + "." + birthday.substring(4,6) + "." + birthday.substring(6,8);
-	                	member.put("USER_BIRTH_YMD", formattedDate);
-	    	        }
-	    	        if (member.get("USER_EMAIL") != null && !"".equals(String.valueOf(member.get("USER_EMAIL")))) {
-	    	        	String userEmail = agt.ScpDecB64(iniFilePath, "KEY1",member.get("USER_EMAIL").toString(),"UTF-8");
-	    	        	member.put("USER_EMAIL", userEmail);
-	    	        }
-	    	        if (member.get("USER_HP_NO") != null && !"".equals(String.valueOf(member.get("USER_HP_NO")))) {
-	    	        	String userHpNo = agt.ScpDecB64(iniFilePath, "KEY1",member.get("USER_HP_NO").toString(),"UTF-8");
-	    	        	member.put("USER_HP_NO", TextUtil.formatTel(userHpNo));
-	    	        }  
-    	    	}
-    	    	catch (ScpDbAgentException e) {
-    	    		LOGGER.info(e.getMessage());
-    	    	}
-    	    	catch (Exception e) {
-    	    		LOGGER.info(e.getMessage());
-    	    	} 
-    	        
     			member.put("SEARCH_CONDITION1", pageVO.getSearchCondition1());
     			instrctrCertStatusSetting(member);	
     			
@@ -358,7 +220,6 @@ public class EgovNctsInstrctrMngrServiceImpl implements EgovNctsInstrctrMngrServ
 
 	@Override
 	public HashMap<String, Object> selectInstrctrOfflectExcelDownload(PageInfoVO pageVO) throws Exception {
-		ScpDbAgent agt = new ScpDbAgent();
 		HashMap<String, Object> rs = new HashMap<>();
         HashMap<String, Object> paramMap = new HashMap<>();
         String fileName = "";
@@ -366,31 +227,7 @@ public class EgovNctsInstrctrMngrServiceImpl implements EgovNctsInstrctrMngrServ
         
         pageVO.setPageType("EXCEL");
         List<HashMap<String, Object>> rsTp = selectInstrctrOfflectList(pageVO);
-		for(HashMap<String, Object> member : rsTp) {
-			try {
-		        if (member.get("USER_BIRTH_YMD") != null && !"".equals(String.valueOf(member.get("USER_BIRTH_YMD")))) {
-	            	String birthday = agt.ScpDecB64(iniFilePath, "KEY1",member.get("USER_BIRTH_YMD").toString(),"UTF-8");
-	            	String formattedDate = birthday.substring(0,4) + "." + birthday.substring(4,6) + "." + birthday.substring(6,8);
-	            	member.put("USER_BIRTH_YMD", formattedDate);
-		        }
-		        if (member.get("USER_EMAIL") != null && !"".equals(String.valueOf(member.get("USER_EMAIL")))) {
-		        	String userEmail = agt.ScpDecB64(iniFilePath, "KEY1",member.get("USER_EMAIL").toString(),"UTF-8");
-		        	member.put("USER_EMAIL", userEmail);
-		        }
-		        if (member.get("USER_HP_NO") != null && !"".equals(String.valueOf(member.get("USER_HP_NO")))) {
-		        	String userHpNo = agt.ScpDecB64(iniFilePath, "KEY1",member.get("USER_HP_NO").toString(),"UTF-8");
-		        	member.put("USER_HP_NO", TextUtil.formatTel(userHpNo));
-		        }  
-	    	}
-	    	catch (ScpDbAgentException e) {
-	    		LOGGER.info(e.getMessage());
-	    	}
-	    	catch (Exception e) {
-	    		LOGGER.info(e.getMessage());
-	    	}  
-			
-		}
-        
+
         paramMap.put("rsList",rsTp);
         fileName = pageVO.getExcelFileNm();
         templateFile = pageVO.getExcelPageNm();
@@ -408,9 +245,6 @@ public class EgovNctsInstrctrMngrServiceImpl implements EgovNctsInstrctrMngrServ
         
         if(ProcType.INSERT.equals(procType)) {
             egovNctsInstrctrMngrMapper.insertInstrctrStatus(param);
-        }
-        if(ProcType.DELETE.equals(procType)) {
-        	egovNctsInstrctrMngrMapper.deleteInstrctrStatus(param);
         }
 	}
 

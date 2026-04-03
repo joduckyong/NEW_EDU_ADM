@@ -2,9 +2,9 @@
 <script type="text/javascript">
 $(function(){
 	var baseInfo = {
-			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+			insertKey : "${common.baseType[0].key() }",
+			updateKey : "${common.baseType[1].key() }",
+			deleteKey : "${common.baseType[2].key() }",
 			lUrl : "/ncts/mngr/edcComplMngr/mngrPackageListPopup.do",
 	}
 	
@@ -39,7 +39,7 @@ $(function(){
 	}
 	
 	$.packageNoOnSetting = function(){
-		$("input[type='checkbox'][value='"+'<c:out value="${param.packageNo}"/>'+"']").prop("checked", true);
+		$("input[type='checkbox'][value='"+"${param.packageNo}"+"']").prop("checked", true);
 	}
 	
 	$.fn.devQuaOnClickEvt = function(){
@@ -66,9 +66,9 @@ $(function(){
 		<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-          		<input type="hidden" name="pageType" id="pageType" value='<c:out value="${param.pageType }"/>'>
-				<input type="hidden" name="packageNo" id="packageNo" value='<c:out value="${param.packageNo}"/>'>
-				<input type="hidden" name="courses" id="courses" value='<c:out value="${param.courses}"/>'>
+          		<input type="hidden" name="pageType" id="pageType" value="${param.pageType }">
+				<input type="hidden" name="packageNo" id="packageNo" value="${param.packageNo}">
+				<input type="hidden" name="courses" id="courses" value="${param.courses}">
 				<div class="fL wp70">
                     <ul class="searchAreaBox">
                         <li class="smart-form ml5"><label class="label">패키지명</label></li>
@@ -126,13 +126,13 @@ $(function(){
 									<c:if test="${list.USE_AT eq 'Y' and list.COURSES eq param.courses}">
 										<tr>
 											<td class="invisible">
-												<input type="hidden" name="packageNm" value="<c:out value='${list.PACKAGE_NM }'>"/>
-												<input type="hidden" name="lectureId" value="<c:out value='${list.LECTURE_ID }'>"/>
+												<input type="hidden" name="packageNm" value="${list.PACKAGE_NM }">
+												<input type="hidden" name="lectureId" value="${list.LECTURE_ID }">
 											</td>
-											<td><input type="checkbox" class="devQua" value="<c:out value='${list.PACKAGE_NO }'>"/></td>
-											<td><c:out value="${list.PACKAGE_NM }"/></td>
-											<td><c:out value="${list.LECTURE_ID }"/></td>
-											<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
+											<td><input type="checkbox" class="devQua" value="${list.PACKAGE_NO }"></td>
+											<td>${list.PACKAGE_NM }</td>
+											<td>${list.LECTURE_ID }</td>
+											<td>${list.FRST_REGIST_PNTTM}</td>
 										</tr>
 									</c:if>
 								</c:forEach>

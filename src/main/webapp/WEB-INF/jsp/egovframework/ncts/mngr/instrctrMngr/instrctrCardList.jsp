@@ -19,9 +19,9 @@
 
 	$(function(){
 	    var baseInfo = {
-	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+	            insertKey : "${common.baseType[0].key() }",
+	            updateKey : "${common.baseType[1].key() }",
+	            deleteKey : "${common.baseType[2].key() }",
 	            lUrl : "/ncts/mngr/instrctrMngr/instrctrCardList.do",
 	            /* fUrl : "/ncts/mngr/instrctrMngr/instrctrForm.do", */
 	            /* dUrl : "/ncts/mngr/instrctrMngr/mngrDeleteMember.do", */
@@ -224,7 +224,7 @@
                             <select id="sGubun1" name="sGubun1" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH23}" varStatus="idx">
-	                                <option value="<c:out value='${list.CODE}'/>" <c:out value="${param.sGubun1 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
+	                                <option value="${list.CODE}" ${param.sGubun1 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
                                 </c:forEach>
                             </select>
                         </li>
@@ -235,7 +235,7 @@
                             <select id="sGubun2" name="sGubun2" class="form-control">
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH24}" varStatus="idx">
-	                                <option value="<c:out value='${list.CODE}'/>" <c:out value="${param.sGubun2 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
+	                                <option value="${list.CODE}" ${param.sGubun2 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
                                 </c:forEach>
                             </select>
                         </li>
@@ -289,15 +289,15 @@
 							</c:if>
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
-									<td class="invisible"><input type="checkbox" class="index" value="<c:out value='${list.USER_NO}'/>"></td>
-									<td><c:out value="${list.USER_ID}"/></td>
-									<td><c:out value="${list.USER_EMAIL}"/></td>
-									<td><c:out value="${list.USER_NM}"/></td>
-									<td><c:out value="${list.USER_HP_NO}"/></td>
-									<td><c:out value="${list.STATUS_NM}"/></td>
-									<td><c:out value="${list.DETAIL_GRADE_CD_NM}"/></td>
-									<td><c:out value="${list.INSTRCTR_DETAIL_GRADE_CD_NM}"/></td>
-									<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
+									<td class="invisible"><input type="checkbox" class="index" value="${list.USER_NO}"></td>
+									<td>${list.USER_ID}</td>
+									<td>${list.USER_EMAIL}</td>
+									<td>${list.USER_NM}</td>
+									<td>${list.USER_HP_NO}</td>
+									<td>${list.STATUS_NM}</td>
+									<td>${list.DETAIL_GRADE_CD_NM}</td>
+									<td>${list.INSTRCTR_DETAIL_GRADE_CD_NM}</td>
+									<td>${list.FRST_REGIST_PNTTM}</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -342,7 +342,7 @@
 	<th scope="row">신청여부 </th>
 	<td colspan="3"><div class="fL wp5 mt10">{{STATUS_NM}}</div>
         <div class="fR wp5">
-            <button class="btn btn-default ml2 mb5 reportDown" type="button" data-user-no="{{USER_NO}}" data-jrf="INSTRREQSTDOC.jrf" <c:out value="${pageInfo.REPORT_AT eq 'Y' ? '':'disabled'}"/>><i class="fa fa-edit" title="리포트 출력"></i> 리포트</button></ul>
+            <button class="btn btn-default ml2 mb5 reportDown" type="button" data-user-no="{{USER_NO}}" data-jrf="INSTRREQSTDOC.jrf" ${pageInfo.REPORT_AT eq 'Y' ? '':'disabled'}><i class="fa fa-edit" title="리포트 출력"></i> 리포트</button></ul>
 				{{#ifeq INSERT_AT "Y"}}
             		{{#ifnoteq CONFM_AT "N"}}
 	                	<button class="btn btn-primary" type="button" name="applyBtn" data-apply-btn="N"><i class="fa fa-edit" title="승인 및 반려 취소"></i> 승인 및 반려 취소</button></ul>
@@ -406,7 +406,7 @@
 	<td colspan="3">
 		{{AGREE_AT}} 
 		{{#ifeq AGREE_AT 'Y'}}
-			<button class="btn btn-default ml2 mb5 reportDown" type="button" data-user-no="{{USER_NO}}" data-jrf="INSTRCTR_AGREEMENT.jrf" <c:out value="${pageInfo.REPORT_AT eq 'Y' ? '':'disabled'}"/>><i class="fa fa-edit" title="리포트 출력"></i> 동의서</button>
+			<button class="btn btn-default ml2 mb5 reportDown" type="button" data-user-no="{{USER_NO}}" data-jrf="INSTRCTR_AGREEMENT.jrf" ${pageInfo.REPORT_AT eq 'Y' ? '':'disabled'}><i class="fa fa-edit" title="리포트 출력"></i> 동의서</button>
 		{{/ifeq}}
 	</td>
 </tr>

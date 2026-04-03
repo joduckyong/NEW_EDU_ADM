@@ -110,7 +110,7 @@
 	})
 </script>
 <form id="iForm" name="iForm" class="smart-form client-form" method="post" action="/ncts/gpik/selectCheckedDN.do">
-	<input type="hidden" name="<c:out value='${_csrf.parameterName}'/>" value="<c:out value='${_csrf.token}'/>" />
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<div id="wrap"> 
 		<div class="login login2">
 			<div class="inner_login">
@@ -151,6 +151,6 @@
 </form>
 
 <form action="/ncts/gpik/registerDNProcess.do" method="post" name="gForm">
-	<input type="hidden" name="challenge" value="<c:out value='${challenge }'/>" />
-	<input type="hidden" name="sessionid"  value="<c:out value='${sessionid }'/>" />
+	<input type="hidden" name="challenge" value="${challenge }" />
+	<input type="hidden" name="sessionid"  value="${sessionid }" />
 </form>

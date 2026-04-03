@@ -1,6 +1,5 @@
 package egovframework.ncts.cmm.sys.user.web;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -100,9 +99,6 @@ public class EgovNctsSysUserController {
 			sysUserService.userProcess(param);
 			result.put("success", "success");
 			result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
-		} catch (IOException e) {
-			LOGGER.debug(e.getMessage());
-			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
@@ -120,9 +116,6 @@ public class EgovNctsSysUserController {
 			sysUserService.userInitPwd(param);
 			result.put("success", "success");
 			result.put("msg", "패스워드를 초기화했습니다.");
-		} catch (IOException e) {
-			LOGGER.debug(e.getMessage());
-			result.put("msg", "패스워드 초기화에 실패하였습니다.\n관리자에게 문의해주세요.");
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", "패스워드 초기화에 실패하였습니다.\n관리자에게 문의해주세요.");

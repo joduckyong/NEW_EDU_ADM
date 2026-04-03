@@ -8,9 +8,9 @@ $(function(){
 	CKEDITOR.replace('contents',{height : 400});
 	
 	var baseInfo = {
-			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+			insertKey : "${common.baseType[0].key() }",
+            updateKey : "${common.baseType[1].key() }",
+            deleteKey : "${common.baseType[2].key() }",
             lUrl : "/ncts/mngr/homeMngr/mngrBbsManageList.do",
             fUrl : "/ncts/mngr/homeMngr/mngrBbsManageForm.do",
             dUrl : "/ncts/mngr/homeMngr/mngrDeleteBbsManage.do",
@@ -118,8 +118,8 @@ $(function(){
 				<article class="col-md-12 col-lg-12">
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 						<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-						<input type="hidden" id="bbsNo" name="bbsNo" value="<c:out value='${result.BBS_NO}'/>" />
-						<input type="hidden" name="atchFileId" value="<c:out value='${result.ATCH_FILE_ID}'/>" />
+						<input type="hidden" id="bbsNo" name="bbsNo" value="${result.BBS_NO}">
+						<input type="hidden" name="atchFileId" value="${result.ATCH_FILE_ID}">
 						<input type="hidden" name="centerCd" value="<sec:authentication property="principal.centerId"/>" >
 						
 						<table class="table table-bordered tb_type03">
@@ -136,7 +136,7 @@ $(function(){
                                             <c:forEach var="list" items="${result.DMH13 }" varStatus="idx">
                                                 <c:if test="${list.CODE eq '00' or list.CODE eq '04' or list.CODE eq '05' or list.CODE eq '06' or list.CODE eq '07'}">
 	                                                <label class="radio">
-	                                                    <input type="radio" value="<c:out value='${list.CODE }'/>" name="bbsTypeCd" <c:out value="${result.BBS_TYPE_CD eq list.CODE ? 'checked=checked' :'' }"/>><i></i><c:out value="${list.CODE_NM }"/>
+	                                                    <input type="radio" value="${list.CODE }" name="bbsTypeCd" ${result.BBS_TYPE_CD eq list.CODE ? 'checked="checked"' :'' }><i></i>${list.CODE_NM }
 	                                                </label>
                                                 </c:if>
                                             </c:forEach>
@@ -147,14 +147,14 @@ $(function(){
 									<th scope="row">홈페이지 게시여부 </th>
 									<td>
 										<label class="checkbox checkboxCenter col ml10 mt5">
-											<input type="checkbox" id="homepageAt" name="homepageAt" value="Y" <c:out value="${result.HOMEPAGE_AT eq 'Y' ? 'checked=checked':''}"/>><i></i>
+											<input type="checkbox" id="homepageAt" name="homepageAt" value="Y" ${result.HOMEPAGE_AT eq 'Y' ? 'checked="checked"':''}><i></i>
 										</label>
 										<span class="col mt7 ml30 mr5">홈페이지 게시</span>												
 									</td>                                	
 									<th scope="row">상단고정 여부 </th>
 									<td>
 										<label class="checkbox checkboxCenter col ml10 mt5">
-											<input type="checkbox" id="holdYn" name="holdYn" value="Y" <c:out value="${result.HOLD_YN eq 'Y' ? 'checked=checked':''}"/>><i></i>
+											<input type="checkbox" id="holdYn" name="holdYn" value="Y" ${result.HOLD_YN eq 'Y' ? 'checked="checked"':''}><i></i>
 										</label>
 										<span class="col mt7 ml30 mr5">상단고정</span>												
 									</td>
@@ -173,20 +173,20 @@ $(function(){
 									<th scope="row">제목 </th>
 									<td colspan="3">
 										<label class="input w500 col">
-											<input type="text" id="title" name="title" value='<c:out value="${result.TITLE}"/>'>
+											<input type="text" id="title" name="title" value="${result.TITLE}">
 										</label>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">내용 </th>
 									<td class="board_contents" colspan="3">
-										<textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;"><c:out value="${result.CONTENTS}"/></textarea>
+										<textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;">${result.CONTENTS}</textarea>
 									</td>
 								</tr>
 								<tr>
                                     <th scope="row">첨부파일 </th>
                                     <td colspan="3">
-	                                <c:out value="${markup}" escapeXml="false"/>
+                                        ${markup }
                                     </td>
                                 </tr>
 							</tbody>

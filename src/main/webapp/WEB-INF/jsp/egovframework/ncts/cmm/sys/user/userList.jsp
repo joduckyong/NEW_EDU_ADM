@@ -3,9 +3,9 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-			updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-			deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+			insertKey : "${common.baseType[0].key() }",
+			updateKey : "${common.baseType[1].key() }",
+			deleteKey : "${common.baseType[2].key() }",
 			lUrl : "/ncts/cmm/sys/user/userList.do",
 			fUrl : "/ncts/cmm/sys/user/userForm.do",
 			dUrl : "/ncts/cmm/sys/user/userProcess.do",
@@ -122,7 +122,7 @@ $(function(){
 								<select name="searchKeyword1" class="form-control">
 									<option value="">선택</option>
 									<c:forEach var="center" items="${centerList }" varStatus="idx">
-										<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq param.searchKeyword1 ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
+										<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq param.searchKeyword1 ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
 									</c:forEach>
 								</select> <i></i>
 							</li>
@@ -138,12 +138,12 @@ $(function(){
 						</li>
 						<li class="w100">
 							<select id="searchCondition2" name="searchCondition2" class="form-control">
-								<option value="0" <c:out value="${'0' eq param.searchCondition2 ? 'selected=selected':'' }"/>>사용자ID</option>
-								<option value="1" <c:out value="${'1' eq param.searchCondition2 ? 'selected=selected':'' }"/>>이름</option>
+								<option value="0" ${'0' eq param.searchCondition2 ? 'selected="selected"':'' }>사용자ID</option>
+								<option value="1" ${'1' eq param.searchCondition2 ? 'selected="selected"':'' }>이름</option>
 							</select> <i></i>
 						</li>
 						<li class="w150 ml5">
-							<input id="searchKeyword2" name="searchKeyword2" class="form-control" value="<c:out value='${param.searchKeyword2}'/>"> 
+							<input id="searchKeyword2" name="searchKeyword2" class="form-control" value="${param.searchKeyword2}"> 
 						</li>
 						<li class="smart-form ml5">
 						    <label class="label">사용여부</label>
@@ -151,8 +151,8 @@ $(function(){
 						<li class="w100">
 							<select id="searchCondition3" name="searchCondition3" class="form-control">
 								<option value="">전체</option>
-								<option value="Y" <c:out value="${'Y' eq param.searchCondition3 ? 'selected=selected':'' }"/>>사용</option>
-								<option value="N" <c:out value="${'N' eq param.searchCondition3 ? 'selected=selected':'' }"/>>미사용</option>
+								<option value="Y" ${'Y' eq param.searchCondition3 ? 'selected="selected"':'' }>사용</option>
+								<option value="N" ${'N' eq param.searchCondition3 ? 'selected="selected"':'' }>미사용</option>
 							</select> <i></i>
 						</li>
 						<li class="smart-form ml5">
@@ -161,8 +161,8 @@ $(function(){
 						<li class="w100">
 							<select id="searchCondition4" name="searchCondition4" class="form-control">
 								<option value="">전체</option>
-								<option value="Y" <c:out value="${'Y' eq param.searchCondition4 ? 'selected=selected':'' }"/>>잠금</option>
-								<option value="N" <c:out value="${'N' eq param.searchCondition4 ? 'selected=selected':'' }"/>>미잠금</option>
+								<option value="Y" ${'Y' eq param.searchCondition4 ? 'selected="selected"':'' }>잠금</option>
+								<option value="N" ${'N' eq param.searchCondition4 ? 'selected="selected"':'' }>미잠금</option>
 							</select> <i></i>
 						</li>
 						<li class="ml10">
@@ -189,18 +189,16 @@ $(function(){
 				<article class="col-md-12 col-lg-12">
 					<table class="table table-bordered tb_type01 listtable">
 						<colgroup>
-							<col width="8%">
-							<col width="8%">
-                            <col width="8%">
-                            <col width="4%">
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="8%">
+							<col width="12%">
+							<col width="13%">
+                            <col width="10%">
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="10%">
+                            <col width="15%">
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="5%">
                             <col width="8%">
                             <col width="8%">
 						</colgroup>
@@ -218,42 +216,31 @@ $(function(){
 								<th>인증서여부</th>
 								<th>사용자유형</th>
 								<th>사용여부</th>
-								<th>최초등록일</th>
 								<th>잠금여부</th>
-								<th>최근로그아웃일자</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:if test="${empty rslist }">
-								<tr ><td colspan="13">데이터가 없습니다.</td></tr>
+								<tr ><td colspan="10">데이터가 없습니다.</td></tr>
 							</c:if>
 							<c:forEach var="list" items="${rslist }" varStatus="idx">
 								<tr>
-									<td class="invisible"><input type="checkbox" class="index" value="<c:out value='${list.USER_ID }'/>"></td>
-									<td><c:out value="${list.USER_ID }"/></td>
-									<td><c:out value="${list.USER_NM }"/></td>
-									<td><c:out value="${list.USER_BIRTH }"/></td>
-									<td><c:out value="${list.USER_GENDER_TXT }"/></td>
-									<td><c:out value="${list.USER_QUALF_TXT }"/></td>
-									<td><c:out value="${list.USER_HP }"/></td>
-									<td><c:out value="${list.USER_EMAIL }"/></td>
-									<td><c:out value="${list.INIT_PW_STAT eq 'Y' ? 'O' : ''}"/></td>
-									<td><c:out value="${empty list.DN ? 'X' : 'O'}"/></td>
+									<td class="invisible"><input type="checkbox" class="index" value="${list.USER_ID }"></td>
+									<td>${list.USER_ID }</td>
+									<td>${list.USER_NM }</td>
+									<td>${list.USER_BIRTH }</td>
+									<td>${list.USER_GENDER_TXT }</td>
+									<td>${list.USER_QUALF_TXT }</td>
+									<td>${list.USER_HP }</td>
+									<td>${list.USER_EMAIL }</td>
+									<td>${list.INIT_PW_STAT eq 'Y' ? 'O' : ''}</td>
+									<td>${empty list.DN ? 'X' : 'O'}</td>
+									<td>${list.ROLE_NM_TXT}</td>
 									<td>
-										${list.ROLE_NM_TXT}						
+										${list.USE_AT}
+										<c:if test="${list.USE_AT eq 'N' and not empty list.USE_AT_DISABLED_DE}"><br>(${list.USE_AT_DISABLED_DE })</c:if>
 									</td>
-									<td>
-										<c:out value="${list.USE_AT}"/>
-										<c:if test="${list.USE_AT eq 'N' and not empty list.USE_AT_DISABLED_DE}"><br>(<c:out value="${list.USE_AT_DISABLED_DE }"/>)</c:if>
-									</td>
-									<td>
-										<c:out value="${list.FRST_REGIST_PNTTM }"/>
-									</td>
-									<td>
-										<c:out value="${list.LOCK_AT }"/>
-										<c:if test="${list.LOCK_AT eq 'Y' and not empty list.LOCK_DE}"><br>(<fmt:formatDate pattern="yyyy.MM.dd" value="${ list.LOCK_DE }"/>)</c:if>
-									</td>
-									<td><c:out value="${list.IO_DATE }"/></td>
+									<td>${list.LOCK_AT }</td>
 								</tr>
 							</c:forEach>
 						</tbody>

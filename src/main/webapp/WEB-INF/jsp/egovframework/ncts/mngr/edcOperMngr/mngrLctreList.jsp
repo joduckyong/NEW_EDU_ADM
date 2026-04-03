@@ -2,9 +2,9 @@
 <script type="text/javascript">
 	$(function(){
 	    var baseInfo = {
-	            insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-	            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-	            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+	            insertKey : "${common.baseType[0].key() }",
+	            updateKey : "${common.baseType[1].key() }",
+	            deleteKey : "${common.baseType[2].key() }",
 	            lUrl : "/ncts/mngr/edcOperMngr/mngrLctreList.do",
 	            fUrl : "/ncts/mngr/edcOperMngr/mngrLctreForm.do",
 	            dUrl : "/ncts/mngr/edcOperMngr/mngrDeleteLctre.do",
@@ -159,12 +159,12 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-									   <input type="checkbox" name="lectureId" class="index" value='<c:out value="${list.LECTURE_ID}"/>'>
+									   <input type="checkbox" name="lectureId" class="index" value="${list.LECTURE_ID}">
 									</td>
-									<td><c:out value="${list.LECTURE_ID}"/></td>
-									<td><c:out value="${list.LECTURE_NM}"/></td>
-									<td><c:out value="${list.COURSES}"/></td>
-									<td><c:out value="${list.VIDEO_DURATION}"/></td>
+									<td>${list.LECTURE_ID}</td>
+									<td>${list.LECTURE_NM}</td>
+									<td>${list.COURSES}</td>
+									<td>${list.VIDEO_DURATION}</td>
 								</tr>
 							</c:forEach>
 						</tbody>

@@ -1,6 +1,5 @@
 package egovframework.ncts.cmm.sys.user.web;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,9 +50,6 @@ public class EgovNctsSysUserMappingController {
 			result.put("success", "success");
 			result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
 			result.put("rslist", rslist);
-		 } catch (IOException e) {
-			 LOGGER.debug(e.getMessage());
-				result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
@@ -72,9 +68,6 @@ public class EgovNctsSysUserMappingController {
 			result.put("success", "success");
 			result.put("msg", "성공");
 			result.put("rslist", rslist);
-		} catch (IOException e) {
-			LOGGER.debug(e.getMessage());
-			result.put("msg", "실패");
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", "실패");
@@ -93,9 +86,6 @@ public class EgovNctsSysUserMappingController {
 			result.put("success", "success");
 			result.put("msg", "성공");
 			result.put("rslist", rslist);
-		 } catch (IOException e) {
-			 LOGGER.debug(e.getMessage());
-				result.put("msg", "실패");
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", "실패");
@@ -115,9 +105,6 @@ public class EgovNctsSysUserMappingController {
 			
 			result.put("success", "success");
 			result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
-		} catch (IOException e) {
-			LOGGER.debug(e.getMessage());
-			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
@@ -137,9 +124,6 @@ public class EgovNctsSysUserMappingController {
 			
 			result.put("success", "success");
 			result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
-		} catch (IOException e) {
-			LOGGER.debug(e.getMessage());
-			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));

@@ -18,9 +18,9 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+			insertKey : "${common.baseType[0].key() }",
+			updateKey : "${common.baseType[1].key() }",
+			deleteKey : "${common.baseType[2].key() }",
 			lUrl : "/ncts/mngr/userMngr/mngrMemberNoteListPopup.do",
 			fUrl : "/ncts/mngr/userMngr/mngrMemberNoteProc.do",
 	}
@@ -120,11 +120,11 @@ $(function(){
 		<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-                <input type="hidden" name="userNo" id="userNo" value='<c:out value="${param.userNo }"/>'>
+                <input type="hidden" name="userNo" id="userNo" value="${param.userNo }">
 	        	<input type="hidden" name="noteSeq" id="noteSeq" value="">
 	        	<input type="hidden" name="deptAllAuthorAt" value="<sec:authentication property="principal.deptAllAuthorAt"/>">
                 <div class="fL wp70">
-					<p style="font-size: 18px; margin-top: 5px;"><c:out value="${rs.USER_NM }"/>(<c:out value="${rs.USER_ID }"/>)</p>					
+					<p style="font-size: 18px; margin-top: 5px;">${rs.USER_NM }(${rs.USER_ID })</p>					
 				</div>
 				<div class="fR wp30 dstrctHide" style="display: none;">
 					<ul class="searchAreaBox fR">
@@ -162,10 +162,10 @@ $(function(){
 								</c:if>
 								<c:forEach var="rslist" items="${rslist }">
 									<tr>
-										<td class="invisible"><input type="checkbox" class="index" value='<c:out value="${rslist.NOTE_SEQ }"/>'></td>
-										<td style="word-wrap: break-word;"><c:out value="${rslist.NOTE_CN }"/></td>
-										<td><c:out value="${rslist.FRST_USER_NM}"/></td>
-										<td><c:out value="${rslist.FRST_REGIST_PNTTM}"/></td>
+										<td class="invisible"><input type="checkbox" class="index" value="${rslist.NOTE_SEQ }"></td>
+										<td style="word-wrap: break-word;">${rslist.NOTE_CN }</td>
+										<td>${rslist.FRST_USER_NM}</td>
+										<td>${rslist.FRST_REGIST_PNTTM}</td>
 									</tr>
 								</c:forEach>
 							</tbody>

@@ -4,9 +4,9 @@
 <script type="text/javascript">
 $(function(){
 	var baseInfo = {
-			lUrl : "<c:out value='${pageInfo.READ_AT eq "Y" ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }'/>",
-			fUrl : "<c:out value='${pageInfo.MENU_DETAIL_URL }'/>",
-			updateKey : "<c:out value='${common.baseType[1].key() }'/>",
+			lUrl : "${pageInfo.READ_AT eq 'Y' ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }",
+			fUrl : "${pageInfo.MENU_DETAIL_URL }",
+			updateKey : "${common.baseType[1].key() }",
 	}	
 	
 	$.setValidation = function(){
@@ -167,7 +167,7 @@ $(function(){
           	<form name="sForm" id="sForm" method="post">
 				<input type="hidden" name="excelFileNm">
 				<input type="hidden" name="excelPageNm">
-				<input type="hidden" name="reqstSeq" value="<c:out value='${result.REQST_SEQ}'/>">
+				<input type="hidden" name="reqstSeq" value="${result.REQST_SEQ}">
 				<input type="hidden" id="searchKeyword1" name="searchKeyword1" class="form-control" value='<c:out value="${param.searchKeyword1}"/>'>
 				<div class="fL wp50">
 					<ul class="searchAreaBox">
@@ -211,13 +211,13 @@ $(function(){
 									<th scope="row">요청기관 </th>
 									<td colspan="4">
 									   <label class="select col w150 mr5">
-									   		<c:out value="${result.REQST_INSTT }"/>
+									   		${result.REQST_INSTT }
                                        </label>
 									</td>
 									<th scope="row">요청지역 </th>
 									<td colspan="3">
 									   <label class="select col w150 mr5">
-									   		<c:out value="${result.REQST_ADDRESS_NM }"/>
+									   		${result.REQST_ADDRESS_NM }
                                        </label>
 									</td>
 								</tr>
@@ -225,13 +225,13 @@ $(function(){
 									<th scope="row">대상 </th>
 									<td colspan="4">
 									   <label class="select col w150 mr5">
-									   		<c:out value="${result.REQST_TARGET }"/>
+									   		${result.REQST_TARGET }
                                        </label>
 									</td>
 									<th scope="row">인원 </th>
 									<td colspan="3">
 										<label class="input w150 col">
-											<input type="text" id="reqstNmpr" name="reqstNmpr" value="<c:out value='${result.REQST_NMPR }'/>" class="onlyNum10">
+											<input type="text" id="reqstNmpr" name="reqstNmpr" value="${result.REQST_NMPR }" class="onlyNum10">
 										</label>
 									</td>
 								</tr>
@@ -243,7 +243,7 @@ $(function(){
                                                 <option value="">선택</option>
                                                 <c:forEach var="test" items="${codeList }" varStatus="idx">
                                                 	<c:if test="${test.VIDEO_AT ne 'Y' }">
-                                                		<option value="<c:out value='${test.LECTURE_ID }'/>" <c:out value="${result.REQST_EDUCATION eq test.LECTURE_ID ? 'selected=selected' : ''}"/>> <c:out value="${test.LECTURE_NM }"/></option>
+                                                		<option value="${test.LECTURE_ID }" ${result.REQST_EDUCATION eq test.LECTURE_ID ? 'selected="selected"' : ''}> ${test.LECTURE_NM }</option>
                                                 	</c:if>
                                                 </c:forEach>
                                             </select> <i></i>
@@ -255,11 +255,11 @@ $(function(){
 									<th scope="row">교육날짜</th>
 									<td colspan="8">
 										<label class="input w120 col"><i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="startDate" name="startDate" value="<c:out value='${result.START_DATE }'/>" class="date inputcal tt">
+											<input type="text" id="startDate" name="startDate" value="${result.START_DATE }" class="date inputcal tt">
 										</label>
 										<label class="label col">~</label>
 										<label class="input w120 col ml5"><i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="endDate" name="endDate" value="<c:out value='${result.END_DATE }'/>" class="date inputcal tt">
+											<input type="text" id="endDate" name="endDate" value="${result.END_DATE }" class="date inputcal tt">
 										</label>
 									</td>
 								</tr>
@@ -267,35 +267,35 @@ $(function(){
 									<th scope="row">교육시간</th>
 									<td colspan="3">
 										<label class="input w40 col mr5">
-											<input type="text" class="onlyNum hh" id="startHour" name="startHour" value="<c:out value='${result.START_HOUR }'/>" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum hh" id="startHour" name="startHour" value="${result.START_HOUR }" class="part_time" maxlength="2">
 										</label>
 										<label class="label col">:</label>
 										<label class="input w40 col ml5 mr5"> 
-											<input type="text" class="onlyNum mm" id="startMin" name="startMin" value="<c:out value='${result.START_MIN }'/>" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum mm" id="startMin" name="startMin" value="${result.START_MIN }" class="part_time" maxlength="2">
 										</label>
 										<label class="label col">-</label>
 										<label class="input w40 col ml5 mr5">
-											<input type="text" class="onlyNum hh" id="endHour" name="endHour" value="<c:out value='${result.END_HOUR }'/>" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum hh" id="endHour" name="endHour" value="${result.END_HOUR }" class="part_time" maxlength="2">
 										</label> 
 										<label class="label col">:</label>
 										<label class="input w40 col ml5 mr5">
-											<input type="text" class="onlyNum mm" id="endMin" name="endMin" value="<c:out value='${result.END_MIN }'/>" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum mm" id="endMin" name="endMin" value="${result.END_MIN }" class="part_time" maxlength="2">
 										</label>
 									</td>
 									<th scope="row">캘린더 노출<br>여부</th>
 									<td colspan="4">
-										<label class="checkbox checkboxCenter col"><input type="checkbox" id="calendarYn" name="calendarYn" value="Y" <c:out value="${result.CALENDAR_YN eq 'Y' ? 'checked=checked':''}"/>><i></i></label><span class="col mt7 ml30 mr5">노출</span>
+										<label class="checkbox checkboxCenter col"><input type="checkbox" id="calendarYn" name="calendarYn" value="Y" ${result.CALENDAR_YN eq 'Y' ? 'checked="checked"':''}><i></i></label><span class="col mt7 ml30 mr5">노출</span>
 									</td>										
 								</tr>
 								<tr>
 									<th scope="row">강사모집<br>날짜</th>
 									<td colspan="8">
 										<label class="input w120 col"><i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="instrctrStartDe" name="instrctrStartDe" value="<c:out value='${result.INSTRCTR_START_DE }'/>" class="date inputcal tt instrctrDe" data-title="강사모집 시작일">
+											<input type="text" id="instrctrStartDe" name="instrctrStartDe" value="${result.INSTRCTR_START_DE }" class="date inputcal tt instrctrDe" data-title="강사모집 시작일">
 										</label>
 										<label class="label col">~</label>
 										<label class="input w120 col ml5"><i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="instrctrEndDe" name="instrctrEndDe"     value="<c:out value='${result.INSTRCTR_END_DE }'/>" class="date inputcal tt instrctrDe" data-title="강사모집 종료일">
+											<input type="text" id="instrctrEndDe" name="instrctrEndDe"     value="${result.INSTRCTR_END_DE }" class="date inputcal tt instrctrDe" data-title="강사모집 종료일">
 										</label>
 									</td>
 								</tr>
@@ -303,38 +303,38 @@ $(function(){
 									<th scope="row">강사모집<br>시간</th>
 									<td colspan="3">
 										<label class="input w40 col mr5">
-											<input type="text" class="onlyNum hh instrctrDe" id="instrctrStartHH" name="instrctrStartHH" value="<c:out value='${result.INSTRCTR_START_HH }'/>" class="part_time" maxlength="2" data-title="강사모집 시작시간">
+											<input type="text" class="onlyNum hh instrctrDe" id="instrctrStartHH" name="instrctrStartHH" value="${result.INSTRCTR_START_HH }" class="part_time" maxlength="2" data-title="강사모집 시작시간">
 										</label>
 										<label class="label col">:</label>
 										<label class="input w40 col ml5 mr5"> 
-											<input type="text" class="onlyNum mm instrctrDe" id="instrctrStartMM" name="instrctrStartMM"   value="<c:out value='${result.INSTRCTR_START_MM }'/>" class="part_time" maxlength="2" data-title="강사모집 시작분">
+											<input type="text" class="onlyNum mm instrctrDe" id="instrctrStartMM" name="instrctrStartMM"   value="${result.INSTRCTR_START_MM }" class="part_time" maxlength="2" data-title="강사모집 시작분">
 										</label>
 										<label class="label col">-</label>
 										<label class="input w40 col ml5 mr5">
-											<input type="text" class="onlyNum hh instrctrDe" id="instrctrEndHH" name="instrctrEndHH"     value="<c:out value='${result.INSTRCTR_END_HH }'/>" class="part_time" maxlength="2" data-title="강사모집 종료시간">
+											<input type="text" class="onlyNum hh instrctrDe" id="instrctrEndHH" name="instrctrEndHH"     value="${result.INSTRCTR_END_HH }" class="part_time" maxlength="2" data-title="강사모집 종료시간">
 										</label> 
 										<label class="label col">:</label>
 										<label class="input w40 col ml5 mr5">
-											<input type="text" class="onlyNum mm instrctrDe" id="instrctrEndMM" name="instrctrEndMM"       value="<c:out value='${result.INSTRCTR_END_MM }'/>" class="part_time" maxlength="2" data-title="강사모집 종료분">
+											<input type="text" class="onlyNum mm instrctrDe" id="instrctrEndMM" name="instrctrEndMM"       value="${result.INSTRCTR_END_MM }" class="part_time" maxlength="2" data-title="강사모집 종료분">
 										</label>
 									</td>
 									
 									<th scope="row">강사모집<br>여부</th>
 									<td colspan="4">
-										<label class="checkbox checkboxCenter col"><input type="checkbox" id="instrctrOthbcYn" name="instrctrOthbcYn" value="Y" <c:out value="${result.INSTRCTR_OTHBC_YN eq 'Y' ? 'checked=checked':''}"/>><i></i></label><span class="col mt7 ml30 mr5">게시</span>
+										<label class="checkbox checkboxCenter col"><input type="checkbox" id="instrctrOthbcYn" name="instrctrOthbcYn" value="Y" ${result.INSTRCTR_OTHBC_YN eq 'Y' ? 'checked="checked"':''}><i></i></label><span class="col mt7 ml30 mr5">게시</span>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">담당자</th>
 									<td colspan="3">
 										<label class="label">
-											<c:out value="${result.REQST_CHARGER }"/>
+											${result.REQST_CHARGER }
 										</label>
 									</td>
 									<th scope="row">강사명</th>
 									<td colspan="4">
 										<label class="label">
-											<c:out value="${result.REGST_INSTRCTR_NM }"/>
+											${result.REGST_INSTRCTR_NM }
 										</label>
 									</td>
 									<%-- <th scope="row">교육강사소속</th>
@@ -348,13 +348,13 @@ $(function(){
 									<th scope="row">연락처(기관)</th>
 									<td colspan="3">
 										<label class="input w200">
-											<input type="text" id="reqstPhoneNo" name="reqstPhoneNo" class="phone" value="<c:out value='${result.REQST_PHONE_NO }'/>" maxlength="13">
+											<input type="text" id="reqstPhoneNo" name="reqstPhoneNo" class="phone" value="${result.REQST_PHONE_NO }" maxlength="13">
 										</label>
 									</td>
 									<th scope="row">연락처(휴대전화)</th>
 									<td colspan="4">
 										<label class="input w200">
-											<input type="text" id="reqstHpNo" name="reqstHpNo" class="phone" value="<c:out value='${result.REQST_HP_NO }'/>" maxlength="13">
+											<input type="text" id="reqstHpNo" name="reqstHpNo" class="phone" value="${result.REQST_HP_NO }" maxlength="13">
 										</label>
 									</td>
 								</tr>
@@ -362,35 +362,35 @@ $(function(){
 									<th scope="row">이메일</th>
 									<td colspan="8">
 										<label class="input w200">
-											<input type="text" id="reqstEmail" name="reqstEmail" value="<c:out value='${result.REQST_EMAIL }'/>">
+											<input type="text" id="reqstEmail" name="reqstEmail" value="${result.REQST_EMAIL }">
 										</label>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">기타 </th>
 									<td colspan="8">
-										<textarea cols="30" rows="10" name="reqstEtc" style="width: 100%; height: 100px; border: 1px solid #d2d2d2;" readonly><c:out value="${result.REQST_ETC }"/></textarea>
+										<textarea cols="30" rows="10" name="reqstEtc" style="width: 100%; height: 100px; border: 1px solid #d2d2d2;" readonly>${result.REQST_ETC }</textarea>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">센터</th>
 									<td colspan="8">
 										<sec:authorize access="hasRole('ROLE_MASTER') or hasRole('ROLE_SYSTEM')">
-											<input type="hidden" name="oriCenterCd" value="<c:out value='${result.CENTER_CD }'/>">
+											<input type="hidden" name="oriCenterCd" value="${result.CENTER_CD }">
 											<label class="select col w150 mr5">
 												<select id="centerCd" name="centerCd">
 													<option value="">선택</option>
 													<c:forEach var="center" items="${centerList }" varStatus="idx">
 														<c:if test="${center.DEPT_CD ne '20000000' }">
-															<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq result.CENTER_CD ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
+															<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq result.CENTER_CD ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
 														</c:if>
 													</c:forEach>
 												</select> <i></i>
 											</label>
 										</sec:authorize>
 										<sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')">
-											<input type="hidden" name="centerCd" value="<c:out value='${result.CENTER_CD }'/>" >
-											<c:out value="${result.CENTER_NM }"/>
+											<input type="hidden" name="centerCd" value="${result.CENTER_CD }" >
+											${result.CENTER_NM }
 										</sec:authorize>											
 									</td>
 								</tr>
@@ -398,8 +398,8 @@ $(function(){
 								<tr>
 									<th scope="row">참고사항 </th>
 									<td colspan="8">
-										<c:out value="${markup}" escapeXml="false"/>
-										<textarea cols="30" rows="10" name="referMatterMemo" wrap=on style="width: 100%; height: 100px; border: 1px solid #d2d2d2;"><c:out value="${result.REFER_MATTER_MEMO }"/></textarea>
+										${markup }
+										<textarea cols="30" rows="10" name="referMatterMemo" wrap=on style="width: 100%; height: 100px; border: 1px solid #d2d2d2;">${result.REFER_MATTER_MEMO }</textarea>
 									</td>
 								</tr>
 								</sec:authorize>	

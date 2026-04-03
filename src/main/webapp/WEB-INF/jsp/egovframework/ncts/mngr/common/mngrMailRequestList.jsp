@@ -4,9 +4,9 @@
 $(function(){
 	var loadingSt = 0;
 	var baseInfo = {
-		insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-		updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-		deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+		insertKey : "${common.baseType[0].key() }",
+		updateKey : "${common.baseType[1].key() }",
+		deleteKey : "${common.baseType[2].key() }",
 		lUrl : "/ncts/mngr/mail/mngrMailRequestList.do",
 		fUrl : "/ncts/mngr/mail/mngrMemberMailForm.do",
 		dUrl : "/ncts/mngr/mail/updateMailRequest.do",
@@ -45,7 +45,7 @@ $(function(){
 			data: {
 				"requestId" : $("#requestId").val(),
 				"currentPageNo" : pageNo,
-				"<c:out value='${_csrf.parameterName}'/>" : "<c:out value='${_csrf.token}'/>"
+				"${_csrf.parameterName}" : "${_csrf.token}"
 			},
 			dataType : "html",
 			contentType: "text/html;charset=UTF-8",
@@ -320,12 +320,13 @@ $(function(){
 							</c:if>
 							<c:forEach var="list" items="${requestList }" varStatus="status">
 								<tr class="tr_clr_2">
-									<td class="invisible"><input type="checkbox" class="index" value="<c:out value='${list.REQUEST_ID }'/>"></td>
-									<td><c:out value="${paginationInfo.totalRecordCount - ((paginationInfo.currentPageNo-1) * paginationInfo.recordCountPerPage+ status.index)}"/></td>
-									<td><c:out value="${list.REQUEST_SUBJECT }"/></td>
-									<td><c:out value="${list.MAIL_TITLE }"/></td>
-									<td><c:out value="${list.MAIL_SENDER_CNT}"/></td>
-									<td><c:out value="${list.FRST_USER_NM }"/></td>
+									<td class="invisible"><input type="checkbox" class="index" value="${list.REQUEST_ID }"></td>
+									<td>${paginationInfo.totalRecordCount - ((paginationInfo.currentPageNo-1) * paginationInfo.recordCountPerPage+ status.index)}</td>
+									<td>${list.REQUEST_SUBJECT }</td>
+									<td>${list.MAIL_TITLE }</td>
+									<td>${list.MAIL_SENDER_CNT}</td>
+									<td>${list.FRST_USER_NM }</td>
+								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -349,8 +350,8 @@ $(function(){
 						<div class="search respondSearch invisible">
 			          		<input type="hidden" name="requestId" value="">
 							<input type="hidden" name="currentPageNo" id="currentPageNo" value='<c:out value="${pagination.currentPageNo}"/>'>
-							<input type="hidden" name="<c:out value='${_csrf.parameterName}'/>" value="<c:out value='${_csrf.token}'/>" />
-							<input type="hidden" name="procType" value="<c:out value='${common.procType }'/>">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+							<input type="hidden" name="procType" value="${common.procType }">
 							<div class="fL wp85">
 								<ul class="searchAreaBox">
 									<li class="ml10 respondSearchLi" id="respondSearchLi">
@@ -439,14 +440,14 @@ $(function(){
 	<li class="ml5 w100">
 		<select class="form-control" name="searchCondition1">
 			<option value="">전체</option>
-			<option value="P" <c:out value="${searchCondition1 eq 'P' ? 'selected' : '' }"/>>P(발송준비중)</option>
-			<option value="R" <c:out value="${searchCondition1 eq 'R' ? 'selected' : '' }"/>>R(발송준비)</option>
-			<option value="I" <c:out value="${searchCondition1 eq 'I' ? 'selected' : '' }"/>>I(발송중)</option>
-			<option value="S" <c:out value="${searchCondition1 eq 'S' ? 'selected' : '' }"/>>S(발송성공)</option>
-			<option value="F" <c:out value="${searchCondition1 eq 'F' ? 'selected' : '' }"/>>F(발송실패)</option>
-			<option value="U" <c:out value="${searchCondition1 eq 'U' ? 'selected' : '' }"/>>U(수신거부)</option>
-			<option value="C" <c:out value="${searchCondition1 eq 'C' ? 'selected' : '' }"/>>C(발송취소)</option>
-			<option value="PF" <c:out value="${searchCondition1 eq 'PF' ? 'selected' : '' }"/>>PE(일부실패)</option>
+			<option value="P" ${searchCondition1 eq 'P' ? "selected" : "" }>P(발송준비중)</option>
+			<option value="R" ${searchCondition1 eq 'R' ? "selected" : "" }>R(발송준비)</option>
+			<option value="I" ${searchCondition1 eq 'I' ? "selected" : "" }>I(발송중)</option>
+			<option value="S" ${searchCondition1 eq 'S' ? "selected" : "" }>S(발송성공)</option>
+			<option value="F" ${searchCondition1 eq 'F' ? "selected" : "" }>F(발송실패)</option>
+			<option value="U" ${searchCondition1 eq 'U' ? "selected" : "" }>U(수신거부)</option>
+			<option value="C" ${searchCondition1 eq 'C' ? "selected" : "" }>C(발송취소)</option>
+			<option value="PF" ${searchCondition1 eq 'PF' ? "selected" : "" }>PE(일부실패)</option>
 		</select>
 	</li>
 </script>

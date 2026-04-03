@@ -4,9 +4,9 @@
 $(function(){
 	var trCnt = 0;
 	var baseInfo = {
-			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+			insertKey : "${common.baseType[0].key() }",
+			updateKey : "${common.baseType[1].key() }",
+			deleteKey : "${common.baseType[2].key() }",
 			excel     : "/ncts/mngr/eduReqstMngr/nfdrmPlanExcelDownload.do",
 			lUrl : "/ncts/mngr/eduReqstMngr/mngrEduIrregularList.do",
 	}
@@ -201,7 +201,7 @@ $(function(){
         });
 		$(".onlyNum").onlyNumber(2);
 		$("input[name=eduYear]").onlyNumber(4);
-		if('<c:out value="${pageInfo.INSERT_AT}"/>' != "Y") $("#btnSave").hide();
+		if("${pageInfo.INSERT_AT}" != "Y") $("#btnSave").hide();
 	}
 	
 	$.initView();
@@ -213,7 +213,7 @@ $(function(){
 
 <c:set var="yearStart" value="2021" />
 <c:set var="today" value="<%=new java.util.Date()%>" />
-<c:set var="currentYear"><fmt:formatDate value='${today}' pattern="yyyy"/></c:set>
+<c:set var="currentYear"><fmt:formatDate value="${today}" pattern="yyyy"/></c:set>
 <!-- MAIN CONTENT -->
 <div id="content">
 	<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/menuTitle.jsp" flush="false" />
@@ -250,7 +250,7 @@ $(function(){
 								<select name="sGubun2" class="form-control">
 									<option value="">전체</option>
 									<c:forEach var="center" items="${centerList }" varStatus="idx">
-										<option value='<c:out value="${center.DEPT_CD }"/>' data-groupId='<c:out value="${center.GROUP_ID }"/>' <c:out value="${center.DEPT_CD eq param.sGubun2 ? 'selected=selected':'' }"/>><c:out value="${center.DEPT_NM }"/></option>
+										<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq param.sGubun2 ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
 									</c:forEach>
 								</select> <i></i>
 							</li>
@@ -269,7 +269,7 @@ $(function(){
                             <select id="sGubun" name="sGubun" class="form-control" style="text-align-last:center;">
                                 <option value="">선택</option>
 									<c:forEach begin="${yearStart }" end="${currentYear+10 }" var="result" step="1">
-										<option value='<c:out value="${result}"/>' <c:out value="${result == param.sGubun ? 'selected': ''}"/>><c:out value="${result}" /></option>
+										<option value="<c:out value="${result}"/>" ${result == param.sGubun ? 'selected': ''}><c:out value="${result}" /></option>
 									</c:forEach>                                
                             </select>
                         </li>
@@ -342,24 +342,24 @@ $(function(){
 							<c:forEach var="rlist" items="${list}" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value='<c:out value="${rlist.EDU_YEAR }"/>'>
-										<input type="hidden" id="eduYearOld" name="oldEduYear" class="" value='<c:out value="${rlist.EDU_YEAR }"/>'>
-										<input type="hidden" id="centerCdVal" name="centerCdVal" value='<c:out value="${rlist.CENTER_CD }"/>'>
+										<input type="checkbox" class="index" value="${rlist.EDU_YEAR }">
+										<input type="hidden" id="eduYearOld" name="oldEduYear" class="" value="${rlist.EDU_YEAR }">
+										<input type="hidden" id="centerCdVal" name="centerCdVal" value="${rlist.CENTER_CD }">
 									</td> <!-- 년도 -->
-									<td><c:out value="${rlist.CENTER_NM}"/></td> <!-- 년도 -->
-									<td><c:out value="${rlist.EDU_YEAR}"/></td> <!-- 년도 -->
-									<td><c:out value="${rlist.JAN}"/></td> <!-- 1 -->
-									<td><c:out value="${rlist.FEB}"/></td> <!-- 3 -->
-									<td><c:out value="${rlist.MAR}"/></td> <!-- 3 -->
-									<td><c:out value="${rlist.APR}"/></td> <!-- 4 -->
-									<td><c:out value="${rlist.MAY}"/></td> <!-- 5 -->
-									<td><c:out value="${rlist.JUN}"/></td> <!-- 6 -->
-									<td><c:out value="${rlist.JUL}"/></td> <!-- 7 -->
-									<td><c:out value="${rlist.AUG}"/></td> <!-- 8 -->
-									<td><c:out value="${rlist.SEPT}"/></td> <!-- 9 -->
-									<td><c:out value="${rlist.OCT}"/></td> <!-- 10 -->
-									<td><c:out value="${rlist.NOV}"/></td> <!-- 11 -->
-									<td><c:out value="${rlist.DEC}"/></td> <!-- 12 -->
+									<td>${rlist.CENTER_NM}</td> <!-- 년도 -->
+									<td>${rlist.EDU_YEAR}</td> <!-- 년도 -->
+									<td>${rlist.JAN}</td> <!-- 1 -->
+									<td>${rlist.FEB}</td> <!-- 2 -->
+									<td>${rlist.MAR}</td> <!-- 3 -->
+									<td>${rlist.APR}</td> <!-- 4 -->
+									<td>${rlist.MAY}</td> <!-- 5 -->
+									<td>${rlist.JUN}</td> <!-- 6 -->
+									<td>${rlist.JUL}</td> <!-- 7 -->
+									<td>${rlist.AUG}</td> <!-- 8 -->
+									<td>${rlist.SEPT}</td> <!-- 9 -->
+									<td>${rlist.OCT}</td> <!-- 10 -->
+									<td>${rlist.NOV}</td> <!-- 11 -->
+									<td>${rlist.DEC}</td> <!-- 12 -->
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -388,7 +388,7 @@ $(function(){
 											<select id="centerCd" name="centerCd" class="form-control" style="text-align-last:center; height:29px;">
 												<option value="">선택</option>
 												<c:forEach var="center" items="${centerList }" varStatus="idx">
-													<option value='<c:out value="${center.DEPT_CD }"/>' data-groupId='<c:out value="${center.GROUP_ID }"/>' <c:out value="${center.DEPT_CD eq rs.CENTER_CD ? 'selected=selected':'' }"/>><c:out value="${center.DEPT_NM }"/></option>
+													<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq rs.CENTER_CD ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
 												</c:forEach>
 											</select> <i></i>
 										</sec:authorize>
@@ -403,7 +403,7 @@ $(function(){
 			                            <select id="ifeduYear" name="eduYear" class="form-control" style="text-align-last:center; height:29px;">
 			                                <option value="">선택</option>
 												<c:forEach begin="${yearStart }" end="${currentYear+10 }" var="result" step="1">
-													<option value='<c:out value="${result}"/>'><c:out value="${result}" /></option>
+													<option value="<c:out value="${result}"/>"><c:out value="${result}" /></option>
 												</c:forEach> 			                                	
 			                            </select>								    
 								    </td> <!-- 년도 -->

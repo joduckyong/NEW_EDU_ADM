@@ -3,9 +3,9 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+			insertKey : "${common.baseType[0].key() }",
+			updateKey : "${common.baseType[1].key() }",
+			deleteKey : "${common.baseType[2].key() }",
 			lUrl : "/ncts/mngr/userMngr/mngrFileConfirmListPopup.do",
 	}
 	
@@ -35,7 +35,7 @@ $(function(){
 	<section id="widget-grid" class="">
 		<!-- Search 영역 시작 -->
         <form name="sForm" id="sForm" method="post">
-        	<input type="hidden" name="userNo" id="userNo" value='<c:out value="${param.userNo }"/>'>
+        	<input type="hidden" name="userNo" id="userNo" value="${param.userNo }">
 			<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
 		</form>
 		<!-- Search 영역 끝 -->	
@@ -66,11 +66,11 @@ $(function(){
 									</c:if>
 									<c:forEach var="rslist" items="${rslist }">
 										<tr>
-											<td class="invisible"><input type="checkbox" class="index" value='<c:out value="${rslist.CONFIRM_SEQ }"/>'></td>
-											<td><c:out value="${rslist.LICENSE_NM }"/></td>
-											<td><c:out value="${rslist.FILE_CONFIRM_AT eq 'Y' ? '확인' : '미확인'}"/></td>
-											<td><c:out value="${rslist.FILE_CONFIRM_NM}"/></td>
-											<td><c:out value="${rslist.FILE_CONFIRM_PNTTM_YMD}"/></td>
+											<td class="invisible"><input type="checkbox" class="index" value="${rslist.CONFIRM_SEQ }" ></td>
+											<td>${rslist.LICENSE_NM }</td>
+											<td>${rslist.FILE_CONFIRM_AT eq 'Y' ? '확인' : '미확인'}</td>
+											<td>${rslist.FILE_CONFIRM_NM}</td>
+											<td>${rslist.FILE_CONFIRM_PNTTM_YMD}</td>
 										</tr>
 									</c:forEach>
 							</tbody>

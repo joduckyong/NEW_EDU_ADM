@@ -12,9 +12,9 @@ $(function(){
     CKEDITOR.replace('contents',{height : 150});
 	
 	var baseInfo = {
-			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+			insertKey : "${common.baseType[0].key() }",
+            updateKey : "${common.baseType[1].key() }",
+            deleteKey : "${common.baseType[2].key() }",
             lUrl : "/ncts/mngr/cmptMngr/mngrCmptReqstList.do",
             pUrl : "/ncts/mngr/cmptMngr/mngrCmptReqstForm.do",
             dUrl : "/ncts/mngr/cmptMngr/deleteCmptReqst.do",
@@ -277,9 +277,9 @@ $(function(){
                         <li class="w100">
 						<select id="sGubun" name="sGubun" class="form-control">
 							<option value="">선택</option>
-						    <option value="01" <c:out value="${param.sGubun eq '01' ?'selected=selected':'' }"/>>연도별</option>
-							<option value="02" <c:out value="${param.sGubun eq '02' ?'selected=selected':'' }"/>>월별</option>
-							<option value="03" <c:out value="${param.sGubun eq '03' ?'selected=selected':'' }"/>>연도기간별</option>
+						    <option value="01" ${param.sGubun eq '01' ?'selected="selected"':'' }>연도별</option>
+							<option value="02" ${param.sGubun eq '02' ?'selected="selected"':'' }>월별</option>
+							<option value="03" ${param.sGubun eq '03' ?'selected="selected"':'' }>연도기간별</option>
 							<%-- <option value="04" ${param.sGubun eq '04' ?'selected="selected"':'' }>기간별</option> --%>
 						</select>
 						</li>
@@ -288,7 +288,7 @@ $(function(){
 	                            <select id="sYear" name="sYear" class="form-control">
 	                                <option value="">연도선택</option>
 	                                <c:forEach var="year" items="${cal.year }">
-										<option value="<c:out value='${year }'/>" <c:out value="${param.sYear eq year?'selected=selected':'' }"/> ><c:out value="${year }"/></option>
+										<option value="${year }" ${param.sYear eq year?'selected="selected"':'' } >${year }</option>
 									</c:forEach>
 	                            </select> <i></i>
 	                        </li>
@@ -298,7 +298,7 @@ $(function(){
 							<select id="sMonth" name="sMonth" class="form-control">
 								<option value="">선택</option>
 								<c:forEach var="month" items="${cal.month }">
-									<option value="<c:out value='${month }'/>" <c:out value="${param.sMonth eq month?'selected=selected':'' }"/> ><c:out value="${month }"/>월</option>
+									<option value="${month }" ${param.sMonth eq month?'selected="selected"':'' } >${month }월</option>
 								</c:forEach>
 							</select> <i></i>
                         </li>
@@ -308,7 +308,7 @@ $(function(){
 	                            <select id="sDate01" name="sDate01" class="form-control">
 	                                <option value="">연도선택</option>
 	                                <c:forEach var="year" items="${cal.year }">
-										<option value="<c:out value='${year }'/>" <c:out value="${param.sDate01 eq year?'selected=selected':'' }"/> ><c:out value="${year }"/></option>
+										<option value="${year }" ${param.sDate01 eq year?'selected="selected"':'' } >${year }</option>
 									</c:forEach>
 	                            </select> <i></i>
 	                        </li>
@@ -319,7 +319,7 @@ $(function(){
 	                            <select id="sDate02" name="sDate02" class="form-control">
 	                                <option value="">연도선택</option>
 	                                <c:forEach var="year" items="${cal.year }">
-										<option value="<c:out value='${year }'/>" <c:out value="${param.sDate02 eq year?'selected=selected':'' }"/> ><c:out value="${year }"/></option>
+										<option value="${year }" ${param.sDate02 eq year?'selected="selected"':'' } >${year }</option>
 									</c:forEach>
 	                            </select> <i></i>
 	                        </li>
@@ -353,8 +353,8 @@ $(function(){
                         <li class="w100">
                            <select id="searchKeyword3" name="searchKeyword3" class="form-control">
                                 <option value="">선택</option>
-                                <option value="Y" <c:out value="${param.searchKeyword3 eq 'Y' ? 'selected=selected':'' }"/>>반영</option>
-                                <option value="N" <c:out value="${param.searchKeyword3 eq 'N' ? 'selected=selected':'' }"/>>미반영</option>
+                                <option value="Y" ${param.searchKeyword3 eq 'Y' ? 'selected="selected"':'' }>반영</option>
+                                <option value="N" ${param.searchKeyword3 eq 'N' ? 'selected="selected"':'' }>미반영</option>
                             </select>
                         </li>
                         <li class="ml10">
@@ -404,26 +404,26 @@ $(function(){
 							<c:forEach var="list" items="${list}" varStatus="idx">
 								<tr>
 									<td class="invisible">
-									   <input type="checkbox" name="cmptSeq" class="index" value="<c:out value='${list.CMPT_SEQ}'/>">
-									   <input type="hidden"  name="cmptSeqOlds" value="<c:out value='${list.CMPT_SEQ}'/>">
+									   <input type="checkbox" name="cmptSeq" class="index" value="${list.CMPT_SEQ}">
+									   <input type="hidden"  name="cmptSeqOlds" value="${list.CMPT_SEQ}">
 									</td>
-									<td><c:out value="${paginationInfo.totalRecordCount - ((paginationInfo.currentPageNo-1) * paginationInfo.recordCountPerPage+ idx.index)}"/></td>
+									<td>${paginationInfo.totalRecordCount - ((paginationInfo.currentPageNo-1) * paginationInfo.recordCountPerPage+ idx.index)}</td>
 									<td>
-										<c:out value="${list.CMPT_REQST_YMD}"/> (<c:out value="${list.DAY }"/>) <c:out value="${list.CMPT_REQST_HH}"/> : <c:out value="${list.CMPT_REQST_MM}"/>
+										${list.CMPT_REQST_YMD} (${list.DAY }) ${list.CMPT_REQST_HH} : ${list.CMPT_REQST_MM}
 									</td>
-									<td><c:out value="${list.USER_NM}"/></td>
-									<td><c:out value="${list.CMPT_REQST_TITLE}"/></td>
+									<td>${list.USER_NM}</td>
+									<td>${list.CMPT_REQST_TITLE}</td>
 									<td>
-										<button class="btn <c:out value="${list.REFLCT_YN eq 'Y'? 'btn-primary' : 'btn-danger' }"/> id="test<c:out value='${idx }'/>" name="reflctBtn" type="button" style="padding: 7px 13px;" data-cmpt-seq="<c:out value='${list.CMPT_SEQ }'/>" data-reflct-yn="<c:out value='${list.REFLCT_YN}'/>" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>>
+										<button class="btn ${list.REFLCT_YN eq 'Y'? 'btn-primary' : 'btn-danger' }" id="test${idx }" name="reflctBtn" type="button" style="padding: 7px 13px;" data-cmpt-seq="${list.CMPT_SEQ }" data-reflct-yn="${list.REFLCT_YN}" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}>
                                             <i class="fa" title="반영/미반영"></i><c:if test="${list.REFLCT_YN eq 'Y'}">반영</c:if><c:if test="${list.REFLCT_YN ne 'Y'}">미반영</c:if>
                                         </button>
                                         <c:if test="${list.REFLCT_YN eq 'Y' and not empty list.REFLCT_YMD }">
-                                        	(<c:out value="${list.REFLCT_YMD}"/> <c:out value="${list.REFLCT_HH }"/>:<c:out value="${list.REFLCT_MM }"/>)
+                                        	(${list.REFLCT_YMD} ${list.REFLCT_HH }:${list.REFLCT_MM })
                                         </c:if>
                                     </td>
                                     <td>
                                     	<c:if test="${list.ANSWER_CONFIRM_AT eq 'Y'}">
-	                                    	<!-- button class="btn btn-warning" type="button" style="padding: 7px 10px;">확인요청</button-->
+	                                    	<button class="btn btn-warning" type="button" style="padding: 7px 10px;">확인요청</button>
                                     	</c:if>
                                     </td>
 								</tr>
@@ -446,7 +446,7 @@ $(function(){
 					<c:if test="${pageInfo.INSERT_AT eq 'Y'}">
 						<c:if test="${userinfo.userId eq 'master' }">
 							<label class="checkbox checkboxCenter col ml10 mt5">
-								<input type="checkbox" id="answerConfirmAt" name="answerConfirmAt" value="Y" <c:out value="${result.ANSWER_CONFIRM_AT eq 'Y' ? 'checked=checked':''}"/>><i></i>
+								<input type="checkbox" id="answerConfirmAt" name="answerConfirmAt" value="Y" ${result.ANSWER_CONFIRM_AT eq 'Y' ? 'checked="checked"':''}><i></i>
 							</label>
 							<span class="col mt7 ml50 mr5">답변확인요청</span>
 						</c:if>		                    
@@ -469,7 +469,7 @@ $(function(){
                         </colgroup> -->
                         <tbody id="1on1Detail">
                             <td class="">
-                                <textarea id="contents" name="contents" class="part_long " style="width: 100%; min-width: 100%;" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '' : 'disabled'}"/>><%-- <c:out value="${list.ANSWER_CONTENT}"/> --%></textarea>
+                                <textarea id="contents" name="contents" class="part_long " style="width: 100%; min-width: 100%;" ${pageInfo.INSERT_AT eq 'Y' ? '' : 'disabled'}><%-- ${list.ANSWER_CONTENT} --%></textarea>
                             </td>
                         </tbody>
                     </table>

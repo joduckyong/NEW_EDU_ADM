@@ -19,10 +19,10 @@
 	$(function(){
 		var excelPg = 0;	
 	    var baseInfo = {
-	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
-	            lUrl : "<c:out value='${pageInfo.MENU_URL }'/>",
+	            insertKey : "${common.baseType[0].key() }",
+	            updateKey : "${common.baseType[1].key() }",
+	            deleteKey : "${common.baseType[2].key() }",
+	            lUrl : "${pageInfo.MENU_URL }",
 	            //lUrl : "/ncts/mngr/edcComplMngr/mngrLctreOffList.do",
 	            fUrl : "/ncts/mngr/edcComplMngr/mngrLctreOffForm.do",
 	            dUrl : "/ncts/mngr/edcComplMngr/mngrDeleteOffLctre.do",
@@ -44,8 +44,8 @@
 	            	var videoAt;
 	            	if(data.de == undefined) {
 	            		var param = {
-	            			searchCondition1 : "<c:out value='${searchCondition1}'/>" == "Y" ? "<c:out value='${searchCondition1}'/>" : "",
-	            			searchCondition2 : "<c:out value='${searchCondition2}'/>" == "Y" ? "<c:out value='${searchCondition2}'/>" : "",
+	            			searchCondition1 : "${searchCondition1}" == "Y" ? "${searchCondition1}" : "",
+	            			searchCondition2 : "${searchCondition2}" == "Y" ? "${searchCondition2}" : "",
 	            		};
 	            		$("#detailTable").handlerbarsCompile($("#detail-template"), param);
 						videoAt = param.searchCondition1;
@@ -527,10 +527,10 @@
                                 <c:forEach var="list" items="${codeMap.DMH14 }" varStatus="idx">
                                     <c:if test="${(idx.index lt 5) or (idx.index eq 7) or (idx.index eq 8)}">
                                     	<c:if test="${not empty sGubun1 and sGubun1 eq list.CODE}">
-                                    		<option value="<c:out value='${list.CODE }'/>" <c:out value="${sGubun1 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
+                                    		<option value="${list.CODE }" ${sGubun1 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
                                     	</c:if>
                                     	<c:if test="${empty sGubun1 and sGubun1 ne list.CODE}">
-                                    		<option value="<c:out value='${list.CODE }'/>" <c:out value="${param.sGubun1 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
+                                    		<option value="${list.CODE }" ${param.sGubun1 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
                                     	</c:if>
                                     </c:if>
                                 </c:forEach>
@@ -539,7 +539,7 @@
                         
                         <li class="smart-form ml5">
 							<label class="checkbox checkboxCenter col ml10 mt5">
-								<input type="checkbox" id="searchCondition1" name="searchCondition1" value="Y" <c:out value="${param.searchCondition1 eq 'Y' or searchCondition1 eq 'Y' ? 'checked=checked':''}"/>><i></i>
+								<input type="checkbox" id="searchCondition1" name="searchCondition1" value="Y" ${param.searchCondition1 eq 'Y' or searchCondition1 eq 'Y' ? 'checked="checked"':''}><i></i>
 							</label>
 							<span class="col ml50 mr5" style="padding-left: 0; margin-top: 8px;">동영상</span>                        
                         </li>
@@ -598,13 +598,13 @@
 							<c:forEach var="list" items="${list}" varStatus="idx">
 								<tr>
 									<td class="invisible">
-									   <input type="checkbox" name="lectureId" class="index" value="<c:out value='${list.LECTURE_ID}'/>">
-									   <input type="hidden"  name="lectureIdOlds" value="<c:out value='${list.LECTURE_ID}'/>">
+									   <input type="checkbox" name="lectureId" class="index" value="${list.LECTURE_ID}">
+									   <input type="hidden"  name="lectureIdOlds" value="${list.LECTURE_ID}">
 									</td>
-									<td><c:out value="${list.LECTURE_ID}"/></td>
-									<td><c:out value="${list.LECTURE_NM}"/></td>
+									<td>${list.LECTURE_ID}</td>
+									<td>${list.LECTURE_NM}</td>
 									<td>
-										<c:out value="${list.COURSES_NM}"/>
+										${list.COURSES_NM}
 								            <%-- <c:if test="${idxx.index eq '0'}">
 								                ${list.COURSES00 eq codelist.CODE ? codelist.CODE_NM : ""}
 								            </c:if>
@@ -628,8 +628,8 @@
                                             </c:if>
 								        </c:forEach> --%>
 									</td>
-									<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
-									<td><button class="btn btn-primary" name="registReplcLec" type="button" style="padding: 7px 13px;" data-lecture-id="<c:out value='${list.LECTURE_ID }'/>" data-courses="<c:out value='${list.COURSES }'/>" data-active-yn="<c:out value='${list.ACTIVE_YN}'/>" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>>
+									<td>${list.FRST_REGIST_PNTTM}</td>
+									<td><button class="btn btn-primary" name="registReplcLec" type="button" style="padding: 7px 13px;" data-lecture-id="${list.LECTURE_ID }" data-courses="${list.COURSES }" data-active-yn="${list.ACTIVE_YN}" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'} }>
                                             <i class="fa" title="활성/비활성"></i><c:if test="${list.ACTIVE_YN eq 'N'}">비활성</c:if><c:if test="${list.ACTIVE_YN eq 'Y'}">활성</c:if>
                                         </button>
                                     </td>
@@ -712,12 +712,12 @@
         <c:forEach var="list" items="${codeMap.DMH14 }" varStatus="idx">
 			<c:if test="${(idx.index lt 5) or (idx.index eq 7) or (idx.index eq 8)}">
 				<c:if test="${not empty sGubun1 and sGubun1 eq list.CODE}">
-					<input type="checkbox" name="courses" class="courses" value='<c:out value="${list.CODE }"/>' checked=checked><i></i>
+					<input type="checkbox" name="courses" class="courses" value="${list.CODE }" checked="checked"><i></i>
                 	${list.CODE_NM }
 				</c:if>
 				<c:if test="${empty sGubun1 and sGubun1 ne list.CODE}">
-					<input type="checkbox" name="courses" class="courses" value='<c:out value="${list.CODE }"/>' {{#ifeq COURSES '<c:out value="${list.CODE}"/>'}}checked=checked{{/ifeq}}><i></i>
-					<c:out value="${list.CODE_NM }"/>
+					<input type="checkbox" name="courses" class="courses" value="${list.CODE }" {{#ifeq COURSES '${list.CODE}'}}checked="checked"{{/ifeq}}><i></i>
+               		${list.CODE_NM }
             	</c:if>
 			</c:if>
         </c:forEach>

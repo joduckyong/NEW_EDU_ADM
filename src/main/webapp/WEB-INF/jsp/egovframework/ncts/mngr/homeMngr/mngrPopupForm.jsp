@@ -1,274 +1,195 @@
-
- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script type="text/JavaScript" src="<c:url value='/html/com/cmm/utl/ckeditor/ckeditor.js' />?<c:out value='${currentTimeMillis}'/>"></script>
 <script type="text/JavaScript" src="<c:url value='/js/egovframework/ckeditFun.js' />"></script>
 <script type="text/javascript">
 
-	$(function(){
-	    var baseInfo = {
-	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
-	            lUrl : "/ncts/mngr/homeMngr/mngrVideoNoticeList.do",
-	            fUrl : "/ncts/mngr/homeMngr/mngrVideoNoticeForm.do",
-	            dUrl : "/ncts/mngr/homeMngr/mngrDeleteVideoNotice.do",
-	    }
-	    
-	    $.dataDetail = function(index, obj){
-	        if($.isNullStr(index)) return false;
+$(function(){
+	// ckEditor Height 설정
+	CKEDITOR.replace('contents',{height : 400});
+	
+	var baseInfo = {
+			insertKey : "${common.baseType[0].key() }",
+            updateKey : "${common.baseType[1].key() }",
+            deleteKey : "${common.baseType[2].key() }",
+            lUrl : "/ncts/mngr/homeMngr/mngrPopupList.do",
+            fUrl : "/ncts/mngr/homeMngr/mngrPopupForm.do",
+            dUrl : "/ncts/mngr/homeMngr/mngrDeletePopup.do",
+            excel : "/ncts/mngr/homeMngr/mngrPopupDownload.do"
+	}	
+	
+	$.setValidation = function(){
+		validator = $("#iForm").validate({
+			ignore : "",
+			rules: {
+				popShowYn    : {required       : ['팝업여부']},
+				title               : {required       : ['제목']},
+				contentsSnapshot    : {required       : ['내용']},
+				popBasicformYn    : {required       : ['팝업배경']},
+			}
+		});
+	}
+	
+	$.saveProc = function(){
+		if(!confirm("저장하시겠습니까?")) return;
+		if(!$('input[name=popNo]').val())$('input[name=popNo]').val(0)
+		makeSnapshot(document.iForm, "contents");
+		
+		$("#iForm").ajaxForm({
+			type: 'POST',
+			url: "/ncts/mngr/homeMngr/mngrProgressPopup.do",
+			dataType: "json",
+			success: function(result) {
+				alert(result.msg);
+				if(result.success == "success") location.replace(baseInfo.lUrl);	
+			}
+        });
 
-	        document.sForm.bbsNo.value = index;
-	        
-	        $.ajax({
-	            type: 'POST',
-	            url: "/ncts/mngr/homeMngr/mngrVideoNoticeDetail.do",
-	            data: $("#sForm").serialize(),
-	            dataType: "json",
-	            success: function(data) {
-	                if(data.success == "success"){
-	                	data.de.YOUTUBE_ID=data.de.YOUTUBE_ID.replace("https://youtu.be/","");
-	                    $("#detailTable").handlerbarsCompile($("#detail-template"), data.de);
-	                }
-	            }
-	        })
-	    } 
-	    
-	    $.fn.procBtnOnClickEvt = function(url, key){
-	        var _this = $(this);
-	        _this.on("click", function(){
-	            if(baseInfo.insertKey != key){
-	                if($("input.index:checked").size() <= 0) {
-	                    alert("항목을 선택하시기 바랍니다.");
-	                    return false;
-	                }else{
-	                    /* document.sForm.userNo.value = $("input.index:checked").val(); */
-	                } 
-	            }else{
-	               /*  document.sForm.userNo.value = ""; */
-	            }
-	            if(baseInfo.deleteKey == key){
-	            	$.delAction(url, key);
-	            }else{
-	                $.procAction(url, key);	
-	            }
-	        })
-	    }
-	    
-	    $.procAction = function(pUrl, pKey){
-	        with(document.sForm){
-	            procType.value = pKey;
-	            action = pUrl;
-	            target='';
-	            submit();
-	        }
-	    }
-	    
-	    $.delAction = function(pUrl, pKey){
-	        if(!confirm("삭제하시겠습니까?")) return false;
-	        document.sForm.procType.value = pKey;
-	        $.ajax({
-	            type: 'POST',
-	            url: pUrl,
-	            data: $("#sForm").serialize(),
-	            dataType: "json",
-	            success: function(data) {
-	                alert(data.msg);
-	                if(data.success == "success"){
-	                    $.searchAction();
-	                }
-	            }
-	        });
-	    }
-	    
-	    $.searchAction = function(){
-	        var no = 1;
-	        if(typeof(arguments[0]) != "undefined") no = arguments[0].pageNo;
-	        with(document.sForm){
-	            currentPageNo.value = no;
-	            action = baseInfo.lUrl;
-	            target='';
-	            submit();
-	        }
-	    }
-	    
-	    $.fn.oneOnOneSave = function(){
-	    	var _this = $(this);
-            _this.on("click", function(){
-            //	if(!confirm("답변하시겠습니까?")) return false;
-                makeSnapshot(document.iForm, "contents");
-            	
-                $("#iForm").ajaxForm({
-                    type: 'POST',
-                    url: "/ncts/mngr/homeMngr/mngrBbsAnswerManage.do",
-                    dataType: "json",
-                    success: function(result) {
-                        alert(result.msg);
-                        if(result.success == "success") location.replace(baseInfo.lUrl);    
-                    }
-                });
-
-                $("#iForm").submit();
-            })
-	    }
-	    
-	    
-	    $.initView = function(){
-	        $.onClickTableTr();
-	        $("#searchBtn").searchBtnOnClickEvt($.searchAction);
-	        $("#saveBtn").procBtnOnClickEvt(baseInfo.fUrl, baseInfo.insertKey);
-	        $("#updBtn").procBtnOnClickEvt(baseInfo.fUrl, baseInfo.updateKey);
-	        $("#delBtn").procBtnOnClickEvt(baseInfo.dUrl, baseInfo.deleteKey);
-	        $("#answerOneOnOne").oneOnOneSave();
-	        $(".excelDown").on("click", function(){
-	            with(document.sForm){
-	                target = "";
-	                action = baseInfo.excel;
-	                submit();
-	            }
-	        });
-	        
-	    }
-
-        $.initView();
-	})
+        $("#iForm").submit();
+		
+	}
+	
+	$.searchAction = function(){
+		with(document.sForm){
+			action = baseInfo.lUrl;
+			target='';
+			submit();
+		}
+	}
+	
+	$.fn.saveBtnOnClickEvt = function(){
+		var _this = $(this);
+		_this.on("click", function(){
+			if(!$("#iForm").valid()) {
+				validator.focusInvalid();
+				return false;
+			}
+			$.saveProc();	
+		})
+	}
+			
+	$.initView = function(){
+		$(".inputcal").each(function(){ $(this).userDatePicker({ yearRange : '1900:'+currentYear}); });
+		$("#listBtn").goBackList($.searchAction);
+		$.setValidation();
+		$("#saveBtn").saveBtnOnClickEvt();
+		$(".onlyNum").onlyNumber(4);
+	}
+	
+	$.initView(); 
+	
+})
 </script>
 
 		
 <jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/ribbon.jsp" flush="false" />
 
+<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/tabmenu.jsp" flush="false" />
 <!-- MAIN CONTENT -->
 <div id="content">
 	<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/menuTitle.jsp" flush="false" />
 	
 	<!-- widget grid start -->
 	<section id="widget-grid" class="">
+	
+		
 		<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-                <input type="hidden" name="bbsNo" id="bbsNo"  value="0">
-                <input type="hidden" name="bbsTypeCd" value="10">
-                <div class="fL wp75">
-                    <ul class="searchAreaBox">
-                        <li class="smart-form ml5">
-                            <label class="label">제목</label>
-                        </li>
-                        <li class="w200 ml5" id = "search">
-                            <input id="searchKeyword1" name="searchKeyword1" class="form-control" value='<c:out value="${param.searchKeyword1}"/>'>
-                        </li>
-                        <li class="smart-form ml5">
-                            <label class="label">내용</label>
-                        </li>
-                        <li class="w250 ml5" id = "search">
-                            <input id="searchKeyword2" name="searchKeyword2" class="form-control" value='<c:out value="${param.searchKeyword2}"/>'>
-                        </li>
-                        <li class="ml10">
-                            <button class="btn btn-primary searchReset" type="button" id="searchBtn"><i class="fa fa-search"></i> 검색</button>
-                        </li>
-                    </ul>
-                </div>
-                <jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/button.jsp" flush="false">
-                    <jsp:param value="list"     name="formType"/>
-                    <jsp:param value="2,3,4"  name="buttonYn"/>
-                </jsp:include>
-                <jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-            </form>
+				<input type="hidden" id="searchKeyword1" name="searchKeyword1" class="form-control" value='<c:out value="${param.searchKeyword1}"/>'>
+				<div class="fL wp50">
+					<ul class="searchAreaBox">
+					</ul>
+				</div>
+				<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/button.jsp" flush="false">
+					<jsp:param value="form"     name="formType"/>
+					<jsp:param value="1,2"     name="buttonYn"/>
+				</jsp:include>
+				<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
+                 
+			</form>
 		</div>
 		<!-- Search 영역 끝 -->
-	
-		<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/tabmenu.jsp" flush="false" />
+        <jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/tabmenu.jsp" flush="false" />
 		
 		<div class="content">
 			<!-- row 메뉴조회 시작 -->
 			<div class="row">
-				<article class="col-md-12 col-lg-6">
-					<table class="table table-bordered tb_type01 listtable">
-						<colgroup>
-							<col width="25%">
-							<col width="45%">
-                            <col width="30%">
-						</colgroup>
-						<thead>
-							<tr>
-								<th class="invisible"></th>
-								<th>작성자</th>
-								<th>제목</th>
-								<th>작성일</th>
-								<!-- <th>기간(시작)</th>
-								<th>기간(종료)</th>
-								<th>활동내용</th> -->
-							</tr>
-						</thead>
-						<tbody>
-							<c:if test="${empty list }">
-								<tr ><td colspan="3">데이터가 없습니다.</td></tr>
-							</c:if>
-							<c:forEach var="list" items="${list }" varStatus="idx">
+				<article class="col-md-12 col-lg-12">
+					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
+						<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
+						<input type="hidden" id="popNo" name="popNo" value="${result.POP_NO}">
+						<input type="hidden" name="atchFileId" value="${result.ATCH_FILE_ID}">
+						<input type="hidden" name="centerCd" value="<sec:authentication property="principal.centerId"/>" >
+						
+						<table class="table table-bordered tb_type03">
+							<colgroup>
+								<col width="10%">
+	                            <col width="8%">
+	                            <col width="8%">
+	                            <col width="15%">
+	                            <col width="8%">
+	                            <col width="8%">
+	                            <col width="8%">
+	                            <col width="15%">
+	                            <col width="10%">
+	                            <col width="10%">
+							</colgroup>
+							<tbody>
+                                <tr>
+	                                <th scope="row">팝업여부 </th>
+	                                <td><select id="popShowYn" name="popShowYn" class="form-control" style="text-align-last:center;">
+                                            <option value="">선택</option>
+                                            <option value="Y" ${result.POP_SHOW_YN eq 'Y' ? 'selected="selected"':''}>Y</option>
+                                            <option value="N" ${result.POP_SHOW_YN eq 'N' ? 'selected="selected"':''}>N</option>
+                                        </select>
+                                    </td>
+	                                <th scope="row">위치 </th>
+	                                <td>상단 : <input type="text" id="popTop" name="popTop" value="${result.POP_TOP}" style="width:45px;height: 25px;border: 1px solid #ccc;" class="onlyNum">&nbsp;&nbsp;
+	                                                                                                좌측 : <input type="text" id="popLeft" name="popLeft" value="${result.POP_LEFT}" style="width:45px;height: 25px;border: 1px solid #ccc;" class="onlyNum">
+                                    </td>
+	                                <th scope="row">팝업배경 </th>
+	                                <td><select id="popBasicformYn" name="popBasicformYn" class="form-control" style="text-align-last:center;">
+                                            <option value="">선택</option>
+                                            <option value="Y" ${result.POP_BASICFORM_YN eq 'Y' ? 'selected="selected"':''}>Y</option>
+                                            <option value="N" ${result.POP_BASICFORM_YN eq 'N' ? 'selected="selected"':''}>N</option>
+                                        </select>
+                                    </td>
+	                                <th scope="row">크기 </th>
+	                                <td>가로 : <input type="text" id="popWidth" name="popWidth" value="${result.POP_WIDTH}" style="width:45px;height: 25px;border: 1px solid #ccc;" class="onlyNum">&nbsp;&nbsp;
+                                                                                                           세로 : <input type="text" id="popHeight" name="popHeight" value="${result.POP_HEIGHT}" style="width:45px;height: 25px;border: 1px solid #ccc;" class="onlyNum">
+                                    </td>
+	                                <th scope="row">시간(분 기준) </th>
+	                                <td>
+	                                <input type="text" id="popCloseHour" name="popCloseHour" value="${result.POP_CLOSE_HOUR}" style="width:60px;height: 25px;border: 1px solid #ccc;" class="onlyNum"></td>
 								<tr>
-									<td class="invisible">
-										<input type="checkbox" class="index" value="<c:out value='${list.BBS_NO}'/>">
+									<th scope="row">제목 </th>
+									<td colspan="9">
+										<label class="input w500 col">
+											<input type="text" id="title" name="title" value="${result.TITLE}">
+										</label>
 									</td>
-									<td><c:out value="${list.LAST_USER_NM}"/></td>
-									<td><c:out value="${list.TITLE}"/></td>
-									<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
 								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-					<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/pageinfo.jsp" flush="false" />
+								<tr>
+									<th scope="row">내용 </th>
+									<td colspan="9" class="board_contents">
+										<textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;">${result.CONTENTS}</textarea>
+									</td>
+								</tr>
+								<tr>
+                                    <th scope="row">첨부파일 </th>
+                                    <td colspan="9">
+                                        ${markup }
+                                    </td>
+                                </tr>
+							</tbody>
+						</table>
+					</form>
 				</article>
 				
-				<article class="col-md-12 col-lg-6">
-					<table class="table table-bordered tb_type03">
-						<colgroup>
-							<col width="15%">
-							<col width="35%">
-							<col width="15%">
-							<col width="35%">
-						</colgroup>
-						<tbody id="detailTable">
-							<tr><td colspan="4" class="textAlignCenter">항목을 선택해주세요.</td></tr>
-						</tbody>
-					</table>
-				</article>
 			</div>
 			<!-- row 메뉴조회 끝 -->
 		</div>
 	</section>
 	<!-- widget grid end -->
-
 </div>
 <!-- END MAIN CONTENT -->
-
-<script id="detail-template" type="text/x-handlebars-template">
-<tr>
-	<th scope="row">제목</th>
-	<td colspan="3">{{TITLE}}</td>
-</tr>
-<tr>
-	<th scope="row">URL</th>
-	<td colspan="3">{{YOUTUBE_ID}}</td>
-</tr>
-<tr>
-    <th scope="row">썸네일 이미지</th>
-    <td colspan="3">{{safe fileView}}</td>
-</tr>
-<tr>
-	<th scope="row">미리보기</th>
-	<td colspan="3" class="board_contents">
-		<iframe width="100%" height="400px" name="vod01" title="vod01" src="https://www.youtube.com/embed/{{YOUTUBE_ID}}"></iframe>
-		<br>
-		<br>
-		{{safe CONTENTS}}
-	</td>
-</tr>
-<tr>
-	<th scope="row">홈페이지<br> 게시여부 </th>
-	<td colspan="3">{{HOMEPAGE_AT}}</td>
-</tr>
-<tr>
-	<th scope="row">작성자 </th>
-	<td>{{LAST_USER_NM}}</td>
-	<th scope="row">작성일</th>
-	<td>{{FRST_REGIST_PNTTM}}</td>
-</tr>
-</script>

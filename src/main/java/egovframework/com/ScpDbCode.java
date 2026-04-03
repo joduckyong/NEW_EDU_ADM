@@ -29,12 +29,13 @@ public class ScpDbCode {
 			
 			return value;
 			
-		} catch (ScpDbAgentException e) {
-			LOGGER.debug(e.getMessage());
+		} catch (ScpDbAgentException e1) {
+			LOGGER.debug(e1.getMessage());
+		    e1.printStackTrace();
 	    }
 		catch (Exception e) {
 			LOGGER.debug(e.getMessage());
-//			e.printStackTrace();      
+			e.printStackTrace();      
 		}
 		
 		return value;

@@ -19,9 +19,9 @@
 
 	$(function(){
 	    var baseInfo = {
-	            insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-	            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-	            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+	            insertKey : "${common.baseType[0].key() }",
+	            updateKey : "${common.baseType[1].key() }",
+	            deleteKey : "${common.baseType[2].key() }",
 	            lUrl : "/ncts/mngr/instrctrMngr/instrctrActList.do",
 	            instrctrTabPop : "/ncts/mngr/instrctrMngr/instrctrTabPopup.do"
 	            /* fUrl : "/ncts/mngr/instrctrMngr/instrctrForm.do", */
@@ -45,7 +45,7 @@
 	                if(data.success == "success"){
 	                	var userCenterCd = $("#userCenterCd").val();
 	                	data.DTY_EDU_YN = $("#dtyEduYn").val();
-	                	data.INSERT_AT = "<c:out value='${pageInfo.INSERT_AT}'/>";
+	                	data.INSERT_AT = "${pageInfo.INSERT_AT}";
 	                	data.BUTTON_AT = (userCenterCd == obj.reqstCenterCd) || userCenterCd == "10000000" || $("#userId").val() == "master" ? "Y":"N";
 	                    $("#detailTable").handlerbarsCompile($("#detail-template"), data);
 	                    
@@ -61,7 +61,7 @@
 	                    
 	                    /* var $certCdList = $("#certCdList");
 	                    if(data.de.dtyEduYn == "Y") {
-		                    data.lectureIds.certCd = "<c:out value='${param.certCd}'/>";
+		                    data.lectureIds.certCd = "${param.certCd}";
 		                    $certCdList.find("ul").handlerbarsCompile($("#cert-cd-template"), data.lectureIds);
 		                    $certCdList.show();
 	                    } else {
@@ -281,7 +281,7 @@
 								<select name="centerCd" id="centerCd" class="form-control">
 									<option value="">전체</option>
 									<c:forEach var="center" items="${centerList }" varStatus="idx">
-										<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq paginationInfo.centerCd ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
+										<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq paginationInfo.centerCd ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
 									</c:forEach>
 								</select> <i></i>
 							</li>
@@ -300,7 +300,7 @@
                                 <option value="">전체</option>
 								<c:forEach var="list" items="${codeMap.DMH19 }" varStatus="idx">
 									<c:if test="${list.CODE ne '03'}">
-		                                <option value="<c:out value='${list.CODE }'/>" <c:out value="${param.sGubun eq list.CODE ? 'selected=selected':'' }"/>><c:out value='${list.CODE_NM }'/></option>
+		                                <option value="${list.CODE }" ${param.sGubun eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }</option>
 									</c:if>
 								</c:forEach>
                             </select>
@@ -310,9 +310,9 @@
                         <li class="w100 mr5">
                             <select id="sGubun1" name="sGubun1" class="form-control">
                                 <option value="">전체</option>
-                                <option value="B" <c:out value="${param.sGubun1 eq 'B' ? 'selected=selected':'' }"/>>모집전</option>
-                                <option value="I" <c:out value="${param.sGubun1 eq 'I' ? 'selected=selected':'' }"/>>모집중</option>
-                                <option value="A" <c:out value="${param.sGubun1 eq 'A' ? 'selected=selected':'' }"/>>모집완료</option>
+                                <option value="B" ${param.sGubun1 eq 'B' ? 'selected="selected"':'' }>모집전</option>
+                                <option value="I" ${param.sGubun1 eq 'I' ? 'selected="selected"':'' }>모집중</option>
+                                <option value="A" ${param.sGubun1 eq 'A' ? 'selected="selected"':'' }>모집완료</option>
                             </select>
                         </li>
                         
@@ -382,20 +382,20 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value="<c:out value='${list.EDU_SEQ}'/>">
-									    <input type="hidden" name="eduDivision" value="<c:out value='${list.EDU_DIVISION}'/>">
-									    <input type="hidden" name="dtyEduYn" value="<c:out value='${list.DTY_EDU_YN}'/>">
-									    <input type="hidden" name="lectureId" value="<c:out value='${list.LECTURE_ID}'/>">
-									    <input type="hidden" name="reqstCenterCd" value="<c:out value='${list.CENTER_CD}'/>">
+										<input type="checkbox" class="index" value="${list.EDU_SEQ}">
+									    <input type="hidden" name="eduDivision" value="${list.EDU_DIVISION}">
+									    <input type="hidden" name="dtyEduYn" value="${list.DTY_EDU_YN}">
+									    <input type="hidden" name="lectureId" value="${list.LECTURE_ID}">
+									    <input type="hidden" name="reqstCenterCd" value="${list.CENTER_CD}">
 									</td>
-									<td><c:out value="${list.EDU_DIVISION_NM }"/></td>
-									<td><c:out value="${list.EDU_DATE}"/></td>
-									<td><c:out value="${list.EDU_NM}"/></td>
-									<td><c:out value="${list.EDU_TARGET_TYPE}"/></td>
-									<td><c:out value="${list.EDU_PLACE}"/></td>
-									<td><c:if test="${empty list.CNT }">0</c:if><c:out value="${list.CNT}"/>/10</td>
-									<td><c:out value="${list.YN}"/></td>
-									<td><c:out value="${list.CENTER_NM}"/></td>
+									<td>${list.EDU_DIVISION_NM }</td>
+									<td>${list.EDU_DATE}</td>
+									<td>${list.EDU_NM}</td>
+									<td>${list.EDU_TARGET_TYPE}</td>
+									<td>${list.EDU_PLACE}</td>
+									<td><c:if test="${empty list.CNT }">0</c:if>${list.CNT }/10</td>
+									<td>${list.YN}</td>
+									<td>${list.CENTER_NM}</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -459,7 +459,7 @@
 	</td>
 	<td colspan="3">
         <div class="wp1">
-            <button class="btn btn-default ml2 mb5 reportDown" type="button" name="reportBtn" data-user-no="{{INSTRCTR_NO}}" <c:out value="${pageInfo.REPORT_AT eq 'Y' ? '':'disabled'}"/>><i class="fa fa-edit" title="리포트 출력" ></i> 리포트</button></ul>
+            <button class="btn btn-default ml2 mb5 reportDown" type="button" name="reportBtn" data-user-no="{{INSTRCTR_NO}}" ${pageInfo.REPORT_AT eq 'Y' ? '':'disabled'}><i class="fa fa-edit" title="리포트 출력" ></i> 리포트</button></ul>
 			{{#ifeq ../INSERT_AT 'Y'}}
 				{{#ifeq ../DTY_EDU_YN 'Y'}}
 					<select name="certCd" class="form-control certCd" style="width:20%; height:34px; display:inline-block; padding:2px;">

@@ -2,7 +2,6 @@ package egovframework.ncts.mngr.common.service.impl;
 
 import java.io.File;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +31,6 @@ import com.nbp.ncp.nes.model.EmailSendRequest;
 import com.nbp.ncp.nes.model.EmailSendRequestRecipients;
 import com.nbp.ncp.nes.model.EmailSendResponse;
 import com.nbp.ncp.nes.model.FileUploadResponse;
-import com.penta.scpdb.ScpDbAgent;
-import com.penta.scpdb.ScpDbAgentException;
 
 import egovframework.com.ParamUtils;
 import egovframework.com.cmm.EgovMessageSource;
@@ -55,30 +52,7 @@ public class EgovNctsMngrMailServiceImpl implements EgovNctsMngrMailService {
     /** log */
     private static final Logger LOGGER = LoggerFactory.getLogger(EgovNctsMngrMailServiceImpl.class);
 	final static  String FILE_SEPARATOR = System.getProperty("file.separator");
-//	public static final String RELATIVE_PATH_PREFIX = EgovProperties.class.getResource("").getPath().substring(0, EgovProperties.class.getResource("").getPath().lastIndexOf("com"));
-	public static final String RELATIVE_PATH_PREFIX;
-
-	static {
-	    // 1. getResource("") 단 1회 호출, null 검증
-	    URL resource = EgovProperties.class.getResource("");
-	    if (resource == null) {
-	        throw new IllegalStateException(
-	            "[EgovProperties] 클래스 리소스 경로를 확인할 수 없습니다. " +
-	            "클래스 로더 환경을 점검하세요.");
-	    }
-
-	    String path = resource.getPath();
-
-	    // 2. "com" 세그먼트 존재 여부 검증 → lastIndexOf가 -1이면 substring 오류 방지
-	    int comIdx = path.lastIndexOf("com");
-	    if (comIdx < 0) {
-	        throw new IllegalStateException(
-	            "[EgovProperties] 경로에서 'com' 세그먼트를 찾을 수 없습니다. " +
-	            "패키지 구조를 확인하세요. 경로: " + path);
-	    }
-
-	    RELATIVE_PATH_PREFIX = path.substring(0, comIdx);
-	}		
+	public static final String RELATIVE_PATH_PREFIX = EgovProperties.class.getResource("").getPath().substring(0, EgovProperties.class.getResource("").getPath().lastIndexOf("com"));
 	public static final String CREDENTIALS_PROPERTIES_FILE = RELATIVE_PATH_PREFIX + "egovProps" + FILE_SEPARATOR + "credentials.properties";
 	public static final String X_NCP_LANG = "ko-KR";
 	
@@ -88,10 +62,6 @@ public class EgovNctsMngrMailServiceImpl implements EgovNctsMngrMailService {
 	@Resource(name = "egovMessageSource")
 	EgovMessageSource egovMessageSource;
 	
-//    String iniFilePath = "/penta/scpdb_agent.ini";
-    //String iniFilePath = "C:\\scp\\scpdb_agent.ini";
-    private final String iniFilePath = EgovProperties.getProperty("Globals.iniFilePath");
-    
 	public V1Api getApiInstane() throws Exception {
 		ApiClient apiClient = new ApiClient.ApiClientBuilder()
 				.addMarshaller(JsonMarshaller.getInstance())
@@ -124,7 +94,6 @@ public class EgovNctsMngrMailServiceImpl implements EgovNctsMngrMailService {
     
     @Override
     public void mngrSendEmail(MngrMailVO mailVo, PageInfoVO pageVO) throws Exception {
-    	ScpDbAgent agt = new ScpDbAgent();
     	List<EmailSendRequestRecipients> esrrList = emailSettings(mailVo, pageVO); 
     	List<String> fileList = fileSettings(mailVo, pageVO); 
     	
@@ -133,12 +102,6 @@ public class EgovNctsMngrMailServiceImpl implements EgovNctsMngrMailService {
 		int senderCnt = result.getBody().getCount();
 		mailVo.setRequestId(requestId);
 		mailVo.setMailSenderCnt(String.valueOf(senderCnt));
-		
-		if (mailVo.getMailSenderAddress() != null && !"".equals(mailVo.getMailSenderAddress())) {
-			String mailSenderAddress = agt.ScpEncB64(iniFilePath, "KEY1",mailVo.getMailSenderAddress());
-			mailVo.setMailSenderAddress(mailSenderAddress);
-		}
-		
 		egovNctsMngrMailMapper.insertMailRequest(mailVo); 
 		
 		Integer page = 0;
@@ -166,29 +129,15 @@ public class EgovNctsMngrMailServiceImpl implements EgovNctsMngrMailService {
 
 		if(null != mailVo.getPageType() && !"".equals(mailVo.getPageType())) {
 			if("MEMBER".equals(mailVo.getPageType())) {
-				ScpDbAgent agt = new ScpDbAgent();
 				List<HashMap<String, Object>> userList = egovNctsMngrMailMapper.selectMailAllUserList(mailVo);
 				
 				if(null != userList && !userList.isEmpty()) {
 					for(HashMap<String, Object> user : userList) {
-						
-				    	try {
-				    		EmailSendRequestRecipients esrr = new EmailSendRequestRecipients();
-				    		if (user.get("USER_EMAIL") != null && !"".equals(String.valueOf(user.get("USER_EMAIL")))) {
-				    			String userEmail = agt.ScpDecB64(iniFilePath, "KEY1",user.get("USER_EMAIL").toString(),"UTF-8");
-				    			esrr.setAddress(userEmail);
-				    		}
-				    		esrr.setType("R");
-				    		esrrList.add(esrr);
-				    		
-				    	}
-				    	catch (ScpDbAgentException e) {
-				    		LOGGER.info(e.getMessage());
-				    	}
-				    	catch (Exception e) {
-				    		LOGGER.info(e.getMessage());
-				    	} 
-				    	
+						EmailSendRequestRecipients esrr = new EmailSendRequestRecipients();
+						esrr.setType("R");
+						esrr.setAddress(String.valueOf(user.get("USER_EMAIL")));
+						esrr.setName(String.valueOf(user.get("USER_NM")));
+						esrrList.add(esrr);
 					}
 				} else throw new Exception("02");
 			}
@@ -293,27 +242,11 @@ public class EgovNctsMngrMailServiceImpl implements EgovNctsMngrMailService {
     
 	@Override
 	public void updateMailStatusList(MngrMailVO param) throws Exception {
-		
-		ScpDbAgent agt = new ScpDbAgent();
 		List<HashMap<String, Object>> updateList = egovNctsMngrMailMapper.selectMngrMailStatusUpdateList();
-        for (HashMap<String, Object> tmp : updateList) {
-        	try {
-	            if (tmp.get("USER_EMAIL") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL")))) {
-	            	tmp.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL").toString(),"UTF-8"));
-	            }
-	    	}
-	    	catch (ScpDbAgentException e) {
-	    		LOGGER.info(e.getMessage());
-	    	}
-	    	catch (Exception e) {
-	    		LOGGER.info(e.getMessage());
-	    	}               
-        }		
 		mailListProc(updateList, "");
 	}
 	
 	private void mailListProc(List<HashMap<String, Object>> mailResultList, String requestId) throws Exception {
-		ScpDbAgent agt = new ScpDbAgent();
 		V1Api apiInstance = getApiInstane();
 		
 		if(null != mailResultList && !mailResultList.isEmpty()) {
@@ -332,12 +265,6 @@ public class EgovNctsMngrMailServiceImpl implements EgovNctsMngrMailService {
 				mngrMailVO.setUserNo(userNo);
 				mngrMailVO.setUserEmail(result.getBody().getRecipients().get(0).getAddress());
 				mngrMailVO.setUserNm(result.getBody().getRecipients().get(0).getName());
-				
-		        if (mngrMailVO.getUserEmail() != null && !"".equals(mngrMailVO.getUserEmail())) {
-		        	String userEmail = agt.ScpEncB64(iniFilePath, "KEY1",mngrMailVO.getUserEmail());
-		        	mngrMailVO.setUserEmail(userEmail);
-		        	
-		        }
 				egovNctsMngrMailMapper.mailListProc(mngrMailVO);
 				
 			}
@@ -357,143 +284,43 @@ public class EgovNctsMngrMailServiceImpl implements EgovNctsMngrMailService {
 
 	@Override
 	public List<HashMap<String, Object>> selectMailAllUserList(MngrMailVO param) throws Exception {
-		ScpDbAgent agt = new ScpDbAgent();
-	    List<HashMap<String, Object>> list = egovNctsMngrMailMapper.selectMailAllUserList(param);
-	    for (HashMap<String, Object> tmp : list) {
-	    	try {
-	            if (tmp.get("USER_HP_NO") != null && !"".equals(String.valueOf(tmp.get("USER_HP_NO")))) {
-	            	tmp.put("USER_HP_NO", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_HP_NO").toString(),"UTF-8"));
-	            }
-	            if (tmp.get("USER_EMAIL") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL")))) {
-	            	tmp.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL").toString(),"UTF-8"));
-	            }
-	    	}
-	    	catch (ScpDbAgentException e) {
-	    		LOGGER.info(e.getMessage());
-	    	}
-	    	catch (Exception e) {
-	    		LOGGER.info(e.getMessage());
-	    	}    
-	    }
-		
-		return list;
+		return egovNctsMngrMailMapper.selectMailAllUserList(param);
 	}
 
 	@Override
 	public List<HashMap<String, Object>> selectMngrMailRequestList(PageInfoVO pageVO) throws Exception {
-		
-		ScpDbAgent agt = new ScpDbAgent();
 		int cnt = egovNctsMngrMailMapper.selectMngrMailRequestListTotCnt(pageVO);
 		pageVO.setTotalRecordCount(cnt);
-		
-	    List<HashMap<String, Object>> list = egovNctsMngrMailMapper.selectMngrMailRequestList(pageVO);
-	    // 결과값 변환 처리
-	    for (HashMap<String, Object> tmp : list) {
-	    	try {
-	            if (tmp.get("MAIL_SENDER_ADDRESS") != null && !"".equals(String.valueOf(tmp.get("MAIL_SENDER_ADDRESS")))) {
-	            	tmp.put("MAIL_SENDER_ADDRESS", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("MAIL_SENDER_ADDRESS").toString(),"UTF-8"));
-	            }
-	    	}
-	    	catch (ScpDbAgentException e) {
-	    		LOGGER.info(e.getMessage());
-	    	}
-	    	catch (Exception e) {
-	    		LOGGER.info(e.getMessage());
-	    	}    
-	    }
-
-	    return list;		
+		return egovNctsMngrMailMapper.selectMngrMailRequestList(pageVO);
 	}
 
 	@Override
 	public List<HashMap<String, Object>> selectMngrMailStatusList(PageInfoVO pageVO) throws Exception {
-		ScpDbAgent agt = new ScpDbAgent();
-		
-        if (pageVO.getSearchKeyword4() != null && !"".equals(pageVO.getSearchKeyword4())) {
-        	String searchKeyword4 = agt.ScpEncB64(iniFilePath, "KEY1",pageVO.getSearchKeyword4());
-        	pageVO.setSearchKeyword4(searchKeyword4);
-        }
 		int cnt = egovNctsMngrMailMapper.selectMngrMailStatusListTotCnt(pageVO);
 		pageVO.setTotalRecordCount(cnt);
-	    List<HashMap<String, Object>> list = egovNctsMngrMailMapper.selectMngrMailStatusList(pageVO);
-
-	    // 결과값 변환 처리
-	    for (HashMap<String, Object> tmp : list) {
-	    	try {
-	            if (tmp.get("USER_EMAIL1") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL1")))) {
-	            	tmp.put("USER_EMAIL1", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL1").toString(),"UTF-8"));
-	            }
-	            if (tmp.get("USER_EMAIL2") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL2")))) {
-	            	tmp.put("USER_EMAIL2", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL2").toString(),"UTF-8"));
-	            }
-	    	}
-	    	catch (ScpDbAgentException e) {
-	    		LOGGER.info(e.getMessage());
-	    	}
-	    	catch (Exception e) {
-	    		LOGGER.info(e.getMessage());
-	    	}    
-	    }
-	    
-	    return list;		
+		return egovNctsMngrMailMapper.selectMngrMailStatusList(pageVO);
 	}
 
 	@Override
 	public HashMap<String, Object> selectMngrMailRequestDetail(MngrMailVO param) throws Exception {
-		
-		ScpDbAgent agt = new ScpDbAgent();
 		HashMap<String, Object> rs = egovNctsMngrMailMapper.selectMngrMailRequestDetail(param);
-		try {
-	        if (rs.get("MAIL_SENDER_ADDRESS") != null && !"".equals(String.valueOf(rs.get("MAIL_SENDER_ADDRESS")))) {
-	        	rs.put("MAIL_SENDER_ADDRESS", agt.ScpDecB64(iniFilePath, "KEY1",rs.get("MAIL_SENDER_ADDRESS").toString(),"UTF-8"));
-	        }
-	        
-			rs.put("MAIL_BODY", ParamUtils.reverseHtmlTag((String)rs.get("MAIL_BODY")));
-			String fileView = FileViewMarkupBuilder.newInstance()
-					.atchFileId(StringUtils.defaultIfEmpty((String) rs.get("ATCH_FILE_ID"), ""))
-					.wrapMarkup("p")
-					.isIcon(true)
-					.isSize(true)
-					.build()
-					.toString();
-			rs.put("fileView", fileView);
-    	}
-    	catch (ScpDbAgentException e) {
-    		LOGGER.info(e.getMessage());
-    	}
-    	catch (Exception e) {
-    		LOGGER.info(e.getMessage());
-    	}    
+		rs.put("MAIL_BODY", ParamUtils.reverseHtmlTag((String)rs.get("MAIL_BODY")));
+		String fileView = FileViewMarkupBuilder.newInstance()
+				.atchFileId(StringUtils.defaultIfEmpty((String) rs.get("ATCH_FILE_ID"), ""))
+				.wrapMarkup("p")
+				.isIcon(true)
+				.isSize(true)
+				.build()
+				.toString();
+		rs.put("fileView", fileView);
 		return rs;
 	}
 
 	@Override
 	public List<HashMap<String, Object>> selectMailAllViewUserList(PageInfoVO pageVO) throws Exception {
-		
-		ScpDbAgent agt = new ScpDbAgent();
 		int cnt = egovNctsMngrMailMapper.selectMailAllViewUserListTotCnt(pageVO);
 		pageVO.setTotalRecordCount(cnt);
-		
-	    List<HashMap<String, Object>> list = egovNctsMngrMailMapper.selectMailAllViewUserList(pageVO);
-	    // 결과값 변환 처리
-	    for (HashMap<String, Object> tmp : list) {
-	    	try {
-	            if (tmp.get("USER_EMAIL1") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL1")))) {
-	            	tmp.put("USER_EMAIL1", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL1").toString(),"UTF-8"));
-	            }
-	            if (tmp.get("USER_EMAIL2") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL2")))) {
-	            	tmp.put("USER_EMAIL2", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL2").toString(),"UTF-8"));
-	            }
-	    	}
-	    	catch (ScpDbAgentException e) {
-	    		LOGGER.info(e.getMessage());
-	    	}
-	    	catch (Exception e) {
-	    		LOGGER.info(e.getMessage());
-	    	}    
-	    }
-
-	    return list;		
+		return egovNctsMngrMailMapper.selectMailAllViewUserList(pageVO);
 	}
 
 	@Override

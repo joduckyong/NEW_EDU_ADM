@@ -23,9 +23,9 @@ $(function(){
 	CKEDITOR.replace('failGuide',{height : 200});
 	
 	var baseInfo = {
-			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+			insertKey : "${common.baseType[0].key() }",
+            updateKey : "${common.baseType[1].key() }",
+            deleteKey : "${common.baseType[2].key() }",
             lUrl : "/ncts/mngr/edcOperMngr/mngrLctreList.do",
             fUrl : "/ncts/mngr/edcOperMngr/mngrLctreForm.do",
             dUrl : "/ncts/mngr/edcOperMngr/mngrDeleteLctre.do",
@@ -115,7 +115,7 @@ $(function(){
         var stopVal = [];
 
         <c:forTokens items="${result.VIDEO_STOP_POINT}" delims=",|" var="stop">
-        	stopVal.push("<c:out value='${stop}'/>");
+        	stopVal.push("${stop}");
 		</c:forTokens>
 		
         for(var i=0; i<stopVal.length; i++) {
@@ -297,8 +297,8 @@ $(function(){
 				<article class="col-md-12 col-lg-12">
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 						<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-						<input type="hidden" id="lectureId" name="lectureId" value="<c:out value='${result.LECTURE_ID}'/>">
-						<input type="hidden" name="atchFileId" value="<c:out value='${result.ATCH_FILE_ID}'/>">
+						<input type="hidden" id="lectureId" name="lectureId" value="${result.LECTURE_ID}">
+						<input type="hidden" name="atchFileId" value="${result.ATCH_FILE_ID}">
 						
 						<table class="table table-bordered tb_type03">
 							<colgroup>
@@ -313,52 +313,52 @@ $(function(){
 								<tr>
                                     <th scope="row">강의명</th>
                                     <td><label class="input w200 col">
-                                            <input type="text" id="lectureNm" name="lectureNm" value="<c:out value='${result.LECTURE_NM}'/>">
+                                            <input type="text" id="lectureNm" name="lectureNm" value="${result.LECTURE_NM}">
                                         </label>
                                     </td>
                                     <th scope="row">교육과정</th>
                                     <td><c:forEach var="list" items="${codeMap }" varStatus="idx">
                                             <label class="checkbox checkboxCenter col eduCourses">
                                                 <c:if test="${idx.index eq '0'}">
-                                                    <input type="checkbox" name="courses0<c:out value='${idx.index}'/>" <c:out value="${result.COURSES00 eq list.CODE ? 'checked=checked':''}"/> value="<c:out value='${list.CODE }'/>"><i></i>
+                                                    <input type="checkbox" name="courses0${idx.index}" ${result.COURSES00 eq list.CODE ? 'checked="checked"':''} value="${list.CODE }"><i></i>
                                                 </c:if>
                                                 <c:if test="${idx.index eq '1'}">
-                                                    <input type="checkbox" name="courses0<c:out value='${idx.index}'/>" <c:out value="${result.COURSES01 eq list.CODE ? 'checked=checked':''}"/> value="<c:out value='${list.CODE }'/>"><i></i>
+                                                    <input type="checkbox" name="courses0${idx.index}" ${result.COURSES01 eq list.CODE ? 'checked="checked"':''} value="${list.CODE }"><i></i>
                                                 </c:if>
                                                 <c:if test="${idx.index eq '2'}">
-                                                    <input type="checkbox" name="courses0<c:out value='${idx.index}'/>" <c:out value="${result.COURSES02 eq list.CODE ? 'checked=checked':''}"/> value="<c:out value='${list.CODE }'/>"><i></i>
+                                                    <input type="checkbox" name="courses0${idx.index}" ${result.COURSES02 eq list.CODE ? 'checked="checked"':''} value="${list.CODE }"><i></i>
                                                 </c:if>
                                                 <c:if test="${idx.index eq '3'}">
-                                                    <input type="checkbox" name="courses0<c:out value='${idx.index}'/>" <c:out value="${result.COURSES03 eq list.CODE ? 'checked=checked':''}"/> value="<c:out value='${list.CODE }'/>"><i></i>
+                                                    <input type="checkbox" name="courses0${idx.index}" ${result.COURSES03 eq list.CODE ? 'checked="checked"':''} value="${list.CODE }"><i></i>
                                                 </c:if>
                                             </label>
                                             <c:if test="${idx.index eq '0' or idx.index eq '1' or idx.index eq '2' or idx.index eq '3'}">
-                                            	<span class="col mt7 ml30 mr5"><c:out value="${list.CODE_NM }"/></span>
+                                            	<span class="col mt7 ml30 mr5">${list.CODE_NM }</span>
                                             </c:if>
                                         </c:forEach>
                                     </td>
                                     <th scope="row">동영상 아이디</th>
                                     <td><label class="input w200 col">
-                                            <input type="text" id="youtubeId" name="youtubeId" value="<c:out value='${result.YOUTUBE_ID}'/>">
+                                            <input type="text" id="youtubeId" name="youtubeId" value="${result.YOUTUBE_ID}">
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">동영상 시간</th>
                                     <td><label class="input w80 col">
-                                            <input type="text" id="videoDuration" name="videoDuration" value="<c:out value='${result.ORG_DURATION}'/>">
+                                            <input type="text" id="videoDuration" name="videoDuration" value="${result.ORG_DURATION}">
                                         </label>
                                         <span class="col mt7 ml5">초</span>
                                     </td>
                                     <th scope="row">동영상 가로 사이즈</th>
                                     <td><label class="input w80 col">
-                                            <input class="onlyNum" type="text" id="videoWidth" name="videoWidth" value="<c:out value='${result.VIDEO_WIDTH}'/>">
+                                            <input class="onlyNum" type="text" id="videoWidth" name="videoWidth" value="${result.VIDEO_WIDTH}">
                                         </label>
                                         <span class="col mt7 ml5">px</span>
                                     </td>
                                     <th scope="row">동영상 세로 사이즈</th>
                                     <td><label class="input w80 col">
-                                            <input class="onlyNum" type="text" id="videoHeight" name="videoHeight" value="<c:out value='${result.VIDEO_HEIGHT}'/>">
+                                            <input class="onlyNum" type="text" id="videoHeight" name="videoHeight" value="${result.VIDEO_HEIGHT}">
                                         </label>
                                         <span class="col mt7 ml5">px</span>
                                     </td>
@@ -368,17 +368,17 @@ $(function(){
                                     <th scope="row">수강대상</th>
                                     <td>
                                     	<label class="input w400 col">
-                                            <input type="text" id="atnlcTaget" name="atnlcTaget" value="<c:out value='${result.ATNLC_TAGET}'/>">
+                                            <input type="text" id="atnlcTaget" name="atnlcTaget" value="${result.ATNLC_TAGET}">
                                         </label>
                                     </td>
                                     <th scope="row">수강형태</th>
                                     <td><label class="input w200 col">
-                                            <input type="text" id="atnlcStle" name="atnlcStle" value="<c:out value='${result.ATNLC_STLE}'/>">
+                                            <input type="text" id="atnlcStle" name="atnlcStle" value="${result.ATNLC_STLE}">
                                         </label>
                                     </td>
                                     <th scope="row">수강시간</th>
                                     <td><label class="input w80 col">
-                                            <input class="onlyNum" type="text" id="atnlcTime" name="atnlcTime" value="<c:out value='${result.ATNLC_TIME}'/>">
+                                            <input class="onlyNum" type="text" id="atnlcTime" name="atnlcTime" value="${result.ATNLC_TIME}">
                                         </label>
                                         <span class="col mt7 ml5">분</span>
                                     </td>
@@ -387,26 +387,26 @@ $(function(){
 								<tr>
 									<th scope="row">교육목표</th>
 									<td colspan="5" class="">
-										<textarea id="edcGoal" name="edcGoal" class="part_long " style="width: 100%;" cols="100" rows="5" ><c:out value="${result.EDC_GOAL}"/></textarea>
+										<textarea id="edcGoal" name="edcGoal" class="part_long " style="width: 100%;" cols="100" rows="5" >${result.EDC_GOAL}</textarea>
 									</td>
 								</tr>
 								<tr>
                                     <th scope="row">프로그램 구성</th>
                                     <td colspan="5" class="">
-                                        <textarea id="progrmComposition" name="progrmComposition" class="part_long " style="width: 100%;" cols="100" rows="5" ><c:out value="${result.PROGRM_COMPOSITION}"/></textarea>
+                                        <textarea id="progrmComposition" name="progrmComposition" class="part_long " style="width: 100%;" cols="100" rows="5" >${result.PROGRM_COMPOSITION}</textarea>
                                     </td>
                                 </tr>
                                 
 								<tr class="guide" style="${result.COURSES00 eq '00' ? 'display:none':''}">
 									<th scope="row">형성평가<br/>시작안내 </th>
 									<td colspan="5" class="board_contents">
-										<textarea id="startGuide" name="startGuide" class="part_long board_contents" style="width: 100%; min-width: 100%;"><c:out value="${result.START_GUIDE}"/></textarea>
+										<textarea id="startGuide" name="startGuide" class="part_long board_contents" style="width: 100%; min-width: 100%;">${result.START_GUIDE}</textarea>
 									</td>
 								</tr>
 								<tr class="guide" style="${result.COURSES00 eq '00' ? 'display:none':''}">
                                     <th scope="row">형성평가<br/>실패안내 </th>
                                     <td colspan="5" class="board_contents">
-                                        <textarea id="failGuide" name="failGuide" class="part_long board_contents" style="width: 100%; min-width: 100%;"><c:out value="${result.FAIL_GUIDE}"/></textarea>
+                                        <textarea id="failGuide" name="failGuide" class="part_long board_contents" style="width: 100%; min-width: 100%;">${result.FAIL_GUIDE}</textarea>
                                     </td>
                                 </tr>
 								<!-- <tr>
@@ -425,8 +425,8 @@ $(function(){
 								<tr>
                                     <th scope="row">대표이미지 </th>
                                     <td colspan="5">
-                                        <c:out value="${markup}" escapeXml="false"/>
-                                        <img src="/utl/web/imageSrc.do?path=mngr/<c:out value='${result.STRE_FILE_NM }'/>" width="240" height="135" class="viewImg" style="display:${not empty result.ATCH_FILE_ID ? 'block':'none'};"/>
+                                        ${markup }
+                                        <img src="/utl/web/imageSrc.do?path=mngr/${result.STRE_FILE_NM }" width="240" height="135" class="viewImg" style="display:${not empty result.ATCH_FILE_ID ? 'block':'none'};"/>
                                     </td>
                                 </tr>
 							</tbody>

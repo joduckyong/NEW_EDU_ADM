@@ -1,6 +1,5 @@
 package egovframework.ncts.cmm.sys.center.web;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -85,9 +84,6 @@ public class EgovNctsSysCenterController {
 			sysCenterService.centerProcess(param);
 			result.put("success", "success");
 			result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
-		 } catch (IOException e) {
-			 LOGGER.debug(e.getMessage());
-				result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
@@ -145,9 +141,6 @@ public class EgovNctsSysCenterController {
 			sysCenterService.userProcess(param);
 			result.put("success", "success");
 			result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
-		 } catch (IOException e) {
-			 LOGGER.debug(e.getMessage());
-				result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType())); 
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
@@ -164,9 +157,6 @@ public class EgovNctsSysCenterController {
 			sysCenterService.userProcess(param);
 			result.put("success", "success");
 			result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
-		 } catch (IOException e) {
-			 LOGGER.debug(e.getMessage());
-				result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 		}catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
@@ -187,9 +177,6 @@ public class EgovNctsSysCenterController {
 		     }
 			 result.put("rs", rs);
 		     result.put("success", "success");
-		 } catch (IOException e) {
-			 LOGGER.debug(e.getMessage());
-		     result.put("success", "error");
 		}catch (Exception e) {
 		     LOGGER.debug(e.getMessage());
 		     result.put("success", "error");

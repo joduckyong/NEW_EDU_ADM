@@ -10,11 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.penta.scpdb.ScpDbAgent;
-import com.penta.scpdb.ScpDbAgentException;
-
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.exception.ErrorExcetion;
 import egovframework.com.vo.PageInfoVO;
 import egovframework.com.vo.ProcType;
@@ -34,10 +30,6 @@ public class EgovNctsSysAuthStaffMappingServiceImpl implements EgovNctsSysAuthSt
 	@Resource(name = "egovMessageSource")
 	EgovMessageSource egovMessageSource;
 	 
-//    String iniFilePath = "/penta/scpdb_agent.ini";
-    //String iniFilePath = "C:\\scp\\scpdb_agent.ini";
-    private final String iniFilePath = EgovProperties.getProperty("Globals.iniFilePath");
-    
 	@Override
 	public void authMappingProcess(UserVO param) throws Exception {
 		ProcType procType = ProcType.findByProcType(param.getProcType());
@@ -61,32 +53,7 @@ public class EgovNctsSysAuthStaffMappingServiceImpl implements EgovNctsSysAuthSt
 
 	@Override
 	public List<HashMap<String, Object>> selectAuthStaffMappingList(PageInfoVO pageVO) throws Exception {
-
-		ScpDbAgent agt = new ScpDbAgent();
-	    List<HashMap<String, Object>> list = sysAuthStaffMappingMapper.selectAuthStaffMappingList(pageVO);
-
-	    // 결과값 변환 처리 
-	    for (HashMap<String, Object> tmp : list) {
-	    	try {
-				if (tmp.get("USER_HP") != null && !"".equals(String.valueOf(tmp.get("USER_HP")))) {
-					tmp.put("USER_HP", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_HP").toString(),"UTF-8"));
-				}
-				if (tmp.get("USER_BIRTH") != null && !"".equals(String.valueOf(tmp.get("USER_BIRTH")))) {
-					tmp.put("USER_BIRTH", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_BIRTH").toString(),"UTF-8"));
-				}
-				if (tmp.get("USER_EMAIL") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL")))) {
-					tmp.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL").toString(),"UTF-8"));
-				}
-	    	}
-	    	catch (ScpDbAgentException e) {
-	    		LOGGER.info(e.getMessage());
-	    	}
-	    	catch (Exception e) {
-	    		LOGGER.info(e.getMessage());
-	    	}    
-	    }
-
-	    return list;		
+		return sysAuthStaffMappingMapper.selectAuthStaffMappingList(pageVO);
 	}
 	
 	@Override

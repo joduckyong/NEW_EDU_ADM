@@ -2,9 +2,9 @@
 <script type="text/javascript">
 $(function(){
 	var baseInfo = {
-			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+			insertKey : "${common.baseType[0].key() }",
+			updateKey : "${common.baseType[1].key() }",
+			deleteKey : "${common.baseType[2].key() }",
 			lUrl : "/ncts/mngr/common/stddLecListPopup.do",
 	}
 	
@@ -37,7 +37,7 @@ $(function(){
 	}
 	
 	$.lectureIdOnSetting = function(){
-		var lectureId = '<c:out value="${param.lectureId}"/>' != "" ? '<c:out value="${param.lectureId}"/>'.split("|") : "";
+		var lectureId = "${param.lectureId}" != "" ? "${param.lectureId}".split("|") : "";
 		if(lectureId != "") {
 			for(var i in lectureId) {
                	$(".devQua").each(function(idx){
@@ -65,8 +65,8 @@ $(function(){
 		<!-- Search 영역 시작 -->
 		<div class="search">
           	<form name="sForm" id="sForm" method="post">
-          		<input type="hidden" name="pageType" id="pageType" value='<c:out value="${param.pageType }"/>'>
-				<input type="hidden" name="lectureId" id="lectureId" value='<c:out value="${param.lectureId}"/>'>
+          		<input type="hidden" name="pageType" id="pageType" value="${param.pageType }">
+				<input type="hidden" name="lectureId" id="lectureId" value="${param.lectureId}">
 				<div class="fL wp90">
                     <ul class="searchAreaBox">
                     	<li class="smart-form ml5">
@@ -88,20 +88,20 @@ $(function(){
                                 		<c:if test="${param.pageType ne 'PACKAGE'}">
                                 			<c:if test="${idx.index lt 5}">
 		                                		<c:if test="${empty param.courses }">
-			                                   		<option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun eq list.CODE ? 'selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
+			                                   		<option value="${list.CODE }" ${param.sGubun eq list.CODE ? 'selected':'' }>${list.CODE_NM }</option>
 		                                		</c:if>
 		                                		<c:if test="${!empty param.courses }">
-			                                   		<option value='<c:out value="${list.CODE }"/>' <c:out value="${param.courses eq list.CODE ? 'selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
+			                                   		<option value="${list.CODE }" ${param.courses eq list.CODE ? 'selected':'' }>${list.CODE_NM }</option>
 		                                		</c:if>                                		
                                 			</c:if>
                                 		</c:if>
                                 		<c:if test="${param.pageType eq 'PACKAGE'}">
                                 			<c:if test="${idx.index lt 5 or idx.index eq 8}">
 		                                		<c:if test="${empty param.courses }">
-			                                   		<option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun eq list.CODE ? 'selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
+			                                   		<option value="${list.CODE }" ${param.sGubun eq list.CODE ? 'selected':'' }>${list.CODE_NM }</option>
 		                                		</c:if>
 		                                		<c:if test="${!empty param.courses }">
-			                                   		<option value='<c:out value="${list.CODE }"/>' <c:out value="${param.courses eq list.CODE ? 'selected':'' }"/>><c:out value="${list.CODE_NM }"/></option>
+			                                   		<option value="${list.CODE }" ${param.courses eq list.CODE ? 'selected':'' }>${list.CODE_NM }</option>
 		                                		</c:if>                                		
 	                                		</c:if>                                		
                                 		</c:if>
@@ -112,7 +112,7 @@ $(function(){
                         
                         <li class="smart-form ml5">
 							<label class="checkbox checkboxCenter col ml10 mt5">
-								<input type="checkbox" id="sGubun1" name="sGubun1" value="Y" <c:out value="${param.sGubun1 eq 'Y' ? 'checked=checked':''}"/>><i></i>
+								<input type="checkbox" id="sGubun1" name="sGubun1" value="Y" ${param.sGubun1 eq 'Y' ? 'checked="checked"':''}><i></i>
 							</label>
 							<span class="col ml50 mr5" style="padding-left: 0; margin-top: 8px;">동영상</span>                        
                         </li>                        
@@ -171,18 +171,18 @@ $(function(){
 												<c:if test="${list.COURSES lt 5}">
 													<tr>
 														<td class="invisible">
-															<input type="checkbox" name="checkLecId" class="index" value="<c:out value='${list.LECTURE_ID }'/>">
-															<input type="hidden" name="centerCd" value="<c:out value='${list.LECTURE_REPLC_ID }'/>">
-															<input type="hidden" name="grupNm" value="<c:out value='${list.LECTURE_NM }'/>">
-															<input type="hidden" name="progrmType" value="<c:out value='${list.COURSES }'/>">
-															<input type="hidden" name="progrmSeq" value="<c:out value='${list.FRST_REGIST_PNTTM }'/>">
+															<input type="checkbox" name="checkLecId" class="index" value="${list.LECTURE_ID }">
+															<input type="hidden" name="centerCd" value="${list.LECTURE_REPLC_ID }">
+															<input type="hidden" name="grupNm" value="${list.LECTURE_NM }">
+															<input type="hidden" name="progrmType" value="${list.COURSES }">
+															<input type="hidden" name="progrmSeq" value="${list.FRST_REGIST_PNTTM }">
 														</td>
-														<td><input type="checkbox" class="devQua" value="<c:out value='${list.LECTURE_ID }'/>"></td>
-														<td><c:out value="${list.LECTURE_ID }"/></td>
-														<td><c:out value="${list.LECTURE_NM }"/></td>
-														<td><c:out value="${list.COURSES_NM}"/></td>
-														<td><c:out value="${list.ATNLC_STLE }"/></td>
-														<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
+														<td><input type="checkbox" class="devQua" value="${list.LECTURE_ID }"></td>
+														<td>${list.LECTURE_ID }</td>
+														<td>${list.LECTURE_NM }</td>
+														<td>${list.COURSES_NM}</td>
+														<td>${list.ATNLC_STLE }</td>
+														<td>${list.FRST_REGIST_PNTTM}</td>
 													</tr>
 												</c:if>
 											</c:if>
@@ -190,18 +190,18 @@ $(function(){
 										<c:if test="${param.pageType eq 'PACKAGE' }">
 											<tr>
 												<td class="invisible">
-													<input type="checkbox" name="checkLecId" class="index" value='<c:out value="${list.LECTURE_ID }"/>'>
-													<input type="hidden" name="centerCd" value='<c:out value="${list.LECTURE_REPLC_ID }"/>'>
-													<input type="hidden" name="grupNm" value='<c:out value="${list.LECTURE_NM }"/>'>
-													<input type="hidden" name="progrmType" value='<c:out value="${list.COURSES }"/>'>
-													<input type="hidden" name="progrmSeq" value='<c:out value="${list.FRST_REGIST_PNTTM }"/>'>
+													<input type="checkbox" name="checkLecId" class="index" value="${list.LECTURE_ID }">
+													<input type="hidden" name="centerCd" value="${list.LECTURE_REPLC_ID }">
+													<input type="hidden" name="grupNm" value="${list.LECTURE_NM }">
+													<input type="hidden" name="progrmType" value="${list.COURSES }">
+													<input type="hidden" name="progrmSeq" value="${list.FRST_REGIST_PNTTM }">
 												</td>
-												<td><input type="checkbox" class="devQua" value='<c:out value="${list.LECTURE_ID }"/>'></td>
-												<td><c:out value="${list.LECTURE_ID }"/></td>
-												<td><c:out value="${list.LECTURE_NM }"/></td>
-												<td><c:out value="${list.COURSES_NM}"/></td>
-												<td><c:out value="${list.ATNLC_STLE }"/></td>
-												<td><c:out value="${list.FRST_REGIST_PNTTM}"/></td>
+												<td><input type="checkbox" class="devQua" value="${list.LECTURE_ID }"></td>
+												<td>${list.LECTURE_ID }</td>
+												<td>${list.LECTURE_NM }</td>
+												<td>${list.COURSES_NM}</td>
+												<td>${list.ATNLC_STLE }</td>
+												<td>${list.FRST_REGIST_PNTTM}</td>
 											</tr>
 										</c:if>
 									</c:if>

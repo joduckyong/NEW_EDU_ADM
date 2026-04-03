@@ -4,9 +4,9 @@
 	$(function(){
 		var excelPg = 0;
 	    var baseInfo = {
-	            insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-	            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-	            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+	            insertKey : "${common.baseType[0].key() }",
+	            updateKey : "${common.baseType[1].key() }",
+	            deleteKey : "${common.baseType[2].key() }",
 	            lUrl : "/ncts/mngr/edcComplMngr/mngrCtfhvIssueList.do",
 	            //fUrl : "/ncts/mngr/edcComplMngr/mngrEdcCompForm.do",
 	            dUrl : "/ncts/mngr/edcComplMngr/mngrDeleteCtfhvIssue.do",
@@ -188,9 +188,9 @@
                         <li class="w100 ml5">
                             <select id="sGubun1" name="sGubun1" class="form-control">
                                 <option value="">선택</option>
-                                <option value="01" <c:out value="${param.sGubun1 eq '01' ? 'selected=selected':'' }"/>>이름</option>
-                                <option value="02" <c:out value="${param.sGubun1 eq '02' ? 'selected=selected':'' }"/>>아이디</option>
-                                <option value="03" <c:out value="${param.sGubun1 eq '03' ? 'selected=selected':'' }"/>>이메일</option>
+                                <option value="01" ${param.sGubun1 eq '01' ? 'selected="selected"':'' }>이름</option>
+                                <option value="02" ${param.sGubun1 eq '02' ? 'selected="selected"':'' }>아이디</option>
+                                <option value="03" ${param.sGubun1 eq '03' ? 'selected="selected"':'' }>이메일</option>
                             </select>
                         </li>
                         <li class="w160 ml5">
@@ -206,13 +206,13 @@
                                 <option value="">선택</option>
                                 <c:forEach var="list" items="${codeMap.DMH04 }" varStatus="idx">
                                 	<c:if test="${idx.count <= 3}">
-                                    	<option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun2 eq list.CODE ? 'selected=selected':'' }"/>><c:out value="${list.CODE_NM }"/>과정</option>
+                                    	<option value="${list.CODE }" ${param.sGubun2 eq list.CODE ? 'selected="selected"':'' }>${list.CODE_NM }과정</option>
                                     </c:if>	
                                    	<c:if test="${idx.last }"><c:set var="packageAt" value="Y" /></c:if>
                                 </c:forEach>
                                 <c:forEach var="list" items="${codeMap.DMH29 }" varStatus="idx">
                                 	<c:if test="${packageAt eq 'Y'}">
-                                    	<option value='<c:out value="${list.CODE }"/>' <c:out value="${param.sGubun2 eq list.CODE ? 'selected=selected':'' }"/>>직무<c:out value="(${list.CODE_NM }"/>)과정</option>
+                                    	<option value="${list.CODE }" ${param.sGubun2 eq list.CODE ? 'selected="selected"':'' }>직무(${list.CODE_NM })과정</option>
                                     </c:if>	
                                 </c:forEach>
                             </select>
@@ -261,17 +261,17 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value='<c:out value="${list.CTFHV_NO}"/>'>
-										<input type="hidden" id="compleCourse" value='<c:out value="${list.CTFHV_CD}"/>'>
-									    <input type="hidden" id="userNo" value='<c:out value="${list.USER_NO}"/>'>
+										<input type="checkbox" class="index" value="${list.CTFHV_NO}">
+										<input type="hidden" id="compleCourse" value="${list.CTFHV_CD}">
+									    <input type="hidden" id="userNo" value="${list.USER_NO}">
 									</td>
-									<td><c:out value="${list.CTFHV_ISSUE_NO}"/></td>
-									<td><c:out value="${list.USER_NM}"/></td>
+									<td>${list.CTFHV_ISSUE_NO}</td>
+									<td>${list.USER_NM}</td>
 									<td>
-										<c:if test="${list.PACKAGE_AT eq 'Y' }">직무(<c:out value="${list.CTFHV_NM  }"/>)과정</c:if>
-										<c:if test="${list.PACKAGE_AT ne 'Y' }"><c:out value="${list.CTFHV_NM  }"/>과정</c:if>
+										<c:if test="${list.PACKAGE_AT eq 'Y' }">직무(${list.CTFHV_NM  })과정</c:if>
+										<c:if test="${list.PACKAGE_AT ne 'Y' }">${list.CTFHV_NM  }과정</c:if>
 									</td>
-									<td><c:out value="${list.ISSUE_DT  }"/></td>
+									<td>${list.ISSUE_DT  }</td>
 								</tr>
 							</c:forEach>
 						</tbody>

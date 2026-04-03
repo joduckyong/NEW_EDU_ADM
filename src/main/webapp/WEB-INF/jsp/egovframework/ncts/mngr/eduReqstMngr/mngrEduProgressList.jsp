@@ -4,9 +4,9 @@
 $(function(){
 	var eduProgSeq = "";
 	var baseInfo = {
-			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-			updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-			deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+			insertKey : "${common.baseType[0].key() }",
+			updateKey : "${common.baseType[1].key() }",
+			deleteKey : "${common.baseType[2].key() }",
 			lUrl : "/ncts/mngr/eduReqstMngr/mngrEduProgressList.do",
 			fUrl : "/ncts/mngr/eduReqstMngr/mngrEduProgressForm.do",
 			dUrl : "/ncts/mngr/eduReqstMngr/mngrDeleteEduProgress.do"
@@ -207,7 +207,7 @@ $(function(){
 								<select name="centerCd" class="form-control">
 									<option value="">전체</option>
 									<c:forEach var="center" items="${centerList }" varStatus="idx">
-										<option value='<c:out value="${center.DEPT_CD }"/>' data-groupId='<c:out value="${center.GROUP_ID }"/>' <c:out value="${center.DEPT_CD eq paginationInfo.centerCd ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
+										<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq paginationInfo.centerCd ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
 									</c:forEach>
 								</select> <i></i>
 							</li>
@@ -235,7 +235,7 @@ $(function(){
 								<option value="">전체</option>
 					    		<c:forEach var="list" items="${codeMap.DMH14 }" varStatus="idx">
 									<c:if test="${list.CODE eq '01' or list.CODE eq '02' or list.CODE eq '03' or list.CODE eq '04' or list.CODE eq '07' or list.CODE eq '11' }">
-										<option value="<c:out value='${list.CODE }'/>" <c:out value="${param.searchCondition1 eq list.CODE ? 'selected=selected' :'' }"/>><c:out value="${list.CODE_NM }"/>
+										<option value="${list.CODE }" ${param.searchCondition1 eq list.CODE ? 'selected="selected"' :'' }>${list.CODE_NM }
 									</c:if>
 								</c:forEach>
 							</select> <i></i>
@@ -290,14 +290,14 @@ $(function(){
 							<c:forEach var="list" items="${rslist }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value='<c:out value="${list.EDU_SEQ }"/>'>
+										<input type="checkbox" class="index" value="${list.EDU_SEQ }">
 									</td>
-									<td><c:out value="${list.EDU_NM }"/></td>
-									<td><c:out value="${list.EDU_DE }"/><c:out value="${not empty list.EDU_END_DE ?' ~ ':''}"/><c:out value="${not empty list.EDU_END_DE ? fn:substring(list.EDU_END_DE, 8, 10) : '' }"/><br> <c:out value="${list.EDU_BEGIN_TIME_HOUR}"/>:<c:out value="${list.EDU_BEGIN_TIME_MIN}"/> ~ <c:out value="${list.EDU_END_TIME_HOUR}"/>:<c:out value="${list.EDU_END_TIME_MIN}"/></td>
-									<td><c:out value="${list.EDU_TARGET_TYPE }"/></td>
-									<td><c:out value="${list.EDU_NMPR }"/></td>
-									<td><c:out value="${list.CENTER_NM }"/></td>
-									<td><c:out value="${list.FRST_REGIST_PNTTM }"/></td>
+									<td>${list.EDU_NM }</td>
+									<td>${list.EDU_DE }${not empty list.EDU_END_DE ?' ~ ':''}${not empty list.EDU_END_DE ? fn:substring(list.EDU_END_DE, 8, 10) : '' }<br> ${list.EDU_BEGIN_TIME_HOUR}:${list.EDU_BEGIN_TIME_MIN} ~ ${list.EDU_END_TIME_HOUR}:${list.EDU_END_TIME_MIN}</td>
+									<td>${list.EDU_TARGET_TYPE }</td>
+									<td>${list.EDU_NMPR }</td>
+									<td>${list.CENTER_NM }</td>
+									<td>${list.FRST_REGIST_PNTTM }</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -321,7 +321,7 @@ $(function(){
 					</table> -->
 					<table class="table table-bordered table-hover tb_type01">
 						<div class="fR wp12 mt5 mr5 mb5" id="complProc">
-						  <button class="btn btn-primary ml2" type="button" id="complProcBtn" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled' }"/>><i class="fa fa-magic" title="이수처리"></i> 이수처리</button>
+						  <button class="btn btn-primary ml2" type="button" id="complProcBtn" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled' }><i class="fa fa-magic" title="이수처리"></i> 이수처리</button>
 						</div>
 						<colgroup>
 							<col width="10%">
@@ -354,7 +354,7 @@ $(function(){
 	<th>생년월일</th>
 	<th>소속</th>
 	<th>직급</th>
-	<th>재난심리지원지역</th>
+	<th>재난심리지원지역</th
 	<th>이수여부</th>
 	<th>이수여부</th>
 	

@@ -11,13 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.penta.scpdb.ScpDbAgent;
-import com.penta.scpdb.ScpDbAgentException;
-
 import egovframework.com.ParamUtils;
-import egovframework.com.TextUtil;
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.exception.ErrorExcetion;
 import egovframework.com.file.FileViewMarkupBuilder;
 import egovframework.com.vo.PageInfoVO;
@@ -41,10 +36,6 @@ public class EgovNctsMngrDtyEduServiceImpl implements EgovNctsMngrDtyEduService 
 	@Resource(name = "egovMessageSource")
 	EgovMessageSource egovMessageSource;
 	
-//  String iniFilePath = "/penta/scpdb_agent.ini";
-  //String iniFilePath = "C:\\scp\\scpdb_agent.ini";
-  private final String iniFilePath = EgovProperties.getProperty("Globals.iniFilePath");
-	
 	@Override
 	public void mngrDtyEduProcess(MngrDtyEduVO param) throws Exception {
 		ProcType procType = ProcType.findByProcType(param.getProcType());
@@ -62,44 +53,17 @@ public class EgovNctsMngrDtyEduServiceImpl implements EgovNctsMngrDtyEduService 
 	
 	@Override
 	public List<HashMap<String, Object>> selectMngrDtyEduApplicantList(MngrDtyEduApplicantVO param) throws Exception {
-		
-		ScpDbAgent agt = new ScpDbAgent();
-		
 		List<HashMap<String, Object>> rs = egovNctsMngrDtyEduMapper.selectMngrDtyEduApplicantList(param);
 		
 		for(HashMap<String, Object> tmp : rs){
-			
-			try {
-	            if (tmp.get("TEL") != null && !"".equals(String.valueOf(tmp.get("TEL")))) {
-	            	String tel = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("TEL").toString(),"UTF-8");
-	            	tmp.put("TEL", TextUtil.formatTel(tel));
-	            }
-	
-	            if (tmp.get("EMAIL") != null && !"".equals(String.valueOf(tmp.get("EMAIL")))) {
-	            	tmp.put("EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("EMAIL").toString(),"UTF-8"));
-	            }
-	            
-	            if (tmp.get("BIRTHDAY") != null && !"".equals(String.valueOf(tmp.get("BIRTHDAY")))) {
-	            	String birthday = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("BIRTHDAY").toString(),"UTF-8");
-	            	String formattedDate = birthday.substring(0,4) + "." + birthday.substring(4,6) + "." + birthday.substring(6,8);
-	            	tmp.put("BIRTHDAY", formattedDate);
-	            }
-	            
-				String fileView = FileViewMarkupBuilder.newInstance()
-						.atchFileId(StringUtils.defaultIfEmpty((String) tmp.get("ATCH_FILE_ID"), ""))
-						.wrapMarkup("p")
-						.isIcon(true)
-						.isSize(true)
-						.build()
-						.toString();
-				tmp.put("fileView", fileView);
-	    	}
-	    	catch (ScpDbAgentException e) {
-	    		LOGGER.info(e.getMessage());
-	    	}
-	    	catch (Exception e) {
-	    		LOGGER.info(e.getMessage());
-	    	}  
+			String fileView = FileViewMarkupBuilder.newInstance()
+					.atchFileId(StringUtils.defaultIfEmpty((String) tmp.get("ATCH_FILE_ID"), ""))
+					.wrapMarkup("p")
+					.isIcon(true)
+					.isSize(true)
+					.build()
+					.toString();
+			tmp.put("fileView", fileView);
 		}
 		return rs;
 	}
@@ -133,7 +97,6 @@ public class EgovNctsMngrDtyEduServiceImpl implements EgovNctsMngrDtyEduService 
 
 	@Override
 	public HashMap<String, Object> mngrDtyEduApplicantDownload(MngrDtyEduApplicantVO param) throws Exception {
-		ScpDbAgent agt = new ScpDbAgent();
 		HashMap<String, Object> rs = new HashMap<>();
         HashMap<String, Object> paramMap = new HashMap<>();
         HashMap<String, Object> re = new HashMap<>();
@@ -145,28 +108,6 @@ public class EgovNctsMngrDtyEduServiceImpl implements EgovNctsMngrDtyEduService 
         vo.setEduSeq(param.getEduSeq());
         vo.setEduDivision(param.getEduDivision());
         List<HashMap<String, Object>> rsTp = egovNctsMngrDtyEduMapper.mngrDtyEduApplicantDownload(param);
-        for (HashMap<String, Object> tmp : rsTp) {
-
-        	try {
-	            if (tmp.get("USER_HP") != null && !"".equals(String.valueOf(tmp.get("USER_HP")))) {
-	            	String userHp = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_HP").toString(),"UTF-8");
-	            	tmp.put("USER_HP", TextUtil.formatTel(userHp));
-	            }
-	
-	            if (tmp.get("USER_EMAIL") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL")))) {
-	            	tmp.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL").toString(),"UTF-8"));
-	            }
-	    	}
-	    	catch (ScpDbAgentException e) {
-	    		LOGGER.info(e.getMessage());
-	    	}
-	    	catch (Exception e) {
-	    		LOGGER.info(e.getMessage());
-	    	}    
-            
-        }
-        
-        
         re = egovNctsMngrDtyEduMapper.selectMngrDtyEduDetail(vo);
         if(!("".equals(re.get("INSTRCTR_NM_S")) || null == re.get("INSTRCTR_NM_S"))) re.put("INSTRCTR_NM_S", "," + re.get("INSTRCTR_NM_S"));
         else re.put("INSTRCTR_NM_S", "");

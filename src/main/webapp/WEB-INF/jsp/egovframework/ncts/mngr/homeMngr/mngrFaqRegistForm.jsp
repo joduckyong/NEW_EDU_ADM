@@ -8,9 +8,9 @@ $(function(){
 	CKEDITOR.replace('contents',{height : 400});
 	
 	var baseInfo = {
-			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+			insertKey : "${common.baseType[0].key() }",
+            updateKey : "${common.baseType[1].key() }",
+            deleteKey : "${common.baseType[2].key() }",
             lUrl : "/ncts/mngr/homeMngr/mngrFaqRegistList.do",
             fUrl : "/ncts/mngr/homeMngr/mngrFaqRegistForm.do",
             dUrl : "/ncts/mngr/homeMngr/mngrDeleteFaqRegist.do",
@@ -113,8 +113,8 @@ $(function(){
 				<article class="col-md-12 col-lg-12">
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 						<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-						<input type="hidden" id="bbsNo" name="bbsNo" value='<c:out value="${result.BBS_NO}">'/>
-						<input type="hidden" name="atchFileId" value='<c:out value="${result.ATCH_FILE_ID}">'/>
+						<input type="hidden" id="bbsNo" name="bbsNo" value="${result.BBS_NO}">
+						<input type="hidden" name="atchFileId" value="${result.ATCH_FILE_ID}">
 						<input type="hidden" name="bbsTypeCd" value="09">
 						<input type="hidden" name="centerCd" value="<sec:authentication property="principal.centerId"/>" >
 						
@@ -129,10 +129,10 @@ $(function(){
                                     <td><label class="w150 col">
                                         <select id="bbsTypeDetailCd" name="bbsTypeDetailCd" class="form-control" style="text-align-last:center;">
                                             <option value="">선택</option>
-                                            <option value="01" <c:out value="${result.BBS_TYPE_DETAIL_CD eq '01' ? 'selected=selected':''}"/>>교육</option>
-                                            <option value="02" <c:out value="${result.BBS_TYPE_DETAIL_CD eq '02' ? 'selected=selected':''}"/>>강사</option>
-                                            <option value="03" <c:out value="${result.BBS_TYPE_DETAIL_CD eq '03' ? 'selected=selected':''}"/>>회원</option>
-                                            <option value="04" <c:out value="${result.BBS_TYPE_DETAIL_CD eq '04' ? 'selected=selected':''}"/>>기타</option>
+                                            <option value="01" ${result.BBS_TYPE_DETAIL_CD eq '01' ? 'selected="selected"':''}>교육</option>
+                                            <option value="02" ${result.BBS_TYPE_DETAIL_CD eq '02' ? 'selected="selected"':''}>강사</option>
+                                            <option value="03" ${result.BBS_TYPE_DETAIL_CD eq '03' ? 'selected="selected"':''}>회원</option>
+                                            <option value="04" ${result.BBS_TYPE_DETAIL_CD eq '04' ? 'selected="selected"':''}>기타</option>
                                         </select>
                                         </label>
                                     </td>
@@ -141,20 +141,20 @@ $(function(){
 									<th scope="row">제목 </th>
 									<td>
 										<label class="input w500 col">
-											<input type="text" id="title" name="title" value='<c:out value="${result.TITLE}">'/>
+											<input type="text" id="title" name="title" value="${result.TITLE}">
 										</label>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">내용 </th>
 									<td class="board_contents">
-										<textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;"><c:out value="${result.CONTENTS}"/></textarea>
+										<textarea id="contents" name="contents" class="part_long board_contents" style="width: 100%; min-width: 100%;">${result.CONTENTS}</textarea>
 									</td>
 								</tr>
 								<tr>
                                     <th scope="row">첨부파일 </th>
                                     <td>
-			                        <c:out value="${markup}" escapeXml="false"/>
+                                        ${markup }
                                     </td>
                                 </tr>
 							</tbody>

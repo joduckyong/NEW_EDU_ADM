@@ -7,9 +7,9 @@ $(function(){
 	CKEDITOR.replace('shareCn',{height : 200});	
 	
 	var baseInfo = {
-			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+			insertKey : "${common.baseType[0].key() }",
+            updateKey : "${common.baseType[1].key() }",
+            deleteKey : "${common.baseType[2].key() }",
             lUrl : "/ncts/mngr/shareMngr/mngrShareList.do",
             fUrl : "/ncts/mngr/shareMngr/mngrShareForm.do"
             
@@ -110,8 +110,8 @@ $(function(){
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 						<input type="hidden" id="shareCnSnapshot" name="shareCnSnapshot">
 						<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-						<input type="hidden" id="shareSeq" name="shareSeq" value="<c:out value='${result.SHARE_SEQ}'/>">
-						<input type="hidden" name="atchFileId" value="<c:out value='${result.ATCH_FILE_ID}'/>">
+						<input type="hidden" id="shareSeq" name="shareSeq" value="${result.SHARE_SEQ}">
+						<input type="hidden" name="atchFileId" value="${result.ATCH_FILE_ID}">
 						<%-- <input type="hidden" name="centerCd" value="<sec:authentication property="principal.centerId"/>" > --%>
 						
 						<table class="table table-bordered tb_type03">
@@ -127,7 +127,7 @@ $(function(){
 									<td colspan="5">
 										<c:choose>
 											<c:when test="${common.baseType[1].key() eq common.procType }">
-												<input type="hidden" id="centerCd" name="centerCd" value="<c:out value='${result.CENTER_CD }'/>" >
+												<input type="hidden" id="centerCd" name="centerCd" value="${result.CENTER_CD }" >
 												<c:out value="${result.CENTER_NM }" />
 											</c:when>
 											<c:otherwise>
@@ -136,7 +136,7 @@ $(function(){
 														<select id="centerCd" name="centerCd">
 															<option value="">선택</option>
 															<c:forEach var="center" items="${centerList }" varStatus="idx">
-																<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq result.CENTER_CD ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
+																<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq result.CENTER_CD ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
 															</c:forEach>
 														</select> <i></i>
 													</label>
@@ -153,26 +153,26 @@ $(function(){
 									<th scope="row">제목 </th>
 									<td>
 										<label class="input w500 col">
-											<input type="text" id="shareTitle" name="shareTitle" value="<c:out value='${result.SHARE_TITLE}'/>">
+											<input type="text" id="shareTitle" name="shareTitle" value="${result.SHARE_TITLE}">
 										</label>
 									</td>
 									<th scope="row">작성자 </th>
 									<td>
 										<label class="input w500 col">
-											<input type="text" id="frstRegisterId" name="frstRegisterId" value="<c:out value='${result.FRST_REGISTER_ID}'/><c:if test="${empty result.FRST_REGISTER_ID }"><sec:authentication property="principal.userNm"/></c:if>" readonly/>
+											<input type="text" id="frstRegisterId" name="frstRegisterId" value="${result.FRST_REGISTER_ID}<c:if test="${empty result.FRST_REGISTER_ID }"><sec:authentication property="principal.userNm"/></c:if>" readonly/>
 										</label>											
 									</td>
 							    </tr>
 							    <tr>
                                     <th scope="row">첨부파일 </th>
                                     <td colspan="5">
-										<c:out value="${markup}" escapeXml="false"/>
+                                        ${markup }
                                     </td>
                                 </tr>
 								<tr>
 									<th scope="row">내용 </th>
 									<td class="board_contents" colspan="5">
-										<textarea id="shareCn" name="shareCn" class="part_long board_contents" style="width: 100%; min-width: 100%;"><c:out value="${result.SHARE_CN}"/></textarea>
+										<textarea id="shareCn" name="shareCn" class="part_long board_contents" style="width: 100%; min-width: 100%;">${result.SHARE_CN}</textarea>
 									</td>
 								</tr>
 											
@@ -188,3 +188,4 @@ $(function(){
 	</section>
 	<!-- widget grid end -->
 </div>
+

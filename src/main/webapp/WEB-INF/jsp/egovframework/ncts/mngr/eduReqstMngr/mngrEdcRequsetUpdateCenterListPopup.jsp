@@ -3,9 +3,9 @@
 
 $(function(){
 	var baseInfo = {
-			insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-			updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-			deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+			insertKey : "${common.baseType[0].key() }",
+			updateKey : "${common.baseType[1].key() }",
+			deleteKey : "${common.baseType[2].key() }",
 			lUrl : "/ncts/mngr/eduReqstMngr/mngrEdcRequsetUpdateCenterListPopup.do",
 	}
 	
@@ -35,7 +35,7 @@ $(function(){
 	<section id="widget-grid" class="">
 		<!-- Search 영역 시작 -->
         <form name="sForm" id="sForm" method="post">
-        	<input type="hidden" name="reqstSeq" id="reqstSeq" value='<c:out value="${param.reqstSeq }"/>'>
+        	<input type="hidden" name="reqstSeq" id="reqstSeq" value="${param.reqstSeq }">
 			<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
 		</form>
 		<!-- Search 영역 끝 -->	
@@ -66,11 +66,11 @@ $(function(){
 									</c:if>
 									<c:forEach var="rslist" items="${rslist }">
 										<tr>
-											<td class="invisible"><input type="checkbox" class="index" value='<c:out value="${rslist.REQST_SEQ }"/>' ></td>
-											<td><c:out value="${rslist.ORI_CENTER_NM }"/></td>
-											<td><c:out value="${rslist.NEW_CENTER_NM }"/></td>
-											<td><c:out value="${rslist.LAST_USER_NM }"/></td>
-											<td><c:out value="${rslist.LAST_UPDT_PNTTM }"/></td>
+											<td class="invisible"><input type="checkbox" class="index" value="${rslist.REQST_SEQ }" ></td>
+											<td>${rslist.ORI_CENTER_NM }</td>
+											<td>${rslist.NEW_CENTER_NM }</td>
+											<td>${rslist.LAST_USER_NM }</td>
+											<td>${rslist.LAST_UPDT_PNTTM }</td>
 										</tr>
 									</c:forEach>
 							</tbody>

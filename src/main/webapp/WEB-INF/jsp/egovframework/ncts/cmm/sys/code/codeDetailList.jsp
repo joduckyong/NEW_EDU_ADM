@@ -2,9 +2,9 @@
 <script type="text/javascript">
 $(function(){
 	var baseInfo = {
-			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-			updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-			deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+			insertKey : "${common.baseType[0].key() }",
+			updateKey : "${common.baseType[1].key() }",
+			deleteKey : "${common.baseType[2].key() }",
 			lUrl : "/ncts/cmm/sys/code/codeDetailList.do",
 			fUrl : "/ncts/cmm/sys/code/codeDetailForm.do",
 			dUrl : "/ncts/cmm/sys/code/codeDetailProcess.do"
@@ -123,7 +123,7 @@ $(function(){
 						    <label class="label">코드</label>
 						</li>
 						<li class="w150">
-							<input type="text" id="searchKeyword2" name="searchKeyword2" value="<c:out value='${param.searchKeyword2}'/>" class="form-control">
+							<input type="text" id="searchKeyword2" name="searchKeyword2" value="${param.searchKeyword2}" class="form-control">
 						</li>
 						<li class="ml10">
 							<button class="btn btn-primary searchReset" type="button" id="searchBtn"><i class="fa fa-search"></i> 검색</button>
@@ -170,11 +170,11 @@ $(function(){
 							</c:if>
 							<c:forEach var="list" items="${rslist }" varStatus="idx">
 								<tr>
-									<td class="invisible"><input type="checkbox" class="index" value="<c:out value='${list.CODE }'/>"><input type="hidden" value="<c:out value='${list.CODE_ID }'/>"></td>
-									<td class="codeIdTd"><c:out value="${list.CODE_ID }"/></td>
-									<td><c:out value="${list.CODE }"/></td>
-									<td><c:out value="${list.CODE_NM }"/></td>
-									<td><c:out value="${list.USE_YN }"/></td>
+									<td class="invisible"><input type="checkbox" class="index" value="${list.CODE }"><input type="hidden" value="${list.CODE_ID }"></td>
+									<td class="codeIdTd">${list.CODE_ID }</td>
+									<td>${list.CODE }</td>
+									<td>${list.CODE_NM }</td>
+									<td>${list.USE_YN }</td>
 								</tr>
 							</c:forEach>
 						</tbody>

@@ -8,9 +8,9 @@ $(function(){
 	//CKEDITOR.replace('contents',{height : 400});
 	
 	var baseInfo = {
-			insertKey : "<c:out value='${common.baseType[0].key() }'/>",
-            updateKey : "<c:out value='${common.baseType[1].key() }'/>",
-            deleteKey : "<c:out value='${common.baseType[2].key() }'/>",
+			insertKey : "${common.baseType[0].key() }",
+            updateKey : "${common.baseType[1].key() }",
+            deleteKey : "${common.baseType[2].key() }",
             lUrl : "/ncts/mngr/homeMngr/mngrOneOnOneList.do"
 	}	
 	
@@ -110,8 +110,8 @@ $(function(){
 				<article class="col-md-12 col-lg-12">
 					<form name="iForm" id="iForm" method="post" class="smart-form" enctype="multipart/form-data">
 						<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
-						<input type="hidden" id="bbsNo" name="bbsNo" value="<c:out value='${result.BBS_NO}'/>">
-						<input type="hidden" name="atchFileId" value="<c:out value='${result.ATCH_FILE_ID}'/>">
+						<input type="hidden" id="bbsNo" name="bbsNo" value="${result.BBS_NO}">
+						<input type="hidden" name="atchFileId" value="${result.ATCH_FILE_ID}">
 						
 						<table class="table table-bordered tb_type03">
 							<colgroup>
@@ -121,34 +121,34 @@ $(function(){
 							<tbody>
                                 <tr>
                                     <th scope="row">센터명</th>
-                                    <td><c:out value="${result.CENTER_NM }"/></td>
+                                    <td>${result.CENTER_NM }</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">작성자</th>
-                                    <td><c:out value="${result.USER_NM }"/></td>
+                                    <td>${result.USER_NM }</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">작성일</th>
-                                    <td><c:out value="${result.FRST_REGIST_PNTTM }"/></td>
+                                    <td>${result.FRST_REGIST_PNTTM }</td>
                                 </tr>
 								<tr>
 									<th scope="row">제목 </th>
 									<td>
 										<label class="input w500 col">
-											<input type="text" id="title" name="title" value="<c:out value='${result.TITLE}'/>">
+											<input type="text" id="title" name="title" value="${result.TITLE}">
 										</label>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">내용 </th>
 									<td class="board_contents">
-										<textarea id="contents" name="contents" style="width: 100%; min-width: 100%; height:370px; min-height:370px; font-size:14px;"><c:out value="${result.CONTENTS}"/></textarea>
+										<textarea id="contents" name="contents" style="width: 100%; min-width: 100%; height:370px; min-height:370px; font-size:14px;">${result.CONTENTS}</textarea>
 									</td>
 								</tr>
 								<tr>
                                     <th scope="row">첨부파일 </th>
                                     <td>
-										<c:out value="{markup }"/>
+                                        ${markup }
                                     </td>
                                 </tr>
 							</tbody>

@@ -1474,115 +1474,51 @@ function init(){
 }
 
 
-//	function loadJavascript(URL,callback,event,charet) { 
-//		
-//		// 기본적인 변수 선언 
-//		var xmlhttp = null; 
-//		// FF일 경우 window.XMLHttpRequest 객체가 존재한다. 
-//		if(window.XMLHttpRequest) { 
-//			// FF 로 객체선언 
-//			xmlhttp = new XMLHttpRequest(); 
-//		} else { 
-//			// IE 경우 객체선언 
-//			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); 
-//		} 
-//
-//			URL = (charet!=null && typeof(charet)!='undefined' &&charet.length!=0)?URL+'_'+charet:URL;
-//		// GET 모드로 URL 주소의 값을 가져온다 
-//		// 주의 해야 할점은 무조건 UTF 로 값이 들어옴 
-//		xmlhttp.open('GET', URL,false); 
-//
-//		// 값을 가져 왔을경우 호출할 메소드를 바로 선언 
-//		xmlhttp.onreadystatechange = function() { 
-//			 // readyState 가 4 고 status 가 200 일 경우 올바르게 가져옴 
-//			if(xmlhttp.readyState==4 && xmlhttp.status == 200 && (xmlhttp.statusText=='200' || xmlhttp.statusText=='OK')) { 
-//				// responseText 에 값을 저장 
-//				//responseText = xmlhttp.responseText;
-//				eval(xmlhttp.responseText);
-//			} 
-//		} 
-//		xmlhttp.send('');
-//	 
-//		var userAgent = navigator.userAgent;
-//		if(userAgent.indexOf('Firefox')>-1 && userAgent.indexOf('3.6.')>-1){
-//			if(xmlhttp.readyState==4 && xmlhttp.status == 200 && (xmlhttp.statusText=='200' || xmlhttp.statusText=='OK')) { 
-//				// responseText 에 값을 저장    
-//				eval(xmlhttp.responseText);         
-//				 //responseText = xmlhttp.responseText;            
-//			}
-//		}
-//		
-//		if(event!=null && typeof(event)!='undefined')
-//			return callback(event);
-//		else
-//			return callback();    
-//	}
+function loadJavascript(URL,callback,event,charet) { 
+	
+    // 기본적인 변수 선언 
+    var xmlhttp = null; 
+    // FF일 경우 window.XMLHttpRequest 객체가 존재한다. 
+    if(window.XMLHttpRequest) { 
+        // FF 로 객체선언 
+        xmlhttp = new XMLHttpRequest(); 
+    } else { 
+        // IE 경우 객체선언 
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); 
+    } 
 
-// 허용된 URL 목록 (서버 도메인 기준으로 관리)
-var ALLOWED_URL_ORIGINS = [
-    location.origin  // 동일 출처만 허용 (필요 시 명시적 도메인 추가)
-];
+		URL = (charet!=null && typeof(charet)!='undefined' &&charet.length!=0)?URL+'_'+charet:URL;
+    // GET 모드로 URL 주소의 값을 가져온다 
+    // 주의 해야 할점은 무조건 UTF 로 값이 들어옴 
+    xmlhttp.open('GET', URL,false); 
 
-/**
- * 외부 JavaScript를 동적으로 로드합니다.
- * eval() 대신 <script> 태그 삽입 방식 사용
- *
- * @param {string}   url      - 로드할 스크립트 URL
- * @param {Function} callback - 완료 후 호출할 콜백 (error 인자 포함)
- * @param {Event}    event    - 콜백에 전달할 이벤트 객체 (선택)
- * @param {string}   charset  - URL에 붙일 charset 접미사 (선택)
- */
-function loadJavascript(url, callback, event, charset) {
-
-    // 1. URL 유효성 및 허용 목록 검증 (경로 조작 / 외부 도메인 차단)
-    if (!url || typeof url !== 'string') {
-        console.error('loadJavascript: 유효하지 않은 URL입니다.');
-        return;
+    // 값을 가져 왔을경우 호출할 메소드를 바로 선언 
+    xmlhttp.onreadystatechange = function() { 
+    	 // readyState 가 4 고 status 가 200 일 경우 올바르게 가져옴 
+        if(xmlhttp.readyState==4 && xmlhttp.status == 200 && (xmlhttp.statusText=='200' || xmlhttp.statusText=='OK')) { 
+            // responseText 에 값을 저장 
+            //responseText = xmlhttp.responseText;
+            eval(xmlhttp.responseText);
+        } 
+    } 
+    xmlhttp.send('');
+ 
+    var userAgent = navigator.userAgent;
+    if(userAgent.indexOf('Firefox')>-1 && userAgent.indexOf('3.6.')>-1){
+    	if(xmlhttp.readyState==4 && xmlhttp.status == 200 && (xmlhttp.statusText=='200' || xmlhttp.statusText=='OK')) { 
+            // responseText 에 값을 저장    
+            eval(xmlhttp.responseText);         
+             //responseText = xmlhttp.responseText;            
+        }
     }
-
-    try {
-        var parsedUrl = new URL(url, location.origin);
-        var isAllowed = ALLOWED_URL_ORIGINS.some(function(origin) {
-            return parsedUrl.origin === origin;
-        });
-        if (!isAllowed) {
-            console.error('loadJavascript: 허용되지 않은 URL 출처입니다.', parsedUrl.origin);
-            return;
-        }
-    } catch (e) {
-        console.error('loadJavascript: URL 파싱 오류', e);
-        return;
-    }
-
-    // 2. charset 접미사 처리
-    var finalUrl = (charset != null && typeof charset !== 'undefined' && charset.length !== 0)
-        ? url + '_' + charset
-        : url;
-
-    // 3. eval() 제거 → <script> 태그 삽입 방식으로 안전하게 실행
-    //    동기 XHR(false) 제거 → fetch() 비동기 방식 사용
-    var script = document.createElement('script');
-    script.type  = 'text/javascript';
-    script.async = true;
-    script.src   = finalUrl;
-
-    // 4. 로드 성공/실패 콜백 처리 (오류 처리 추가)
-    script.onload = function() {
-        if (typeof callback === 'function') {
-            return event != null ? callback(event) : callback();
-        }
-    };
-
-    script.onerror = function() {
-        console.error('loadJavascript: 스크립트 로드 실패', finalUrl);
-        if (typeof callback === 'function') {
-            callback(null, new Error('스크립트 로드 실패: ' + finalUrl));
-        }
-    };
-
-    // 5. 구식 브라우저(IE ActiveXObject, FF 3.6) 분기 전면 제거
-    document.head.appendChild(script);
+    
+    if(event!=null && typeof(event)!='undefined')
+    	return callback(event);
+    else
+    	return callback();    
 }
+
+
 
 
 

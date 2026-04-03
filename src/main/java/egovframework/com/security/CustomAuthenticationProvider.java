@@ -33,14 +33,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			user = (CustomUser) customizeUserDetailService.loadUserByUsername(user_id);
 			user_pw = (String) authentication.getCredentials();
 			
-			if(null == user)                         								throw new UsernameNotFoundException("아이디 또는 비밀번호가 일치하지 않습니다.");
-			else if("Y".equals(user.getLockAt()) && "5".equals(user.getFailrCnt())) throw new LockedException("로그인 5회 이상 실패로 잠긴 계정입니다.\n시스템관리자에게 문의하시기 바랍니다.");
-			else if("Y".equals(user.getLockAt()))          							throw new LockedException("장기 미사용(90일) 동안 사용하지 않았거나 관리자에 의해 접속이 차단되었습니다.\n시스템관리자에게 문의하시기 바랍니다.");
-			else if (!Sha256Crypto.authenticate(user_pw, user.getUserPw())) 		throw new CredentialsExpiredException("아이디 또는 비밀번호가 일치하지 않습니다.");
-			else if("N".equals(user.getUseYn()))          							throw new DisabledException("사용이 중지된 회원입니다.");
+			if(null == user)                         throw new UsernameNotFoundException("아이디 또는 비밀번호가 일치하지 않습니다.");
+			else if("Y".equals(user.getLockAt()))          throw new LockedException("로그인 5회 이상 실패로 잠긴 계정입니다. \n전산담당자 변현정선생님께 연락 부탁드립니다.");
+			else if (!Sha256Crypto.authenticate(user_pw, user.getUserPw())) throw new CredentialsExpiredException("아이디 또는 비밀번호가 일치하지 않습니다.");
+			else if("N".equals(user.getUseYn()))          throw new DisabledException("사용이 중지된 회원입니다.");
 			
 			authorities = user.getAuthorities();
-			if(authorities.size() <=0)               								throw new BadCredentialsException("권한이 존재하지 않습니다.");
+			if(authorities.size() <=0)               throw new BadCredentialsException("권한이 존재하지 않습니다.");
 		
 		} catch (CredentialsExpiredException  e) {
 			throw new CredentialsExpiredException (e.getMessage());

@@ -1,6 +1,5 @@
 package egovframework.ncts.cmm.sys.ipauth.web;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -114,9 +113,6 @@ public class EgovNctsSysipAuthController {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", e.getMessage());
 			
-		 } catch (IOException e) {
-			 LOGGER.debug(e.getMessage());
-				result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
 		}catch (Exception e) {		
 			LOGGER.debug(e.getMessage());
 			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
@@ -136,9 +132,6 @@ public class EgovNctsSysipAuthController {
 			LOGGER.debug(e.getMessage());
 			result.put("msg", e.getMessage());
 			
-		 } catch (IOException e) {
-				LOGGER.debug(e.getMessage());
-				result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType())); 
 		}catch (Exception e) {		
 			LOGGER.debug(e.getMessage());
 			result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
@@ -154,10 +147,7 @@ public class EgovNctsSysipAuthController {
 			sysipAuthService.ipChkYtoN(param);
 			result.put("success", "success");
 			result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
-		} catch (IOException e) {
-			 LOGGER.debug(e.getMessage());
-	            result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
-		}catch (Exception e) {
+        }catch (Exception e) {
             LOGGER.debug(e.getMessage());
             result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
         }
@@ -173,10 +163,7 @@ public class EgovNctsSysipAuthController {
 			
 			result.put("success", "success");
 			result.put("msg", ProcessMessageSource.newInstance().getMsg(param.getProcType()));
-		 } catch (IOException e) {
-			 LOGGER.debug(e.getMessage());
-	            result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
-		}catch (Exception e) {
+        }catch (Exception e) {
             LOGGER.debug(e.getMessage());
             result.put("msg", ProcessMessageSource.newInstance().getErrMsg(param.getProcType()));
         }

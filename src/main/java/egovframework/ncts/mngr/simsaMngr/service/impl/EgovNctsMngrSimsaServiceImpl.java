@@ -11,13 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.penta.scpdb.ScpDbAgent;
-import com.penta.scpdb.ScpDbAgentException;
-
 import egovframework.com.ParamUtils;
-import egovframework.com.TextUtil;
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.exception.ErrorExcetion;
 import egovframework.com.file.FileViewMarkupBuilder;
 import egovframework.com.vo.PageInfoVO;
@@ -42,10 +37,6 @@ public class EgovNctsMngrSimsaServiceImpl implements EgovNctsMngrSimsaService {
 	@Resource(name = "egovMessageSource")
 	EgovMessageSource egovMessageSource;
 
-//    String iniFilePath = "/penta/scpdb_agent.ini";
-    //String iniFilePath = "C:\\scp\\scpdb_agent.ini";
-    private final String iniFilePath = EgovProperties.getProperty("Globals.iniFilePath");
-    
 	@Override
 	public List<HashMap<String, Object>> selectSimsaList(PageInfoVO pageVO) throws Exception {
 
@@ -140,29 +131,11 @@ public class EgovNctsMngrSimsaServiceImpl implements EgovNctsMngrSimsaService {
 
 	@Override
 	public List<HashMap<String, Object>> selectSimsaAppListMain(MngrSimsaApplicantVO VO) throws Exception {
-	 ScpDbAgent agt = new ScpDbAgent();
+		
+		
      List<HashMap<String, Object>> list = egovNctsMngrSimsaMapper.selectSimsaAppListMain(VO);
 		
-	     // 결과값 변환 처리
-	     for (HashMap<String, Object> tmp : list) {
-	    	 try {
-			         if (tmp.get("USER_HP_NO") != null && !"".equals(String.valueOf(tmp.get("USER_HP_NO")))) {
-			         	String userHpNo = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_HP_NO").toString(),"UTF-8");
-			         	tmp.put("USER_HP_NO", TextUtil.formatTel(userHpNo));
-			         }
-			         if (tmp.get("USER_EMAIL") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL")))) {
-			         	tmp.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL").toString(),"UTF-8"));
-			         }
-		    	}
-		    	catch (ScpDbAgentException e) {
-		    		LOGGER.info(e.getMessage());
-		    	}
-		    	catch (Exception e) {
-		    		LOGGER.info(e.getMessage());
-		    	}  
-	     }
-
-     return list;
+		 return list;
 		
 	}
 
@@ -171,32 +144,15 @@ public class EgovNctsMngrSimsaServiceImpl implements EgovNctsMngrSimsaService {
 	@Override
 	public HashMap<String, Object> selectCommonExcel(PageInfoVO pageVO) throws Exception {
 		
-//			egovNctsMngrSimsaMapper.selectCommonExcel(pageVO);
-			ScpDbAgent agt = new ScpDbAgent();
-			
+			egovNctsMngrSimsaMapper.selectCommonExcel(pageVO);
+		 
 	        HashMap<String, Object> rs = new HashMap<>();
 	        HashMap<String, Object> paramMap = new HashMap<>();
 	        String fileName = "";
 	        String templateFile = "";
 	        
 	        List<HashMap<String, Object>> rsTp = egovNctsMngrSimsaMapper.selectCommonExcel(pageVO);
-	        for (HashMap<String, Object> tmp : rsTp) {
-	        	try {
-		            if (tmp.get("USER_HP_NO") != null && !"".equals(String.valueOf(tmp.get("USER_HP_NO")))) {
-		            	String userHpNo = agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_HP_NO").toString(),"UTF-8");
-		            	tmp.put("USER_HP_NO", TextUtil.formatTel(userHpNo));
-		            }
-		            if (tmp.get("USER_EMAIL") != null && !"".equals(String.valueOf(tmp.get("USER_EMAIL")))) {
-		            	tmp.put("USER_EMAIL", agt.ScpDecB64(iniFilePath, "KEY1",tmp.get("USER_EMAIL").toString(),"UTF-8"));
-		            }
-		    	}
-		    	catch (ScpDbAgentException e) {
-		    		LOGGER.info(e.getMessage());
-		    	}
-		    	catch (Exception e) {
-		    		LOGGER.info(e.getMessage());
-		    	}    
-		    }
+
 	        paramMap.put("rsList",rsTp);
 	        fileName = pageVO.getExcelFileNm();
 	        templateFile = pageVO.getExcelPageNm();

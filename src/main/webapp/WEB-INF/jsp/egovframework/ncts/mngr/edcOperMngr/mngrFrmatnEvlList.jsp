@@ -2,9 +2,9 @@
 <script type="text/javascript">
 	$(function(){
 	    var baseInfo = {
-	            insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-	            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-	            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+	            insertKey : "${common.baseType[0].key() }",
+	            updateKey : "${common.baseType[1].key() }",
+	            deleteKey : "${common.baseType[2].key() }",
 	            lUrl : "/ncts/mngr/edcOperMngr/mngrFrmatnEvlList.do",
 	            fUrl : "/ncts/mngr/edcOperMngr/mngrFrmatnEvlForm.do",
 	            dUrl : "/ncts/mngr/edcOperMngr/mngrDeleteEvl.do",
@@ -123,7 +123,7 @@
                             <select id="sGubun" name="sGubun" class="form-control" style="text-align-last:center;">
                                 <option value="">선택</option>
                                     <c:forEach var="lecIdList" items="${lecIdList }" varStatus="idx">
-                                        <option value='<c:out value="${lecIdList.LECTURE_ID}"/>' <c:out value="${param.sGubun eq lecIdList.LECTURE_ID ? 'selected=selected':'' }"/>><c:out value="${lecIdList.LECTURE_NM }"/></option>
+                                        <option value="${lecIdList.LECTURE_ID}" ${param.sGubun eq lecIdList.LECTURE_ID ? 'selected="selected"':'' }>${lecIdList.LECTURE_NM }</option>
                                     </c:forEach>
                             </select>
                         </li>
@@ -170,15 +170,15 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-									   <input type="checkbox" name="lectureId" class="index" value='<c:out value="${list.LECTURE_ID}"/>'>
-									   <input type="hidden" name="examNo" class="" value='<c:out value="${list.EXAM_NO}"/>'>
-									   <input type="hidden" name="examSqno" class="" value='<c:out value="${list.EXAM_SQNO}"/>'>
+									   <input type="checkbox" name="lectureId" class="index" value="${list.LECTURE_ID}">
+									   <input type="hidden" name="examNo" class="" value="${list.EXAM_NO}">
+									   <input type="hidden" name="examSqno" class="" value="${list.EXAM_SQNO}">
 									</td>
-									<td><c:out value="${list.LECTURE_NM}"/></td>
-									<td><c:out value="${list.EXAM_NO}"/></td>
-									<td><c:out value="${list.EXAM_NM}"/></td>
+									<td>${list.LECTURE_NM}</td>
+									<td>${list.EXAM_NO}</td>
+									<td>${list.EXAM_NM}</td>
 									<td><c:forEach var="codeMap" items="${codeMap }" varStatus="ix">
-									       <c:if test = "${list.EXAM_TYPE_CD eq codeMap.CODE}"><c:out value="${codeMap.CODE_NM}"/></c:if>
+									       <c:if test = "${list.EXAM_TYPE_CD eq codeMap.CODE}">${codeMap.CODE_NM}</c:if>
 									    </c:forEach>
 									</td>
 								</tr>

@@ -4,9 +4,9 @@
 	$(function(){
 		var excelPg = 0;
 	    var baseInfo = {
-	            insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-	            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-	            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+	            insertKey : "${common.baseType[0].key() }",
+	            updateKey : "${common.baseType[1].key() }",
+	            deleteKey : "${common.baseType[2].key() }",
 	            lUrl : "/ncts/mngr/userMngr/mngrDistSptExprncList.do",
 	            dUrl : "/ncts/mngr/userMngr/mngrDeleteDistSptExprnc.do",
 	            excel : "/ncts/mngr/userMngr/mngrDistSptExprncDownload.do"
@@ -162,10 +162,10 @@
                         <li class="w115 ml5">
                             <select id="sGubun" name="sGubun" class="form-control">
                                 <option value="">선택</option>
-                                <option value="01" <c:out value="${param.sGubun eq '01' ? 'selected=selected':'' }"/>>작성자</option>
-                                <option value="02" <c:out value="${param.sGubun eq '02' ? 'selected=selected':'' }"/>>재난사건명</option>
-                                <option value="03" <c:out value="${param.sGubun eq '03' ? 'selected=selected':'' }"/>>지역</option>
-                                <option value="04" <c:out value="${param.sGubun eq '04' ? 'selected=selected':'' }"/>>활동내용</option>
+                                <option value="01" ${param.sGubun eq '01' ? 'selected="selected"':'' }>작성자</option>
+                                <option value="02" ${param.sGubun eq '02' ? 'selected="selected"':'' }>재난사건명</option>
+                                <option value="03" ${param.sGubun eq '03' ? 'selected="selected"':'' }>지역</option>
+                                <option value="04" ${param.sGubun eq '04' ? 'selected="selected"':'' }>활동내용</option>
                             </select>
                         </li>
                         <li class="w200 ml5" id = "search">
@@ -218,14 +218,14 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value='<c:out value="${list.DIST_SPOT_EXPRNC_SEQ}"/>'>
+										<input type="checkbox" class="index" value="${list.DIST_SPOT_EXPRNC_SEQ}">
 									</td>
-									<td><c:out value="${list.USER_NM}"/></td>
-									<td class="text-left"><c:out value="${list.DIST_INCIDENT_NM}"/></td>
-									<td><c:out value="${list.START_TIME}"/></td>
-									<td><c:out value="${list.END_TIME}"/></td>
-									<td class="text-left"><c:out value="${list.ACTIVITY_CONTENT}"/></td>
-									<td><c:out value="${list.DIST_INCIDENT_AREA}"/></td>
+									<td>${list.USER_NM}</td>
+									<td class="text-left">${list.DIST_INCIDENT_NM}</td>
+									<td>${list.START_TIME}</td>
+									<td>${list.END_TIME}</td>
+									<td class="text-left">${list.ACTIVITY_CONTENT}</td>
+									<td>${list.DIST_INCIDENT_AREA}</td>
 								</tr>
 							</c:forEach>
 						</tbody>

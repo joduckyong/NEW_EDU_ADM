@@ -72,7 +72,7 @@
 											<c:when test="${left.MENU_CD eq '110140000'}"><i class="fa fa-fw fa-graduation-cap"></i><%-- 직무동영상관리 --%></c:when>
 											<c:otherwise><i class="fa fa-lg fa-fw fa-th-list"></i></c:otherwise>
 										</c:choose>
-										<span class="menu-item-parent"><c:out value='${left.MENU_NM }'/></span>
+										<span class="menu-item-parent">${left.MENU_NM }</span>
 									</a>			
 								</c:when>
 								<c:when test="${left.MENU_DEPTH eq 3 }">
@@ -81,7 +81,7 @@
 										<ul>
 									</c:if>
 									<c:set var="isChild"  value="true" />
-									<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/<c:out value="${left.MENU_CD}"/>.do" title="리스트"><span class="menu-item-parent"><c:out value="${left.MENU_NM }"/></span></a></li>
+									<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/${left.MENU_CD}.do" title="리스트"><span class="menu-item-parent">${left.MENU_NM }</span></a></li>
 									
 								</c:when>
 							</c:choose>
@@ -107,7 +107,7 @@
 													<c:when test="${left.MENU_CD eq '110120000'}"><i class="fa fa-fw fa-check-square-o"></i><%-- 직무교육관리 --%></c:when>
 													<c:otherwise><i class="fa fa-lg fa-fw fa-th-list"></i></c:otherwise>
 												</c:choose>
-												<span class="menu-item-parent"><c:out value="${left.MENU_NM }"/></span>
+												<span class="menu-item-parent">${left.MENU_NM }</span>
 											</a>			
 										</c:when>
 										<c:when test="${left.MENU_DEPTH eq 3}">
@@ -116,7 +116,7 @@
 												<ul>
 											</c:if>
 											<c:set var="isChild"  value="true" />
-											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/<c:out value="${left.MENU_CD}"/>.do" title="리스트"><span class="menu-item-parent"><c:out value="${left.MENU_NM }"/></span></a></li>
+											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/${left.MENU_CD}.do" title="리스트"><span class="menu-item-parent">${left.MENU_NM }</span></a></li>
 										</c:when>
 									</c:choose>
 
@@ -140,7 +140,7 @@
 													<c:when test="${left.MENU_CD eq '110120000'}"><i class="fa fa-fw fa-check-square-o"></i><%-- 직무교육관리 --%></c:when>													
 													<c:otherwise><i class="fa fa-lg fa-fw fa-th-list"></i></c:otherwise>
 												</c:choose>
-												<span class="menu-item-parent"><c:out value="${left.MENU_NM }"/></span>
+												<span class="menu-item-parent">${left.MENU_NM }</span>
 											</a>			
 										</c:when>
 										<c:when test="${left.MENU_DEPTH eq 3}">
@@ -149,7 +149,7 @@
 												<ul>
 											</c:if>
 											<c:set var="isChild"  value="true" />
-											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/<c:out value="${left.MENU_CD}"/>.do" title="리스트"><span class="menu-item-parent"><c:out value="${left.MENU_NM }"/></span></a></li>
+											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/${left.MENU_CD}.do" title="리스트"><span class="menu-item-parent">${left.MENU_NM }</span></a></li>
 										</c:when>
 									</c:choose>									
 								</c:if>
@@ -172,7 +172,7 @@
 													<c:when test="${left.MENU_CD eq '110120000'}"><i class="fa fa-fw fa-check-square-o"></i><%-- 직무교육관리 --%></c:when>													
 													<c:otherwise><i class="fa fa-lg fa-fw fa-th-list"></i></c:otherwise>
 												</c:choose>
-												<span class="menu-item-parent"><c:out value="${left.MENU_NM }"/></span>
+												<span class="menu-item-parent">${left.MENU_NM }</span>
 											</a>			
 										</c:when>
 										<c:when test="${left.MENU_DEPTH eq 3}">
@@ -181,7 +181,7 @@
 												<ul>
 											</c:if>
 											<c:set var="isChild"  value="true" />
-											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/<c:out value="${left.MENU_CD}"/>.do" title="리스트"><span class="menu-item-parent"><c:out value="${left.MENU_NM }"/></span></a></li>
+											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/${left.MENU_CD}.do" title="리스트"><span class="menu-item-parent">${left.MENU_NM }</span></a></li>
 										</c:when>
 									</c:choose>									
 								</c:if>
@@ -203,7 +203,7 @@
 													<c:when test="${left.MENU_CD eq '110130000'}"><i class="fa fa-fw fa-graduation-cap"></i><%-- 직무교육관리 --%></c:when>													
 													<c:otherwise><i class="fa fa-lg fa-fw fa-th-list"></i></c:otherwise>
 												</c:choose>
-												<span class="menu-item-parent"><c:out value="${left.MENU_NM }"/></span>
+												<span class="menu-item-parent">${left.MENU_NM }</span>
 											</a>			
 										</c:when>
 										<c:when test="${left.MENU_DEPTH eq 3}">
@@ -212,7 +212,7 @@
 												<ul>
 											</c:if>
 											<c:set var="isChild"  value="true" />
-											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/<c:out value="${left.MENU_CD}"/>.do" title="리스트"><span class="menu-item-parent"><c:out value="${left.MENU_NM }"/></span></a></li>
+											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/${left.MENU_CD}.do" title="리스트"><span class="menu-item-parent">${left.MENU_NM }</span></a></li>
 										</c:when>
 									</c:choose>									
 								</c:if>
@@ -233,7 +233,7 @@
 													<c:when test="${left.MENU_CD eq '110130000'}"><i class="fa fa-fw fa-graduation-cap"></i><%-- 직무교육관리 --%></c:when>													
 													<c:otherwise><i class="fa fa-lg fa-fw fa-th-list"></i></c:otherwise>
 												</c:choose>
-												<span class="menu-item-parent"><c:out value='${left.MENU_NM }'/></span>
+												<span class="menu-item-parent">${left.MENU_NM }</span>
 											</a>			
 										</c:when>
 										<c:when test="${left.MENU_DEPTH eq 3}">
@@ -242,7 +242,7 @@
 												<ul>
 											</c:if>
 											<c:set var="isChild"  value="true" />
-											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/<c:out value="${left.MENU_CD}"/>.do" title="리스트"><span class="menu-item-parent"><c:out value="${left.MENU_NM }"/></span></a></li>
+											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/${left.MENU_CD}.do" title="리스트"><span class="menu-item-parent">${left.MENU_NM }</span></a></li>
 										</c:when>
 									</c:choose>									
 								</c:if>
@@ -264,7 +264,7 @@
 													<c:when test="${left.MENU_CD eq '110140000'}"><i class="fa fa-fw fa-graduation-cap"></i><%-- 직무동영상관리 --%></c:when>												
 													<c:otherwise><i class="fa fa-lg fa-fw fa-th-list"></i></c:otherwise>
 												</c:choose>
-												<span class="menu-item-parent"><c:out value='${left.MENU_NM }'/></span>
+												<span class="menu-item-parent">${left.MENU_NM }</span>
 											</a>			
 										</c:when>
 										<c:when test="${left.MENU_DEPTH eq 3}">
@@ -273,7 +273,7 @@
 												<ul>
 											</c:if>
 											<c:set var="isChild"  value="true" />
-											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/<c:out value="${left.MENU_CD}"/>.do" title="리스트"><span class="menu-item-parent"><c:out value="${left.MENU_NM }"/></span></a></li>
+											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/${left.MENU_CD}.do" title="리스트"><span class="menu-item-parent">${left.MENU_NM }</span></a></li>
 										</c:when>
 									</c:choose>									
 								</c:if>
@@ -294,7 +294,7 @@
 													<c:when test="${left.MENU_CD eq '110140000'}"><i class="fa fa-fw fa-graduation-cap"></i><%-- 직무동영상관리 --%></c:when>												
 													<c:otherwise><i class="fa fa-lg fa-fw fa-th-list"></i></c:otherwise>
 												</c:choose>
-												<span class="menu-item-parent"><c:out value='${left.MENU_NM }'/></span>
+												<span class="menu-item-parent">${left.MENU_NM }</span>
 											</a>			
 										</c:when>
 										<c:when test="${left.MENU_DEPTH eq 3}">
@@ -303,7 +303,7 @@
 												<ul>
 											</c:if>
 											<c:set var="isChild"  value="true" />
-											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/<c:out value="${left.MENU_CD}"/>.do" title="리스트"><span class="menu-item-parent"><c:out value="${left.MENU_NM }"/></span></a></li>
+											<li <c:if test="${pageInfo.PARENT_CD eq left.MENU_CD }">class="active"</c:if>><a href="/ncts/middle/${left.MENU_CD}.do" title="리스트"><span class="menu-item-parent">${left.MENU_NM }</span></a></li>
 										</c:when>
 									</c:choose>									
 								</c:if>

@@ -7,8 +7,8 @@ $(function(){
 	CKEDITOR.replace('gnrlEduCn',{height : 200});
 	
 	var baseInfo = {
-			lUrl : "<c:out value='${pageInfo.READ_AT eq "Y" ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }'/>",
-			fUrl : "<c:out value='${pageInfo.MENU_DETAIL_URL }'/>",
+			lUrl : "${pageInfo.READ_AT eq 'Y' ? pageInfo.MENU_URL : pageInfo.MENU_DETAIL_URL   }",
+			fUrl : "${pageInfo.MENU_DETAIL_URL }",
 			instrctrPopup : "/ncts/mngr/eduReqstMngr/mngrEduInstrctrAppliListPopup.do",
 	}	
 	
@@ -115,7 +115,7 @@ $(function(){
 			data			: {
 								deptDepth : depth,
 								parentCd  : parentCd,
-								"<c:out value='${_csrf.parameterName}'/>" : "<c:out value='${_csrf.token}'/>"
+								"${_csrf.parameterName}" : "${_csrf.token}"
 			},
 			dataType		: 'json',
 			success			: function(result) {
@@ -325,8 +325,8 @@ $(function(){
 						<jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
 						<input type="hidden" id="gnrlEduCnSnapshot" name="gnrlEduCnSnapshot">
 						<input type="hidden" id="eduCnHtml" name="eduCnHtml">
-						<input type="hidden" id="gnrlEduSeq" name="gnrlEduSeq" value="<c:out value='${result.GNRL_EDU_SEQ }'/>">
-						<input type="hidden" name="atchFileId" value="<c:out value='${result.ATCH_FILE_ID }'/>">
+						<input type="hidden" id="gnrlEduSeq" name="gnrlEduSeq" value="${result.GNRL_EDU_SEQ }">
+						<input type="hidden" name="atchFileId" value="${result.ATCH_FILE_ID }">
 						<input type="hidden" class="tempSeq" name="tempSeq" value="" />
 						<input type="hidden" name="eduDivision" value="03" />
 						
@@ -350,7 +350,7 @@ $(function(){
                                                 <option value="">선택</option>
                                                     <c:forEach var="lecList" items="${eduResult}" varStatus="idx">
                                                         <c:if test="${lecList.LECTURE_ID ne '일반' and lecList.VIDEO_AT ne 'Y'}">
-                                                            <option value="<c:out value='${lecList.LECTURE_ID}'/>" <c:out value="${result.GNRL_LECTURE_ID eq lecList.LECTURE_ID ? 'selected=selected' : ''}"/>> <c:out value="${lecList.LECTURE_NM}"/></option>
+                                                            <option value="${lecList.LECTURE_ID}" ${result.GNRL_LECTURE_ID eq lecList.LECTURE_ID ? 'selected="selected"' : ''}> ${lecList.LECTURE_NM}</option>
                                                         </c:if>
                                                     </c:forEach>
                                             </select> <i></i>
@@ -361,7 +361,7 @@ $(function(){
                                     <th scope="row">교육명 </th>
                                     <td colspan="7">
                                        <label class="input w300">
-                                            <input type="text" id="gnrlEduNm" name="gnrlEduNm"  value="<c:out value='${result.GNRL_EDU_NM }'/>" />
+                                            <input type="text" id="gnrlEduNm" name="gnrlEduNm"  value="${result.GNRL_EDU_NM }" />
                                         </label>
                                     </td>
                                 </tr>
@@ -373,7 +373,7 @@ $(function(){
 												<c:if test="${list.CODE eq '00'}">
 													<label class="radio">
 														<%-- <input type="radio" value="${list.CODE }" name="gnrlEduProcess" ${result.GNRL_EDU_PROCESS eq list.CODE ? 'checked="checked"' :'' }><i></i>${list.CODE_NM } --%>
-														<input type="radio" value="<c:out value='${list.CODE }'/>" name="gnrlEduProcess" checked><i></i><c:out value="${list.CODE_NM }"/>
+														<input type="radio" value="${list.CODE }" name="gnrlEduProcess" checked><i></i>${list.CODE_NM }
 													</label>
 												</c:if>
 											</c:forEach>
@@ -384,11 +384,11 @@ $(function(){
 									<th scope="row">교육날짜</th>
 									<td colspan="7">
 										<label class="input w120 col"><i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="gnrlEduDe" name="gnrlEduDe" value="<c:out value='${result.GNRL_EDU_DE }'/>" class="date inputcal tt">
+											<input type="text" id="gnrlEduDe" name="gnrlEduDe" value="${result.GNRL_EDU_DE }" class="date inputcal tt">
 										</label>
 										<label class="label col">~</label>
 										<label class="input w120 col ml5"><i class="icon-append fa fa-calendar"></i>
-											<input type="text" id="gnrlEduEndDe" name="gnrlEduEndDe"     value="<c:out value='${result.GNRL_EDU_END_DE }'/>" class="date inputcal tt">
+											<input type="text" id="gnrlEduEndDe" name="gnrlEduEndDe"     value="${result.GNRL_EDU_END_DE }" class="date inputcal tt">
 										</label>
 									</td>
 								</tr>
@@ -396,19 +396,19 @@ $(function(){
 									<th scope="row">교육시간</th>
 									<td colspan="7">
 										<label class="input w40 col mr5">
-											<input type="text" class="onlyNum hh" id="gnrlEduBeginTimeHour" name="gnrlEduBeginTimeHour" value="<c:out value='${result.GNRL_EDU_BEGIN_TIME_HOUR }'/>" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum hh" id="gnrlEduBeginTimeHour" name="gnrlEduBeginTimeHour" value="${result.GNRL_EDU_BEGIN_TIME_HOUR }" class="part_time" maxlength="2">
 										</label>
 										<label class="label col">:</label>
 										<label class="input w40 col ml5 mr5"> 
-											<input type="text" class="onlyNum mm" id="gnrlEduBeginTimeMin" name="gnrlEduBeginTimeMin"   value="<c:out value='${result.GNRL_EDU_BEGIN_TIME_MIN }'/>" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum mm" id="gnrlEduBeginTimeMin" name="gnrlEduBeginTimeMin"   value="${result.GNRL_EDU_BEGIN_TIME_MIN }" class="part_time" maxlength="2">
 										</label>
 										<label class="label col">-</label>
 										<label class="input w40 col ml5 mr5">
-											<input type="text" class="onlyNum hh" id="gnrlEduEndTimeHour" name="gnrlEduEndTimeHour"     value="<c:out value='${result.GNRL_EDU_END_TIME_HOUR }'/>" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum hh" id="gnrlEduEndTimeHour" name="gnrlEduEndTimeHour"     value="${result.GNRL_EDU_END_TIME_HOUR }" class="part_time" maxlength="2">
 										</label> 
 										<label class="label col">:</label>
 										<label class="input w40 col ml5 mr5">
-											<input type="text" class="onlyNum mm" id="gnrlEduEndTimeMin" name="gnrlEduEndTimeMin"       value="<c:out value='${result.GNRL_EDU_END_TIME_MIN }'/>" class="part_time" maxlength="2">
+											<input type="text" class="onlyNum mm" id="gnrlEduEndTimeMin" name="gnrlEduEndTimeMin"       value="${result.GNRL_EDU_END_TIME_MIN }" class="part_time" maxlength="2">
 										</label>
 									</td>
 								</tr>
@@ -473,26 +473,26 @@ $(function(){
 									<th scope="row">교육장소</th>
 									<td colspan="2">
 										<label class="input">
-											<input type="text" id="gnrlEduPlace" name="gnrlEduPlace" value="<c:out value='${result.GNRL_EDU_PLACE }'/>" />
+											<input type="text" id="gnrlEduPlace" name="gnrlEduPlace" value="${result.GNRL_EDU_PLACE }" />
 										</label>
 									</td>
 									<th scope="row">교육강사</th>
 									<input type="hidden" name="deptAllAuthorAt" value="<sec:authentication property="principal.deptAllAuthorAt"/>">	
 									<td colspan="4">
 										<label class="input w200">
-											<input type="hidden" id="eduInstNo" name="eduInstNo" value="<c:out value='${result.INSTRCTR_NO_I }'/>">
+											<input type="hidden" id="eduInstNo" name="eduInstNo" value="${result.INSTRCTR_NO_I }">
 											주강사
 											<div class="fL wp5">
-											<input type="text" id="eduInstNm" value="<c:out value='${result.INSTRCTR_NM_I }'/>" readonly/>
+											<input type="text" id="eduInstNm" value="${result.INSTRCTR_NM_I }" readonly/>
 											</div>
 										</label>
-										<button class="btn btn-primary ml2 instrctrListBtn dstrctHide" type="button" id="instrctrListBtn" ><i class="fa fa-edit" title="주강사"></i>주강사 배정</button>
+										<button class="btn btn-primary ml2 instrctrListBtn dstrctHide" type="button" id="instrctrListBtn" style="display:none;"><i class="fa fa-edit" title="주강사"></i>주강사 배정</button>
 											<label class="input w200">
-											<input type="hidden" id="eduAssistInstNo" name="eduAssistInstNo" value="<c:out value='${result.INSTRCTR_NO_S }'/>">
+											<input type="hidden" id="eduAssistInstNo" name="eduAssistInstNo" value="${result.INSTRCTR_NO_S }">
 											준강사
-											<div class="fL wp5"><input type="text" id="eduAssistInstNm" value="<c:out value='${result.INSTRCTR_NM_S }'/>" readonly/></div>
+											<div class="fL wp5"><input type="text" id="eduAssistInstNm" value="${result.INSTRCTR_NM_S }" readonly/></div>
 											</label>
-										<button class="btn btn-primary ml2 instrctrListBtn dstrctHide" type="button" id="copInstrctrListBtn" ><i class="fa fa-edit" title="준강사"></i>준강사 배정</button>
+										<button class="btn btn-primary ml2 instrctrListBtn dstrctHide" type="button" id="copInstrctrListBtn" style="display:none;"><i class="fa fa-edit" title="준강사"></i>준강사 배정</button>
 										
 									</td>
 									<%-- <th scope="row">교육강사소속</th>
@@ -506,14 +506,14 @@ $(function(){
 								<th scope="row">신청기관</th>
 									<td colspan="3">
 										<label class="input w200 col">
-											<input type="text" id="gnrlEduReqstInstt" name="gnrlEduReqstInstt" value="<c:out value='${result.GNRL_EDU_REQST_INSTT }'/>">
+											<input type="text" id="gnrlEduReqstInstt" name="gnrlEduReqstInstt" value="${result.GNRL_EDU_REQST_INSTT }">
 										</label>
 									</td>
 									<th scope="row">센터 </th>
 									<td colspan="7">
 										<c:choose>
 											<c:when test="${common.baseType[1].key() eq common.procType }">
-												<input type="hidden" id="centerCd" name="centerCd" value="<c:out value='${result.CENTER_CD }'/>" >
+												<input type="hidden" id="centerCd" name="centerCd" value="${result.CENTER_CD }" >
 												<c:out value="${result.CENTER_NM }" />
 											</c:when>
 											<c:otherwise>
@@ -522,7 +522,7 @@ $(function(){
 														<select id="centerCd" name="centerCd">
 															<option value="">선택</option>
 															<c:forEach var="center" items="${centerList }" varStatus="idx">
-																<option value="<c:out value='${center.DEPT_CD }'/>" data-groupId="<c:out value='${center.GROUP_ID }'/>" <c:out value="${center.DEPT_CD eq result.CENTER_CD ? 'selected=selected':'' }"/> ><c:out value="${center.DEPT_NM }"/></option>
+																<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq result.CENTER_CD ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
 															</c:forEach>
 														</select> <i></i>
 													</label>
@@ -539,13 +539,13 @@ $(function(){
 									<th>교육대상</th>
 									<td colspan="3">
 										<label class="input w200 col">
-											<input type="text" id="gnrlEduTargetType" name="gnrlEduTargetType" value="<c:out value='${result.GNRL_EDU_TARGET_TYPE }'/>">
+											<input type="text" id="gnrlEduTargetType" name="gnrlEduTargetType" value="${result.GNRL_EDU_TARGET_TYPE }">
 										</label>
 									</td>
 									<th scope="row">교육인원</th>
 									<td colspan="3">
 										<label class="input w150 col">
-											<input type="text" id="gnrlEduNmpr" name="gnrlEduNmpr" value="<c:out value='${result.GNRL_EDU_NMPR }'/>" class="onlyNum10">
+											<input type="text" id="gnrlEduNmpr" name="gnrlEduNmpr" value="${result.GNRL_EDU_NMPR }" class="onlyNum10">
 										</label>
 									</td>
 								</tr>
@@ -554,13 +554,13 @@ $(function(){
 								<tr>
 									<th scope="row">첨부파일 </th>
 									<td colspan="7">
-										<c:out value="${markup}" escapeXml="false"/>
+										${markup }
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">교육내용 </th>
 									<td colspan="7"  class="board_contents">
-										<textarea id="gnrlEduCn" name="gnrlEduCn" class="part_long board_contents" style="width: 100%; min-width: 100%;"><c:out value="${result.GNRL_EDU_CN }"/></textarea>
+										<textarea id="gnrlEduCn" name="gnrlEduCn" class="part_long board_contents" style="width: 100%; min-width: 100%;">${result.GNRL_EDU_CN }</textarea>
 									</td>
 								</tr>
 							</tbody>

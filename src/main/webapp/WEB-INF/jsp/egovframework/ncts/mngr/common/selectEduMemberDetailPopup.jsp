@@ -3,9 +3,9 @@
 <script type="text/javascript">
 $(function(){
     var baseInfo = {
-            insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+            insertKey : "${common.baseType[0].key() }",
+            updateKey : "${common.baseType[1].key() }",
+            deleteKey : "${common.baseType[2].key() }",
             lUrl : "/ncts/mngr/common/selectEduMemberDetailPopup.do",
             pop01 : "/ncts/mngr/userMngr/mngrFileConfirmListPopup.do",
             notePop : "/ncts/mngr/userMngr/mngrMemberNoteListPopup.do",
@@ -13,7 +13,7 @@ $(function(){
     }
     
     $.dataDetail = function(){
-    	var pageType = '<c:out value="${result.INSTRCTR_DETAIL_GRADE_CD}"/>' != "99" ? "INSTRCTR" : "";
+    	var pageType = "${result.INSTRCTR_DETAIL_GRADE_CD}" != "99" ? "INSTRCTR" : "";
     	var aUrl = pageType == "INSTRCTR" ? "/ncts/mngr/instrctrMngr/mngrInstrctrDetail.do" : "/ncts/mngr/userMngr/mngrMemberDetail.do";
     	
         $.ajax({
@@ -60,7 +60,7 @@ $(function(){
                     $(".notePopBtn").notePopBtnOnClickEvt();
                     $(".instrctrResult").instrctrResultOnChangeEvt(baseInfo.insertKey, document.sForm.userNo.value);
                     
-                    if($("input[name='deptAllAuthorAt']").val() == "N" && '<c:out value="${param.excpAt}"/>' != "Y") $("#fileConfirmBtn").prop("disabled", true);
+                    if($("input[name='deptAllAuthorAt']").val() == "N" && "${param.excpAt}" != "Y") $("#fileConfirmBtn").prop("disabled", true);
                     
                     $(".inputcal").each(function(){$(this).userDatePicker({yearRange : '1900:'+currentYear});});
                 }
@@ -198,13 +198,13 @@ $(function(){
 	<section id="widget-grid" class="">
 		<!-- Search 영역 시작 -->
 		<form name="sForm" id="sForm" method="post">
-        	<input type="hidden" name="userNo" id="userNo" value='<c:out value="${param.userNo }"/>'>
-        	<input type="hidden" name="courses" id="courses" value='<c:out value="${result.INSTRCTR_DETAIL_GRADE_CD eq '99' ? '00' : '04' }"/>'>
+        	<input type="hidden" name="userNo" id="userNo" value="${param.userNo }">
+        	<input type="hidden" name="courses" id="courses" value="${result.INSTRCTR_DETAIL_GRADE_CD eq '99' ? '00' : '04' }">
             <input type="hidden" name="fileConfirmAt" id="fileConfirmAt" value="">
-            <input type="hidden" name="searchCondition2" id="searchCondition2" value='<c:out value="${param.searchCondition2 }"/>'>
+            <input type="hidden" name="searchCondition2" id="searchCondition2" value="${param.searchCondition2 }">
             <input type="hidden" name="loginUserId" value="<sec:authentication property="principal.userId"/>" >
             <input type="hidden" name="deptAllAuthorAt" value="<sec:authentication property="principal.deptAllAuthorAt"/>">
-            <input type="hidden" name="excpAt" value='<c:out value="${param.excpAt }"/>'>
+            <input type="hidden" name="excpAt" value="${param.excpAt }">
             <jsp:include page="/WEB-INF/jsp/egovframework/ncts/layout/mixin/baseInput.jsp" flush="false" />
         </form>
 		<!-- Search 영역 끝 -->
@@ -440,9 +440,9 @@ $(function(){
 		<label class="select col w150 mr5" style="display:inline;">
 			<select id="pfatGradeCd" name="pfatGradeCd" class="instrctrSelect">
            		<option value="">해당없음</option>
-                	<c:forEach var="list" items="${codeMap.DMH24 }>" varStatus="idx">
-                    	<option value='<c:out value="${list.CODE }"/>'>
-	                    	<c:out value="${list.CODE_NM}"/>
+                	<c:forEach var="list" items="${codeMap.DMH24 }" varStatus="idx">
+                    	<option value="${list.CODE }">
+	                    	${list.CODE_NM}
                         </option>
                	 	</c:forEach>    
 			</select> <i></i>
@@ -452,7 +452,7 @@ $(function(){
 				<select id="pfatInstrctrResult" class="instrctrResult" data-result="{{PFAT_INSTRCTR_RESULT}}" data-gubun="PFAT" disabled>
                 	<c:forEach var="list" items="${codeMap.DMH30 }" varStatus="idx">
 						<c:if test="${list.CODE ne '00'}">
-							<option value='<c:out value="${list.CODE}"/>' data-change-at='<c:out value="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}"/>' data-other='<c:out value="${list.CODE eq '99' ? 'Y' : ''}"/>'><c:out value="${list.CODE_NM}"/></option>
+							<option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}" data-other="${list.CODE eq '99' ? 'Y' : ''}">${list.CODE_NM}</option>
 						</c:if>
                	 	</c:forEach> 
 				</select>
@@ -474,8 +474,8 @@ $(function(){
 			<select id="sprtGradeCd" name="sprtGradeCd" class="instrctrSelect">
            		<option value="">해당없음</option>
                 	<c:forEach var="list" items="${codeMap.DMH24 }" varStatus="idx">
-                    	<option value='<c:out value="${list.CODE }"/>'>
-	                    	<c:out value="${list.CODE_NM}"/>
+                    	<option value="${list.CODE }">
+	                    	${list.CODE_NM}
                         </option>
                	 	</c:forEach>  
 			</select> <i></i>
@@ -485,7 +485,7 @@ $(function(){
 				<select id="sprtInstrctrResult" class="instrctrResult" data-result="{{SPRT_INSTRCTR_RESULT}}" data-gubun="SPRT" disabled>
                 	<c:forEach var="list" items="${codeMap.DMH30 }" varStatus="idx">
 						<c:if test="${list.CODE ne '00'}">
-							<option value='<c:out value="${list.CODE}"/>' data-change-at='<c:out value="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}"/>' data-other='<c:out value="${list.CODE eq '99' ? 'Y' : ''}"/>'><c:out value="${list.CODE_NM}"/></option>
+							<option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}" data-other="${list.CODE eq '99' ? 'Y' : ''}">${list.CODE_NM}</option>
 						</c:if>
                	 	</c:forEach> 
 				</select>
@@ -507,8 +507,8 @@ $(function(){
 			<select id="pmptGradeCd" name="pmptGradeCd" class="instrctrSelect">
            		<option value="">해당없음</option>
                 	<c:forEach var="list" items="${codeMap.DMH24 }" varStatus="idx">
-                    	<option value='<c:out value="${list.CODE }"/>'>
-	                    	<c:out value="${list.CODE_NM}"/>
+                    	<option value="${list.CODE }">
+	                    	${list.CODE_NM}
                         </option>
                	 	</c:forEach>  
 			</select> <i></i>
@@ -518,7 +518,7 @@ $(function(){
 				<select id="pmptInstrctrResult" class="instrctrResult" data-result="{{PMPT_INSTRCTR_RESULT}}" data-gubun="PMPT" disabled>
                 	<c:forEach var="list" items="${codeMap.DMH30 }" varStatus="idx">
 						<c:if test="${list.CODE ne '00'}">
-							<option value='<c:out value="${list.CODE}"/>' data-change-at='<c:out value="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}"/>' data-other='<c:out value="${list.CODE eq '99' ? 'Y' : ''}"/>'><c:out value="${list.CODE_NM}"/></option>
+							<option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}" data-other="${list.CODE eq '99' ? 'Y' : ''}">${list.CODE_NM}</option>
 						</c:if>
                	 	</c:forEach> 
 				</select>
@@ -540,8 +540,8 @@ $(function(){
 			<select id="mpgtGradeCd" name="mpgtGradeCd" class="instrctrSelect">
            		<option value="">해당없음</option>
                 	<c:forEach var="list" items="${codeMap.DMH24 }" varStatus="idx">
-                    	<option value='<c:out value="${list.CODE }"/>'>
-	                    	<c:out value="${list.CODE_NM}"/>
+                    	<option value="${list.CODE }">
+	                    	${list.CODE_NM}
                         </option>
                	 	</c:forEach>  
 			</select> <i></i>
@@ -551,7 +551,7 @@ $(function(){
 				<select id="mpgtInstrctrResult" class="instrctrResult" data-result="{{MPGT_INSTRCTR_RESULT}}" data-gubun="MPGT" disabled>
                 	<c:forEach var="list" items="${codeMap.DMH30 }" varStatus="idx">
 						<c:if test="${list.CODE ne '00'}">
-							<option value='<c:out value="${list.CODE}"/>' data-change-at='<c:out value="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}"/>' data-other='<c:out value="${list.CODE eq '99' ? 'Y' : ''}"/>'><c:out value="${list.CODE_NM}"/></option>
+							<option value="${list.CODE}" data-change-at="${list.CODE eq '02' or list.CODE eq '03' ? 'Y' : ''}" data-other="${list.CODE eq '99' ? 'Y' : ''}">${list.CODE_NM}</option>
 						</c:if>
                	 	</c:forEach> 
 				</select>

@@ -4,9 +4,9 @@
 	$(function(){
 		var excelPg = 0;
 	    var baseInfo = {
-	            insertKey : '<c:out value="${common.baseType[0].key() }"/>',
-	            updateKey : '<c:out value="${common.baseType[1].key() }"/>',
-	            deleteKey : '<c:out value="${common.baseType[2].key() }"/>',
+	            insertKey : "${common.baseType[0].key() }",
+	            updateKey : "${common.baseType[1].key() }",
+	            deleteKey : "${common.baseType[2].key() }",
 	            lUrl : "/ncts/mngr/eduReqstMngr/mngrEdcReqstList.do",
 	            fUrl : "/ncts/mngr/eduReqstMngr/mngrEdcReqstForm.do",
 	            dUrl : "/ncts/mngr/eduReqstMngr/mngrEduReqstProcess.do",
@@ -339,7 +339,7 @@
 						"reqstSeq" : $("#reqstSeq").val(),
 						"procType" : baseInfo.updateKey,
 						"instrctrOthbcYn" : val,
-						'<c:out value="${_csrf.parameterName}"/>' : '<c:out value="${_csrf.token}"/>'
+						"${_csrf.parameterName}" : "${_csrf.token}"
 					},
 	                dataType: "json",
 	                success: function(data) {
@@ -635,7 +635,7 @@
 								<select name="centerCd" class="form-control">
 									<option value="">전체</option>
 									<c:forEach var="center" items="${centerList }" varStatus="idx">
-										<option value='<c:out value="${center.DEPT_CD }"/>' data-groupId='<c:out value="${center.GROUP_ID }"/>' <c:out value="${center.DEPT_CD eq param.centerCd ? 'selected=selected':'' }"/>><c:out value="${center.DEPT_NM }"/></option>
+										<option value="${center.DEPT_CD }" data-groupId="${center.GROUP_ID }" ${center.DEPT_CD eq param.centerCd ? 'selected="selected"':'' } >${center.DEPT_NM }</option>
 									</c:forEach>
 								</select> <i></i>
 							</li>
@@ -714,22 +714,22 @@
 							<c:forEach var="list" items="${list }" varStatus="idx">
 								<tr>
 									<td class="invisible">
-										<input type="checkbox" class="index" value='<c:out value="${list.REQST_SEQ}"/>' data-apply='<c:out value="${list.APPLY_AT }"/>' data-courses='<c:out value="${list.COURSES }"/>'>
-										<c:out value="${list.fileView}"/>
+										<input type="checkbox" class="index" value="${list.REQST_SEQ}" data-apply="${list.APPLY_AT }" data-courses="${list.COURSES }">
+										${list.fileView}
 										<%-- <input type="hidden" name = "searchLectureSq" value="${list.LECTURE_SQ}"> --%>
 									</td>
-									<td><c:out value="${list.CENTER_NM }"/></td>
+									<td>${list.CENTER_NM }</td>
 									<%-- <td>${!empty list.DIST_MANAGE_NM ? list.DIST_MANAGE_NM : '전체'  }</td> --%>
-									<td><c:out value="${list.REQST_INSTT}"/></td>
-									<td><c:out value="${empty list.REQST_EDUCATION_TXT ? list.REQST_EDUCATION : list.REQST_EDUCATION_TXT}"/>
+									<td>${list.REQST_INSTT}</td>
+									<td>${empty list.REQST_EDUCATION_TXT ? list.REQST_EDUCATION : list.REQST_EDUCATION_TXT}
 									<%-- ,${list.REQST_EDUCATION}, ${list.REQST_EDUCATION_TXT} --%></td>
-									<td><c:out value="${list.START_DATE}"/>~<br><c:out value="${list.END_DATE}"/><br><c:out value="${list.START_TIME}"/>~<c:out value="${list.END_TIME}"/></td>
-									<td><c:out value="${list.REQST_CHARGER  }"/></td>
-									<td><c:out value="${list.REQST_HP_NO}"/></td>
-									<td><c:out value="${list.REQST_TARGET }"/></td>
-									<td><c:out value="${list.REQST_NMPR }"/></td>
-									<td><c:out value="${list.REGIST_PNTTM }"/></td>
-									<td><c:out value="${list.APPLY_AT }"/></td>
+									<td>${list.START_DATE}~<br>${list.END_DATE}<br>${list.START_TIME}~${list.END_TIME}</td>
+									<td>${list.REQST_CHARGER  }</td>
+									<td>${list.REQST_HP_NO}</td>
+									<td>${list.REQST_TARGET }</td>
+									<td>${list.REQST_NMPR }</td>
+									<td>${list.REGIST_PNTTM }</td>
+									<td>${list.APPLY_AT }</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -893,10 +893,10 @@
     <td>{{APPLY_AT}}</td>
     <th>승인/반려</th>
     <td>
-        <button class="btn btn-primary applStatBtn" name="applAt" type="button" style="padding: 7px 13px;" data-appl-at="Y" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>>
+        <button class="btn btn-primary applStatBtn" name="applAt" type="button" style="padding: 7px 13px;" data-appl-at="Y" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}>
             <i class="fa" title="승인"></i>승인
         </button>
-        <button class="btn btn-danger applStatBtn" name="applAt" type="button" style="padding: 7px 13px;" data-appl-at="F" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>>
+        <button class="btn btn-danger applStatBtn" name="applAt" type="button" style="padding: 7px 13px;" data-appl-at="F" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}>
             <i class="fa" title="반려"></i>반려
         </button>
     </td>
@@ -906,10 +906,10 @@
     <td>{{INSTRCTR_OTHBC_YN}}</td>
     <th>공개/비공개</th>
     <td>
-    	<button class="btn btn-primary instrctrOthbcBtn" name="instrctrOthbcYn" type="button" style="padding: 7px 13px;" data-instrctr-othbc="Y" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>>
+    	<button class="btn btn-primary instrctrOthbcBtn" name="instrctrOthbcYn" type="button" style="padding: 7px 13px;" data-instrctr-othbc="Y" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}>
         	<i class="fa" title="공개"></i>공개
         </button>
-        <button class="btn btn-danger instrctrOthbcBtn" name="instrctrOthbcYn" type="button" style="padding: 7px 13px;" data-instrctr-othbc="N" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>>
+        <button class="btn btn-danger instrctrOthbcBtn" name="instrctrOthbcYn" type="button" style="padding: 7px 13px;" data-instrctr-othbc="N" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}>
         	<i class="fa" title="비공개"></i>비공개
         </button>
     </td>
@@ -999,12 +999,12 @@
 			{{/empty}}
 			{{#notempty USER_NO}}
          		{{#ifeq APPL_STAT "Y"}}
-            		<button class="btn btn-primary applStatBtn" name="applStat" type="button" style="padding: 7px 13px;" data-appl-stat="{{APPL_STAT}}" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>>
+            		<button class="btn btn-primary applStatBtn" name="applStat" type="button" style="padding: 7px 13px;" data-appl-stat="{{APPL_STAT}}" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}>
                   		<i class="fa" title="참석"></i>참석
             		</button>
          		{{/ifeq}}
          		{{#ifeq APPL_STAT "F"}}
-            		<button class="btn btn-danger applStatBtn" name="applStat" type="button" style="padding: 7px 13px;" data-appl-stat="{{APPL_STAT}}" <c:out value="${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}"/>>
+            		<button class="btn btn-danger applStatBtn" name="applStat" type="button" style="padding: 7px 13px;" data-appl-stat="{{APPL_STAT}}" ${pageInfo.INSERT_AT eq 'Y' ? '':'disabled'}>
                   		<i class="fa" title="불참"></i>불참
             		</button>
          		{{/ifeq}}
